@@ -9,7 +9,7 @@
 
 ## 요구사항 기술서
 
-- [요구사항 기술서 링크](https://docs.google.com/spreadsheets/d/1ZvHwfX8RYKbBCyquydUOH0CLA9b0b9SV0C92Q4cI3_M/edit?usp=sharing)
+- [요구사항 기술서 링크](https://docs.google.com/spreadsheets/d/1HEQ4SfGuWop1xVdlVWgoPRmF0UA2lLrkM6px26G51yg/edit#gid=0)
 
 ## Ground Rule
 
