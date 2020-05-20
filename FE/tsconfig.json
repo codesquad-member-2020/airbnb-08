@@ -1,0 +1,30 @@
+{
+  "compilerOptions": {
+    /* Basic Options */
+    "target": "esnext",
+    "module": "esnext",
+    "jsx": "react",
+
+    /* Strict Type-Checking Options */
+    "strict": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "noImplicitThis": false,
+
+    /* Module Resolution Options */
+    "moduleResolution": "node",
+    "baseUrl": ".",
+    "esModuleInterop": true,
+    "types": ["node"],
+    "typeRoots": ["./node_modules/@types"],
+
+    "paths": {
+      "@/*": ["src/*"],
+      "@GamePage/*": ["src/components/GamePage/*"],
+      "@ErrorPage/*": ["src/components/ErrorPage/*"],
+      "@MainPage/*": ["src/components/MainPage/*"],
+      "@Model/*": ["src/models/*"]
+    }
+  },
+  "exclude": ["node_modules", "dist", "public"]
+}
