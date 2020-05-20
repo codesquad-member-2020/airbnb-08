@@ -19,7 +19,17 @@ repositories {
 }
 
 dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    //Nullable 어노테이션 사용 의존성 추가(안하면 배포시 javax.annotation.meta.When 오류 발생)
+    implementation 'com.google.code.findbugs:jsr305:3.0.2'
+
+    // @Valid 어노테이션
+    implementation 'javax.validation:validation-api:2.0.1.Final'
+
+    // hibernate validation
+    implementation 'org.hibernate:hibernate-validator:7.0.0.Alpha2'
+
+    implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
     compileOnly 'org.projectlombok:lombok'
     runtimeOnly 'mysql:mysql-connector-java'
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
