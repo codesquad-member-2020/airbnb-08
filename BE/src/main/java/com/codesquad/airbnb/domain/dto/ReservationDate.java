@@ -3,13 +3,13 @@ package com.codesquad.airbnb.domain.dto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Getter
 @AllArgsConstructor
 public class ReservationDate {
 
-    private Date checkInDate;
+    private LocalDateTime checkInDate;
 
-    private Date checkOutDate;
+    private LocalDateTime checkOutDate;
 }

@@ -9,13 +9,13 @@ import java.util.List;
 @AllArgsConstructor
 public class Main {
 
-    private ReservationDate reservationDate;
+    private final ReservationDate reservationDate;
 
-    private Guest guest;
+    private final Guest guest;
 
-    private Budget budget;
+    private final Budget budget;
 
-    private int numberOfRooms;
+    private final int numberOfRooms;
 
-    private List<Room> rooms;
+    private final List<RoomDTO> rooms;
 }

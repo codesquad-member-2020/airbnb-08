@@ -1,6 +1,7 @@
 package com.codesquad.airbnb.infra.dao;
 
 import com.codesquad.airbnb.domain.dto.Room;
+import com.codesquad.airbnb.domain.dto.RoomDTO;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -19,7 +20,7 @@ public class RoomDAO {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
-    public List<Room> findAll() {
+    public List<RoomDTO> findAll() {
 
         String sql = "SELECT r.room_id, " +
                 "room_name, " +
@@ -28,9 +29,9 @@ public class RoomDAO {
                 "host_is_superhost " +
                 "FROM rooms r";
 
-        RowMapper<Room> mainDTORowMapper = new RowMapper<Room>() {
+        RowMapper<RoomDTO> mainDTORowMapper = new RowMapper<RoomDTO>() {
             @Override
-            public Room mapRow(ResultSet rs, int rowNum) throws SQLException {
+            public RoomDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
                 return null;
             }
         };

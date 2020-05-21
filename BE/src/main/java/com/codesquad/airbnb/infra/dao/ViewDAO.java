@@ -1,7 +1,6 @@
 package com.codesquad.airbnb.infra.dao;
 
-import com.codesquad.airbnb.domain.dto.Budget;
-import com.codesquad.airbnb.domain.dto.Main;
+import com.codesquad.airbnb.domain.dto.*;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -9,6 +8,8 @@ import org.springframework.stereotype.Repository;
 import javax.sql.DataSource;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Repository
@@ -20,7 +21,10 @@ public class ViewDAO {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
-    public List<Main> main(Budget budget) {
+    public Main main(ReservationDate reservationDate, Guest guest, Budget budget) {
+        LocalDateTime checkInDate = reservationDate == null ? LocalDateTime.now().minusYears(10L) : reservationDate.getCheckInDate();
+        LocalDateTime checkOutDate = reservationDate == null ? LocalDateTime.now().plusYears(10L) : reservationDate.getCheckInDate();
+
         int lowestPrice = budget == null ? 0 : budget.getLowestPrice();
         int highestPrice = budget == null ? Integer.MAX_VALUE : budget.getHighestPrice();
 
@@ -37,15 +41,23 @@ public class ViewDAO {
                 "INNER JOIN locations l on r.room_id = l.room_id " +
                 "INNER JOIN prices p on r.room_id = p.room_id " +
                 "INNER JOIN reviews r2 on r.room_id = r2.room_id " +
-                "WHERE p.price BETWEEN ? AND ?;";
+                "LEFT OUTER JOIN reservations r3 on r.room_id = r3.room_id " +
+                "LEFT OUTER JOIN dates d on r3.room_id = d.room_id " +
+                "WHERE (p.price BETWEEN 100000 AND 500000) " +
+                "AND (? NOT BETWEEN d.check_in_date AND d.check_out_date) " +
+                "AND (? NOT BETWEEN d.check_in_date AND d.check_out_date) " +
+                "OR d.check_in_date IS NULL";
 
-        RowMapper<Main> mainDTORowMapper = new RowMapper<Main>() {
+        RowMapper<RoomDTO> roomRowMapper = new RowMapper<RoomDTO>() {
             @Override
-            public Main mapRow(ResultSet rs, int rowNum) throws SQLException {
-                return null;
+            public RoomDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
+                List<RoomDTO> rooms = new ArrayList<>();
+                return new RoomDTO();
             }
         };
 
-        return this.jdbcTemplate.query(sql, new Object[]{lowestPrice, highestPrice}, mainDTORowMapper);
+        List<RoomDTO> rooms = this.jdbcTemplate.query(sql, new Object[]{lowestPrice, highestPrice}, roomRowMapper);
+
+        return new Main(reservationDate, guest, budget, rooms.size(), rooms);
     }
 }
