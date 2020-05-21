@@ -31,6 +31,14 @@ module.exports = {
           name: "[name].[ext]?[hash]",
         },
       },
+      {
+        test: /\.jsx?$/,
+        loader: "babel-loader",
+        options: {
+          presets: ["@babel/preset-env"],
+        },
+        exclude: /node_modules/,
+      },
     ],
   },
 
