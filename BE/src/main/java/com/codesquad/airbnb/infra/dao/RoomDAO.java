@@ -1,4 +1,35 @@
 package com.codesquad.airbnb.infra.dao;
 
+import com.codesquad.airbnb.domain.dto.Main;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Repository;
+
+import javax.sql.DataSource;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.List;
+
+@Repository
 public class RoomDAO {
+
+    private final JdbcTemplate jdbcTemplate;
+
+    public RoomDAO(DataSource dataSource) {
+        this.jdbcTemplate = new JdbcTemplate(dataSource);
+    }
+
+    public List<Main> findAll() {
+
+        String sql = "";
+
+        RowMapper<Main> mainDTORowMapper = new RowMapper<Main>() {
+            @Override
+            public Main mapRow(ResultSet rs, int rowNum) throws SQLException {
+                return null;
+            }
+        };
+
+        return this.jdbcTemplate.query(sql, mainDTORowMapper);
+    }
 }
