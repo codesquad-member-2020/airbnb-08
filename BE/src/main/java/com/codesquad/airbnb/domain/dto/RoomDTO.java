@@ -17,9 +17,9 @@ public class RoomDTO {
 
     private double reviewScoresRating;
 
-    private List<Price> price;
+    private Price price;
 
-    private List<Media> medias;
+    private List<String> medias;
 
     private String badge;
 

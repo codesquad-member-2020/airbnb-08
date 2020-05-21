@@ -1,6 +1,5 @@
 package com.codesquad.airbnb.infra.dao;
 
-import com.codesquad.airbnb.domain.dto.Room;
 import com.codesquad.airbnb.domain.dto.RoomDTO;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
