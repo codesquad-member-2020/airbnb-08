@@ -10,22 +10,40 @@ const Main = () => {
     ${reset};
   `;
 
+  const Wrapper = styled.div`
+    border: solid 1px red;
+    width: 1200px;
+    margin: auto;
+  `;
+
   const FilterButtonWrapper = styled.div`
     display: flex;
     box-sizing: border-box;
   `;
 
+  const AccommodationWrapper = styled.div`
+    display: flex;
+    flex-wrap: wrap;
+  `;
+
   return (
     <>
-      <ThemeProvider theme={theme}>
-        <StyleReset />
-        <FilterButtonWrapper>
-          <FilterButton></FilterButton>
-          <FilterButton></FilterButton>
-          <FilterButton></FilterButton>
-        </FilterButtonWrapper>
-        <Accommodation></Accommodation>
-      </ThemeProvider>
+      <Wrapper>
+        <ThemeProvider theme={theme}>
+          <StyleReset />
+          <FilterButtonWrapper>
+            <FilterButton></FilterButton>
+            <FilterButton></FilterButton>
+            <FilterButton></FilterButton>
+          </FilterButtonWrapper>
+          <AccommodationWrapper>
+            <Accommodation></Accommodation>
+            <Accommodation></Accommodation>
+            <Accommodation></Accommodation>
+            <Accommodation></Accommodation>
+          </AccommodationWrapper>
+        </ThemeProvider>
+      </Wrapper>
     </>
   );
 };
