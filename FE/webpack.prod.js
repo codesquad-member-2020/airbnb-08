@@ -54,10 +54,11 @@ module.exports = {
     extensions: [".js", "jsx", ".ts", ".tsx"],
     alias: {
       "@": path.resolve(__dirname, "src/"),
-      "@GamePage": path.resolve(__dirname, "src/components/GamePage/"),
-      "@ErrorPage": path.resolve(__dirname, "src/components/ErrorPage/"),
-      "@MainPage": path.resolve(__dirname, "src/components/MainPage/"),
-      "@Model": path.resolve(__dirname, "src/models/"),
+      "@Main": path.resolve(__dirname, "src/components/Main/"),
+      "@CalendarModal": path.resolve(__dirname, "src/components/CalendarModal/"),
+      "@PriceModal": path.resolve(__dirname, "src/components/PriceModal/"),
+      "@GuestCountModal": path.resolve(__dirname, "src/components/GuestCountModal/"),
+      "@ReservationModal": path.resolve(__dirname, "src/components/ReservationModal/"),
     },
   },
 
