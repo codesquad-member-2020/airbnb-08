@@ -20,10 +20,11 @@
 
     "paths": {
       "@/*": ["src/*"],
-      "@GamePage/*": ["src/components/GamePage/*"],
-      "@ErrorPage/*": ["src/components/ErrorPage/*"],
-      "@MainPage/*": ["src/components/MainPage/*"],
-      "@Model/*": ["src/models/*"]
+      "@Main/*": ["src/components/Main/*"],
+      "@CalendarModal/*": ["src/components/CalendarModal/*"],
+      "@PriceModal/*": ["src/components/PriceModal/*"],
+      "@GuestCountModal/*": ["src/components/GuestCountModal/*"],
+      "@ReservationModal/*": ["src/components/ReservationModal/*"]
     }
   },
   "exclude": ["node_modules", "dist", "public"]
