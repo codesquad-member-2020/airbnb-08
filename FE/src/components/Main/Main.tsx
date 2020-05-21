@@ -11,9 +11,15 @@ const Main = () => {
   `;
 
   const Wrapper = styled.div`
-    border: solid 1px red;
     width: 1200px;
     margin: auto;
+  `;
+
+  const ResultTitle = styled.div`
+    margin: 40px 0px 10px 10px;
+    font-size: 24px;
+    font-weight: bold;
+    color: ${(props) => props.theme.mainColor};
   `;
 
   const FilterButtonWrapper = styled.div`
@@ -36,6 +42,7 @@ const Main = () => {
             <FilterButton></FilterButton>
             <FilterButton></FilterButton>
           </FilterButtonWrapper>
+          <ResultTitle>300개 이상의 숙소</ResultTitle>
           <AccommodationWrapper>
             <Accommodation></Accommodation>
             <Accommodation></Accommodation>
