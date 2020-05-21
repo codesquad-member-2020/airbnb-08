@@ -11,7 +11,8 @@
     "react-dom": "^16.13.1",
     "react-redux": "^7.2.0",
     "react-router-dom": "^5.1.2",
-    "styled-components": "^5.1.0"
+    "styled-components": "^5.1.0",
+    "styled-reset": "^4.1.4"
   },
   "devDependencies": {
     "@babel/core": "^7.9.6",
