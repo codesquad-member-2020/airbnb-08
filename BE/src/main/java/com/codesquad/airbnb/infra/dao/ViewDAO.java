@@ -1,6 +1,7 @@
 package com.codesquad.airbnb.infra.dao;
 
 import com.codesquad.airbnb.domain.dto.*;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -13,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Repository
+@Slf4j
 public class ViewDAO {
 
     private final JdbcTemplate jdbcTemplate;
@@ -61,6 +63,8 @@ public class ViewDAO {
                 List<String> medias = new ArrayList<>();
                 medias.add(rs.getString("url"));
 
+                log.info("price : {}", price);
+
                 return new RoomDTO(
                         rs.getLong("id"),
                         rs.getString("name"),
@@ -74,7 +78,9 @@ public class ViewDAO {
             }
         };
 
-        List<RoomDTO> rooms = this.jdbcTemplate.query(sql, new Object[]{lowestPrice, highestPrice}, roomRowMapper);
+        List<RoomDTO> rooms = this.jdbcTemplate.query(sql, new Object[]{checkInDate, checkOutDate, lowestPrice, highestPrice, checkInDate, checkOutDate}, roomRowMapper);
+
+        log.info("rooms : {}", rooms);
 
         return new Main(reservationDate, guest, budget, rooms.size(), rooms);
     }
