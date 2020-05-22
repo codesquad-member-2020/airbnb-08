@@ -27,11 +27,11 @@ public class ViewDAO {
     }
 
     public Main main(ReservationDate reservationDate, Guest guest, Budget budget) {
-        LocalDate checkInDate = reservationDate == null ? LocalDate.MIN : reservationDate.getCheckInDate();
-        LocalDate checkOutDate = reservationDate == null ? LocalDate.MAX : reservationDate.getCheckInDate();
+        LocalDate checkInDate = reservationDate.getCheckInDate();
+        LocalDate checkOutDate = reservationDate.getCheckOutDate();
 
-        int lowestPrice = budget == null ? 0 : budget.getLowestPrice();
-        int highestPrice = budget == null ? Integer.MAX_VALUE : budget.getHighestPrice();
+        int lowestPrice = budget.getLowestPrice();
+        int highestPrice = budget.getHighestPrice();
 
         String sql = "SELECT r.room_id AS id, " +
                 "r.room_name AS name, " +
@@ -55,7 +55,9 @@ public class ViewDAO {
             public RoomDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
                 int originPrice = rs.getInt("price");
                 int salesPrice = rs.getString("host").equals("슈퍼호스트") ? (int) (originPrice * 0.9) : originPrice;
-                int totalPrice = reservationDate == null ? salesPrice : (int) (ChronoUnit.DAYS.between(checkOutDate, checkInDate) * salesPrice);
+                int length = (int) (ChronoUnit.DAYS.between(checkInDate, checkOutDate));
+
+                int totalPrice = checkInDate.equals(LocalDate.MIN) ? salesPrice : (length+1) * salesPrice;
 
                 Price price = new Price(originPrice, salesPrice, totalPrice);
 

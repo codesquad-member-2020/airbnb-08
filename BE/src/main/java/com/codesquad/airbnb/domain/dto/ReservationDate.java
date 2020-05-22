@@ -1,15 +1,17 @@
 package com.codesquad.airbnb.domain.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.*;
 
 import java.time.LocalDate;
 
 @Getter
+@Setter
+@NoArgsConstructor
 @AllArgsConstructor
+@ToString
 public class ReservationDate {
 
-    private final LocalDate checkInDate;
+    private LocalDate checkInDate = LocalDate.MIN;
 
-    private final LocalDate checkOutDate;
+    private LocalDate checkOutDate = LocalDate.MAX;
 }
