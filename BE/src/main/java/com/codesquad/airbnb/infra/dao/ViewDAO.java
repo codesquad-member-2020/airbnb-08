@@ -113,12 +113,28 @@ public class ViewDAO {
         };
 
         List<Integer> prices = this.jdbcTemplate.query(sql, new Object[]{reservationDate.getCheckInDate(), reservationDate.getCheckOutDate()}, rowMapper);
-        prices.sort(null);
 
         int lowestPrice = prices.get(0);
         int highestPrice = prices.get(prices.size()-1);
-        int averagePrice =
+        int averagePrice = calculateAverage(sql);
 
-        return new Statistics()
+        return new Statistics(lowestPrice, highestPrice, averagePrice, prices);
+    }
+
+    private Integer calculateAverage(String priceSql) {
+        String sql = "SELECT AVG (price) AS average FROM ( " + priceSql + " ) price_table";
+
+        RowMapper<Integer> rowMapper = new RowMapper<Integer>() {
+            @Override
+            public Integer mapRow(ResultSet rs, int rowNum) throws SQLException {
+                if (!rs.next()) {
+                    return 0;
+                }
+
+                return rs.getInt("average");
+            }
+        };
+
+        return this.jdbcTemplate.queryForObject(sql, rowMapper);
     }
 }
