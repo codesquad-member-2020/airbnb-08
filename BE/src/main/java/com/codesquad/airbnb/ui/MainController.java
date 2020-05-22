@@ -28,4 +28,9 @@ public class MainController {
 
         return viewDAO.main(reservationDate, guest, budget);
     }
+
+    @GetMapping("/budget")
+    public Main showPriceStatistics(@Valid ReservationDate reservationDate) {
+        return null;
+    }
 }
