@@ -31,6 +31,7 @@ public class MainController {
 
     @GetMapping("/budget")
     public Main showPriceStatistics(@Valid ReservationDate reservationDate) {
+        reservationDate.checkInput();
         return null;
     }
 }
