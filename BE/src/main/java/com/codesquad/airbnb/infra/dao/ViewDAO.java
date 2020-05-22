@@ -54,17 +54,16 @@ public class ViewDAO {
             @Override
             public RoomDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
                 int originPrice = rs.getInt("price");
-                int salesPrice = rs.getString("host").equals("슈퍼호스트") ? (int) (originPrice * 0.9) : originPrice;
-                int length = (int) (ChronoUnit.DAYS.between(checkInDate, checkOutDate));
 
+                int salesPrice = rs.getString("host").equals("슈퍼호스트") ? (int) (originPrice * 0.9) : originPrice;
+
+                int length = (int) (ChronoUnit.DAYS.between(checkInDate, checkOutDate));
                 int totalPrice = checkInDate.equals(LocalDate.MIN) ? salesPrice : (length+1) * salesPrice;
 
                 Price price = new Price(originPrice, salesPrice, totalPrice);
 
                 List<String> medias = new ArrayList<>();
                 medias.add(rs.getString("url"));
-
-                boolean canReserve = canReserve(rs.getLong("id"), checkInDate, checkOutDate);
 
                 return new RoomDTO(
                         rs.getLong("id"),
@@ -74,7 +73,7 @@ public class ViewDAO {
                         price,
                         medias,
                         rs.getString("host"),
-                        canReserve
+                        canReserve(rs.getLong("id"), checkInDate, checkOutDate)
                 );
             }
         };
@@ -91,7 +90,7 @@ public class ViewDAO {
         ResultSetExtractor<Boolean> resultSetExtractor = new ResultSetExtractor<Boolean>() {
             @Override
             public Boolean extractData(ResultSet rs) throws SQLException, DataAccessException {
-                return rs.next();
+                return !rs.next();
             }
         };
 
