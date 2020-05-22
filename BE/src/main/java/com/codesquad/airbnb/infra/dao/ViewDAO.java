@@ -20,7 +20,7 @@ import java.util.List;
 @Slf4j
 public class ViewDAO {
 
-    private String whereClauseDate = "WHERE ((? BETWEEN d.check_in_date AND d.check_out_date ) AND (? BETWEEN d.check_in_date AND d.check_out_date ))";
+    private String whereClauseDate = "";
 
     private final JdbcTemplate jdbcTemplate;
 
@@ -87,7 +87,7 @@ public class ViewDAO {
 
     private Boolean canReserve(Long roomId, LocalDate checkInDate, LocalDate checkOutDate) {
 
-        String sql = "SELECT count(*) AS count FROM rooms r INNER JOIN dates d on r.room_id = d.room_id " + whereClauseDate + " AND r.room_id = ? GROUP BY r.room_id";
+        String sql = "SELECT count(*) AS count FROM rooms r INNER JOIN dates d on r.room_id = d.room_id WHERE ((? BETWEEN d.check_in_date AND d.check_out_date ) OR (? BETWEEN d.check_in_date AND d.check_out_date )) AND r.room_id = ? GROUP BY r.room_id";
 
         ResultSetExtractor<Boolean> resultSetExtractor = new ResultSetExtractor<Boolean>() {
             @Override
@@ -101,24 +101,27 @@ public class ViewDAO {
 
     public Statistics showStatistics(ReservationDate reservationDate) {
 
-        String sql = "SELECT p.price FROM rooms r INNER JOIN prices p ON r.room_id = p.room_id INNER JOIN dates d on r.room_id = d.room_id " + whereClauseDate + " GROUP BY r.room_id ORDER BY p.price ASC";
+        int lowestPrice = 0;
+        int highestPrice = 0;
+        int averagePrice = 0;
+
+        String sql = "SELECT p.price FROM rooms r INNER JOIN prices p ON r.room_id = p.room_id LEFT OUTER JOIN dates d on r.room_id = d.room_id WHERE ((? NOT BETWEEN d.check_in_date AND d.check_out_date) AND (? NOT BETWEEN d.check_in_date AND d.check_out_date)) OR d.check_in_date IS NULL GROUP BY r.room_id ORDER BY p.price ASC";
 
         RowMapper<Integer> rowMapper = new RowMapper<Integer>() {
             @Override
             public Integer mapRow(ResultSet rs, int rowNum) throws SQLException {
-                if (!rs.next()) {
-                    return 0;
-                }
-
-                return rs.getInt("price");
+                int price = rs.getInt("price");
+                return rs.wasNull() ? 0 : price;
             }
         };
 
         List<Integer> prices = this.jdbcTemplate.query(sql, new Object[]{reservationDate.getCheckInDate(), reservationDate.getCheckOutDate()}, rowMapper);
 
-        int lowestPrice = prices.get(0);
-        int highestPrice = prices.get(prices.size()-1);
-        int averagePrice = calculateAverage(reservationDate, sql);
+        if(!prices.isEmpty()) {
+            lowestPrice = prices.get(0);
+            highestPrice = prices.get(prices.size()-1);
+            averagePrice = calculateAverage(reservationDate, sql);
+        }
 
         return new Statistics(lowestPrice, highestPrice, averagePrice, prices);
     }
@@ -129,11 +132,8 @@ public class ViewDAO {
         RowMapper<Integer> rowMapper = new RowMapper<Integer>() {
             @Override
             public Integer mapRow(ResultSet rs, int rowNum) throws SQLException {
-                if (!rs.next()) {
-                    return 0;
-                }
-
-                return rs.getInt("average");
+                int average = (int) rs.getDouble("average");
+                return rs.wasNull() ? 0 : average;
             }
         };
 
