@@ -1,9 +1,6 @@
 package com.codesquad.airbnb.ui;
 
-import com.codesquad.airbnb.domain.dto.Budget;
-import com.codesquad.airbnb.domain.dto.Guest;
-import com.codesquad.airbnb.domain.dto.Main;
-import com.codesquad.airbnb.domain.dto.ReservationDate;
+import com.codesquad.airbnb.domain.dto.*;
 import com.codesquad.airbnb.infra.dao.ViewDAO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -30,8 +27,8 @@ public class MainController {
     }
 
     @GetMapping("/budget")
-    public Main showPriceStatistics(@Valid ReservationDate reservationDate) {
+    public Statistics showPriceStatistics(@Valid ReservationDate reservationDate) {
         reservationDate.checkInput();
-        return null;
+        return viewDAO.showStatistics(reservationDate);
     }
 }

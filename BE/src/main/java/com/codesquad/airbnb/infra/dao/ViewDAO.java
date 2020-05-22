@@ -96,4 +96,8 @@ public class ViewDAO {
 
         return this.jdbcTemplate.query(sql, new Object[]{checkInDate, checkOutDate, roomId}, resultSetExtractor);
     }
+
+    public Statistics showStatistics(ReservationDate reservationDate) {
+        
+    }
 }
