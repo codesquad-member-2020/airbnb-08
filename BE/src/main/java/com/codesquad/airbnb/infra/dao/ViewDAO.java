@@ -2,7 +2,9 @@ package com.codesquad.airbnb.infra.dao;
 
 import com.codesquad.airbnb.domain.dto.*;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
@@ -60,6 +62,8 @@ public class ViewDAO {
                 List<String> medias = new ArrayList<>();
                 medias.add(rs.getString("url"));
 
+                boolean canReserve = canReserve(rs.getLong("id"), checkInDate, checkOutDate);
+
                 return new RoomDTO(
                         rs.getLong("id"),
                         rs.getString("name"),
@@ -68,7 +72,7 @@ public class ViewDAO {
                         price,
                         medias,
                         rs.getString("host"),
-                        canReserve(rs.getLong("id"), checkInDate, checkOutDate)
+                        canReserve
                 );
             }
         };
@@ -80,17 +84,15 @@ public class ViewDAO {
 
     private Boolean canReserve(Long roomId, LocalDate checkInDate, LocalDate checkOutDate) {
 
-        String sql = "SELECT IF(GROUP_CONCAT(d.check_in_date) IS NULL, TRUE, FALSE) AS available, r.room_id FROM rooms r LEFT OUTER JOIN dates d on r.room_id = d.room_id WHERE ((CURRENT_DATE BETWEEN d.check_in_date AND d.check_out_date ) OR d.check_in_date IS NULL) AND r.room_id = ? GROUP BY r.room_id";
+        String sql = "SELECT count(*) AS count FROM rooms r LEFT OUTER JOIN dates d on r.room_id = d.room_id WHERE ((? BETWEEN d.check_in_date AND d.check_out_date ) OR (? BETWEEN d.check_in_date AND d.check_out_date )) AND r.room_id = ? GROUP BY r.room_id";
 
-        RowMapper<Boolean> rowMapper = new RowMapper<Boolean>() {
+        ResultSetExtractor<Boolean> resultSetExtractor = new ResultSetExtractor<Boolean>() {
             @Override
-            public Boolean mapRow(ResultSet rs, int rowNum) throws SQLException {
-                log.info("roomId : {}", rs.getLong("room_id"));
-                log.info("available : {}", rs.getBoolean("available"));
-                return rs.getBoolean("available");
+            public Boolean extractData(ResultSet rs) throws SQLException, DataAccessException {
+                return rs.next();
             }
         };
 
-        return this.jdbcTemplate.queryForObject(sql, new Object[]{roomId}, rowMapper);
+        return this.jdbcTemplate.query(sql, new Object[]{checkInDate, checkOutDate, roomId}, resultSetExtractor);
     }
 }
