@@ -98,6 +98,27 @@ public class ViewDAO {
     }
 
     public Statistics showStatistics(ReservationDate reservationDate) {
-        
+
+        String sql = "SELECT p.price FROM rooms r INNER JOIN prices p ON r.room_id = p.room_id INNER JOIN dates d on r.room_id = d.room_id WHERE ((? BETWEEN d.check_in_date AND d.check_out_date ) OR (? BETWEEN d.check_in_date AND d.check_out_date )) GROUP BY r.room_id ORDER BY p.price ASC";
+
+        RowMapper<Integer> rowMapper = new RowMapper<Integer>() {
+            @Override
+            public Integer mapRow(ResultSet rs, int rowNum) throws SQLException {
+                if (!rs.next()) {
+                    return 0;
+                }
+
+                return rs.getInt("price");
+            }
+        };
+
+        List<Integer> prices = this.jdbcTemplate.query(sql, new Object[]{reservationDate.getCheckInDate(), reservationDate.getCheckOutDate()}, rowMapper);
+        prices.sort(null);
+
+        int lowestPrice = prices.get(0);
+        int highestPrice = prices.get(prices.size()-1);
+        int averagePrice =
+
+        return new Statistics()
     }
 }
