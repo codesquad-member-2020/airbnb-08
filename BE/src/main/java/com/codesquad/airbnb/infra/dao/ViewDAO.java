@@ -20,6 +20,8 @@ import java.util.List;
 @Slf4j
 public class ViewDAO {
 
+    private String whereClauseDate = "WHERE ((? BETWEEN d.check_in_date AND d.check_out_date ) AND (? BETWEEN d.check_in_date AND d.check_out_date ))";
+
     private final JdbcTemplate jdbcTemplate;
 
     public ViewDAO(DataSource dataSource) {
@@ -85,7 +87,7 @@ public class ViewDAO {
 
     private Boolean canReserve(Long roomId, LocalDate checkInDate, LocalDate checkOutDate) {
 
-        String sql = "SELECT count(*) AS count FROM rooms r LEFT OUTER JOIN dates d on r.room_id = d.room_id WHERE ((? BETWEEN d.check_in_date AND d.check_out_date ) OR (? BETWEEN d.check_in_date AND d.check_out_date )) AND r.room_id = ? GROUP BY r.room_id";
+        String sql = "SELECT count(*) AS count FROM rooms r INNER JOIN dates d on r.room_id = d.room_id " + whereClauseDate + " AND r.room_id = ? GROUP BY r.room_id";
 
         ResultSetExtractor<Boolean> resultSetExtractor = new ResultSetExtractor<Boolean>() {
             @Override
@@ -99,7 +101,7 @@ public class ViewDAO {
 
     public Statistics showStatistics(ReservationDate reservationDate) {
 
-        String sql = "SELECT p.price FROM rooms r INNER JOIN prices p ON r.room_id = p.room_id INNER JOIN dates d on r.room_id = d.room_id WHERE ((? BETWEEN d.check_in_date AND d.check_out_date ) OR (? BETWEEN d.check_in_date AND d.check_out_date )) GROUP BY r.room_id ORDER BY p.price ASC";
+        String sql = "SELECT p.price FROM rooms r INNER JOIN prices p ON r.room_id = p.room_id INNER JOIN dates d on r.room_id = d.room_id " + whereClauseDate + " GROUP BY r.room_id ORDER BY p.price ASC";
 
         RowMapper<Integer> rowMapper = new RowMapper<Integer>() {
             @Override
@@ -116,12 +118,12 @@ public class ViewDAO {
 
         int lowestPrice = prices.get(0);
         int highestPrice = prices.get(prices.size()-1);
-        int averagePrice = calculateAverage(sql);
+        int averagePrice = calculateAverage(reservationDate, sql);
 
         return new Statistics(lowestPrice, highestPrice, averagePrice, prices);
     }
 
-    private Integer calculateAverage(String priceSql) {
+    private Integer calculateAverage(ReservationDate reservationDate, String priceSql) {
         String sql = "SELECT AVG (price) AS average FROM ( " + priceSql + " ) price_table";
 
         RowMapper<Integer> rowMapper = new RowMapper<Integer>() {
@@ -135,6 +137,6 @@ public class ViewDAO {
             }
         };
 
-        return this.jdbcTemplate.queryForObject(sql, rowMapper);
+        return this.jdbcTemplate.queryForObject(sql, new Object[]{reservationDate.getCheckInDate(), reservationDate.getCheckOutDate()}, rowMapper);
     }
 }
