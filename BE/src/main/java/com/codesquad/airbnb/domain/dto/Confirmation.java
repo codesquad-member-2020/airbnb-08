@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class Reservation {
+public class Confirmation {
 
     private final Bill bill;
 
