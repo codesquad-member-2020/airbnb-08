@@ -2,7 +2,6 @@ package com.codesquad.airbnb.infra.dao;
 
 import com.codesquad.airbnb.domain.dto.Guest;
 import com.codesquad.airbnb.domain.dto.ReservationDate;
-import com.codesquad.airbnb.domain.entity.Reservation;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -20,6 +19,22 @@ public class ReservationDAO {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
+    public void reserve(Long roomId, Long userId, ReservationDate reservationDate, Guest guest) {
+        insertReservationOfNewUser(roomId, userId);
+        insertReservationDate(roomId, userId, reservationDate);
+        insertGuests(roomId, userId, guest);
+    }
+
+    private void insertGuests(Long roomId, Long userId, Guest guest) {
+        String sql = "INSERT INTO guests (room_id, user_id, number_of_adults, number_of_kids, number_of_babies) VALUES (?,?,?,?,?)";
+        this.jdbcTemplate.update(sql, roomId, userId, guest.getNumberOfAdults(), guest.getNumberOfKids(), guest.getNumberOfBabies());
+    }
+
+    private void insertReservationDate(Long roomId, Long userId, ReservationDate reservationDate) {
+        String sql = "INSERT INTO dates (room_id, user_id, check_in_date, check_out_date) VALUES (?, ?, ?, ?)";
+        this.jdbcTemplate.update(sql, roomId, userId, reservationDate.getCheckInDate(), reservationDate.getCheckOutDate());
+    }
+
     private Boolean isReservedUser(Long roomId, Long userId) {
         String sql = "SELECT IF(count(*), true, false) AS exist FROM reservations r WHERE r.room_id = ? AND user_id = ?";
 
@@ -33,17 +48,9 @@ public class ReservationDAO {
         return this.jdbcTemplate.queryForObject(sql, new Object[]{roomId, userId}, rowMapper);
     }
 
-    private void insertReservationOfNewUser (Long roomId, Long userId, ReservationDate reservationDate, Guest guest) {
-        if(!isReservedUser(roomId, userId)) {
+    private void insertReservationOfNewUser(Long roomId, Long userId) {
+        if (!isReservedUser(roomId, userId)) {
             String sql = "INSERT INTO reservations (room_id, user_id) VALUES (?,?)";
-
-            this.jdbcTemplate.update(sql, roomId, userId);
-        }
-    }
-
-    public void reservation (Long roomId, Long userId, ReservationDate reservationDate, Guest guest) {
-        if(!isReservedUser(roomId, userId)) {
-            String sql = "";
 
             this.jdbcTemplate.update(sql, roomId, userId);
         }
