@@ -33,6 +33,20 @@ public class ReservationDAO {
         return this.jdbcTemplate.queryForObject(sql, new Object[]{roomId, userId}, rowMapper);
     }
 
+    private void insertReservationOfNewUser (Long roomId, Long userId, ReservationDate reservationDate, Guest guest) {
+        if(!isReservedUser(roomId, userId)) {
+            String sql = "INSERT INTO reservations (room_id, user_id) VALUES (?,?)";
 
+            this.jdbcTemplate.update(sql, roomId, userId);
+        }
+    }
+
+    public void reservation (Long roomId, Long userId, ReservationDate reservationDate, Guest guest) {
+        if(!isReservedUser(roomId, userId)) {
+            String sql = "";
+
+            this.jdbcTemplate.update(sql, roomId, userId);
+        }
+    }
 }
 
