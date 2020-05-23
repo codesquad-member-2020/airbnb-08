@@ -1,17 +1,14 @@
 package com.codesquad.airbnb.ui;
 
-import com.codesquad.airbnb.domain.dto.Budget;
-import com.codesquad.airbnb.domain.dto.Guest;
-import com.codesquad.airbnb.domain.dto.Main;
-import com.codesquad.airbnb.domain.dto.ReservationDate;
+import com.codesquad.airbnb.domain.dto.*;
 import com.codesquad.airbnb.infra.dao.ViewDAO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
-import java.time.LocalDate;
 
 @Slf4j
 @RestController
@@ -27,5 +24,11 @@ public class MainController {
                          @Valid Budget budget) {
 
         return viewDAO.main(reservationDate, guest, budget);
+    }
+
+    @GetMapping("/budget")
+    public Statistics showPriceStatistics(@Valid ReservationDate reservationDate) {
+        reservationDate.checkInput();
+        return viewDAO.showStatistics(reservationDate);
     }
 }

@@ -15,6 +15,7 @@ import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.OptionalDouble;
 
 @Repository
 @Slf4j
@@ -58,7 +59,7 @@ public class ViewDAO {
                 int salesPrice = rs.getString("host").equals("슈퍼호스트") ? (int) (originPrice * 0.9) : originPrice;
 
                 int length = (int) (ChronoUnit.DAYS.between(checkInDate, checkOutDate));
-                int totalPrice = checkInDate.equals(LocalDate.MIN) ? salesPrice : (length+1) * salesPrice;
+                int totalPrice = checkInDate.equals(LocalDate.MIN) ? salesPrice : (length + 1) * salesPrice;
 
                 Price price = new Price(originPrice, salesPrice, totalPrice);
 
@@ -85,7 +86,7 @@ public class ViewDAO {
 
     private Boolean canReserve(Long roomId, LocalDate checkInDate, LocalDate checkOutDate) {
 
-        String sql = "SELECT count(*) AS count FROM rooms r LEFT OUTER JOIN dates d on r.room_id = d.room_id WHERE ((? BETWEEN d.check_in_date AND d.check_out_date ) OR (? BETWEEN d.check_in_date AND d.check_out_date )) AND r.room_id = ? GROUP BY r.room_id";
+        String sql = "SELECT count(*) AS count FROM rooms r INNER JOIN dates d on r.room_id = d.room_id WHERE ((? BETWEEN d.check_in_date AND d.check_out_date ) OR (? BETWEEN d.check_in_date AND d.check_out_date )) AND r.room_id = ? GROUP BY r.room_id";
 
         ResultSetExtractor<Boolean> resultSetExtractor = new ResultSetExtractor<Boolean>() {
             @Override
@@ -95,5 +96,37 @@ public class ViewDAO {
         };
 
         return this.jdbcTemplate.query(sql, new Object[]{checkInDate, checkOutDate, roomId}, resultSetExtractor);
+    }
+
+    public Statistics showStatistics(ReservationDate reservationDate) {
+
+        int lowestPrice = 0;
+        int highestPrice = 0;
+        int averagePrice = 0;
+
+        String sql = "SELECT p.price FROM rooms r INNER JOIN prices p ON r.room_id = p.room_id LEFT OUTER JOIN dates d on r.room_id = d.room_id WHERE ((? NOT BETWEEN d.check_in_date AND d.check_out_date) AND (? NOT BETWEEN d.check_in_date AND d.check_out_date)) OR d.check_in_date IS NULL GROUP BY r.room_id ORDER BY p.price ASC";
+
+        RowMapper<Integer> rowMapper = new RowMapper<Integer>() {
+            @Override
+            public Integer mapRow(ResultSet rs, int rowNum) throws SQLException {
+                int price = rs.getInt("price");
+                return rs.wasNull() ? 0 : price;
+            }
+        };
+
+        List<Integer> prices = this.jdbcTemplate.query(sql, new Object[]{reservationDate.getCheckInDate(), reservationDate.getCheckOutDate()}, rowMapper);
+
+        if (!prices.isEmpty()) {
+            lowestPrice = prices.get(0);
+            highestPrice = prices.get(prices.size() - 1);
+            averagePrice = calculateAverage(prices);
+        }
+
+        return new Statistics(lowestPrice, highestPrice, averagePrice, prices);
+    }
+
+    private Integer calculateAverage(List<Integer> prices) {
+        OptionalDouble average = prices.stream().mapToDouble(a -> a).average();
+        return average.isPresent() ? (int) average.getAsDouble() : 0;
     }
 }
