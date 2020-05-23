@@ -15,12 +15,11 @@ import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.OptionalDouble;
 
 @Repository
 @Slf4j
 public class ViewDAO {
-
-    private String whereClauseDate = "";
 
     private final JdbcTemplate jdbcTemplate;
 
@@ -60,7 +59,7 @@ public class ViewDAO {
                 int salesPrice = rs.getString("host").equals("슈퍼호스트") ? (int) (originPrice * 0.9) : originPrice;
 
                 int length = (int) (ChronoUnit.DAYS.between(checkInDate, checkOutDate));
-                int totalPrice = checkInDate.equals(LocalDate.MIN) ? salesPrice : (length+1) * salesPrice;
+                int totalPrice = checkInDate.equals(LocalDate.MIN) ? salesPrice : (length + 1) * salesPrice;
 
                 Price price = new Price(originPrice, salesPrice, totalPrice);
 
@@ -117,26 +116,17 @@ public class ViewDAO {
 
         List<Integer> prices = this.jdbcTemplate.query(sql, new Object[]{reservationDate.getCheckInDate(), reservationDate.getCheckOutDate()}, rowMapper);
 
-        if(!prices.isEmpty()) {
+        if (!prices.isEmpty()) {
             lowestPrice = prices.get(0);
-            highestPrice = prices.get(prices.size()-1);
-            averagePrice = calculateAverage(reservationDate, sql);
+            highestPrice = prices.get(prices.size() - 1);
+            averagePrice = calculateAverage(prices);
         }
 
         return new Statistics(lowestPrice, highestPrice, averagePrice, prices);
     }
 
-    private Integer calculateAverage(ReservationDate reservationDate, String priceSql) {
-        String sql = "SELECT AVG (price) AS average FROM ( " + priceSql + " ) price_table";
-
-        RowMapper<Integer> rowMapper = new RowMapper<Integer>() {
-            @Override
-            public Integer mapRow(ResultSet rs, int rowNum) throws SQLException {
-                int average = (int) rs.getDouble("average");
-                return rs.wasNull() ? 0 : average;
-            }
-        };
-
-        return this.jdbcTemplate.queryForObject(sql, new Object[]{reservationDate.getCheckInDate(), reservationDate.getCheckOutDate()}, rowMapper);
+    private Integer calculateAverage(List<Integer> prices) {
+        OptionalDouble average = prices.stream().mapToDouble(a -> a).average();
+        return average.isPresent() ? (int) average.getAsDouble() : 0;
     }
 }
