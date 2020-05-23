@@ -19,7 +19,11 @@ public class ReservationDAO {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
-    public void reserve(Long roomId, Long userId, ReservationDate reservationDate, Guest guest) {
+    public void reserve(UtilDAO utilDAO, Long roomId, Long userId, ReservationDate reservationDate, Guest guest) {
+        if(!utilDAO.canReserve(roomId, reservationDate.getCheckInDate(), reservationDate.getCheckOutDate())) {
+            throw new IllegalArgumentException("Already reserved room, Please reserve another room!");
+        }
+
         insertReservationOfNewUser(roomId, userId);
         insertReservationDate(roomId, userId, reservationDate);
         insertGuests(roomId, userId, guest);

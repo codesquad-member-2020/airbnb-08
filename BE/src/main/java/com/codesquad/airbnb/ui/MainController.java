@@ -3,6 +3,7 @@ package com.codesquad.airbnb.ui;
 import com.codesquad.airbnb.domain.dto.*;
 import com.codesquad.airbnb.domain.dto.Confirmation;
 import com.codesquad.airbnb.infra.dao.ReservationDAO;
+import com.codesquad.airbnb.infra.dao.UtilDAO;
 import com.codesquad.airbnb.infra.dao.ViewDAO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,6 +19,8 @@ import javax.validation.Valid;
 @RequestMapping("/main")
 public class MainController {
 
+    private final UtilDAO utilDAO;
+
     private final ViewDAO viewDAO;
 
     private final ReservationDAO reservationDAO;
@@ -27,7 +30,7 @@ public class MainController {
                          @Valid Guest guest,
                          @Valid Budget budget) {
 
-        return viewDAO.main(reservationDate, guest, budget);
+        return viewDAO.main(utilDAO, reservationDate, guest, budget);
     }
 
     @GetMapping("/budget")
@@ -40,14 +43,14 @@ public class MainController {
     public Confirmation showBillAndReview(@RequestParam Long roomId, @Valid ReservationDate reservationDate, @Valid Guest guest) {
         reservationDate.checkInput();
         guest.checkInput();
-        return viewDAO.showBillAndReview(roomId, reservationDate, guest);
+        return viewDAO.showBillAndReview(utilDAO, roomId, reservationDate, guest);
     }
 
     @PostMapping("/reservations")
     public ResponseEntity<HttpStatus> reserve(@RequestParam Long roomId, @RequestParam Long userId, @Valid ReservationDate reservationDate, @Valid Guest guest) {
         reservationDate.checkInput();
         guest.checkInput();
-        reservationDAO.reserve(roomId, userId, reservationDate, guest);
+        reservationDAO.reserve(utilDAO, roomId, userId, reservationDate, guest);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 }

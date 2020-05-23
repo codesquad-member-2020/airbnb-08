@@ -27,7 +27,7 @@ public class ViewDAO {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
-    public Main main(ReservationDate reservationDate, Guest guest, Budget budget) {
+    public Main main(UtilDAO utilDAO, ReservationDate reservationDate, Guest guest, Budget budget) {
         LocalDate checkInDate = reservationDate.getCheckInDate();
         LocalDate checkOutDate = reservationDate.getCheckOutDate();
 
@@ -73,7 +73,7 @@ public class ViewDAO {
                         price,
                         medias,
                         rs.getString("host"),
-                        canReserve(rs.getLong("id"), checkInDate, checkOutDate)
+                        utilDAO.canReserve(rs.getLong("id"), checkInDate, checkOutDate)
                 );
             }
         };
@@ -83,27 +83,13 @@ public class ViewDAO {
         return new Main(reservationDate, guest, budget, rooms.size(), rooms);
     }
 
-    private Boolean canReserve(Long roomId, LocalDate checkInDate, LocalDate checkOutDate) {
-
-        String sql = "SELECT count(*) AS count FROM rooms r INNER JOIN dates d on r.room_id = d.room_id WHERE ((? BETWEEN d.check_in_date AND d.check_out_date ) OR (? BETWEEN d.check_in_date AND d.check_out_date )) AND r.room_id = ? GROUP BY r.room_id";
-
-        ResultSetExtractor<Boolean> resultSetExtractor = new ResultSetExtractor<Boolean>() {
-            @Override
-            public Boolean extractData(ResultSet rs) throws SQLException, DataAccessException {
-                return !rs.next();
-            }
-        };
-
-        return this.jdbcTemplate.query(sql, new Object[]{checkInDate, checkOutDate, roomId}, resultSetExtractor);
-    }
-
     public Statistics showStatistics(ReservationDate reservationDate) {
 
         int lowestPrice = 0;
         int highestPrice = 0;
         int averagePrice = 0;
 
-        String sql = "SELECT p.price FROM rooms r INNER JOIN prices p ON r.room_id = p.room_id LEFT OUTER JOIN dates d on r.room_id = d.room_id WHERE ((? NOT BETWEEN d.check_in_date AND d.check_out_date) AND (? NOT BETWEEN d.check_in_date AND d.check_out_date)) OR d.check_in_date IS NULL GROUP BY r.room_id ORDER BY p.price ASC";
+        String sql = "SELECT p.price FROM rooms r INNER JOIN prices p ON r.room_id = p.room_id LEFT OUTER JOIN dates d on r.room_id = d.room_id WHERE ((? NOT BETWEEN d.check_in_date AND d.check_out_date) AND (? NOT BETWEEN d.check_in_date AND d.check_out_date)) OR d.check_in_date IS NULL GROUP BY r.room_id ORDER BY price ASC";
 
         RowMapper<Integer> rowMapper = new RowMapper<Integer>() {
             @Override
@@ -129,9 +115,9 @@ public class ViewDAO {
         return average.isPresent() ? (int) average.getAsDouble() : 0;
     }
 
-    public Confirmation showBillAndReview(Long roomId, ReservationDate reservationDate, Guest guest) {
+    public Confirmation showBillAndReview(UtilDAO utilDAO, Long roomId, ReservationDate reservationDate, Guest guest) {
 
-        if(!canReserve(roomId, reservationDate.getCheckInDate(), reservationDate.getCheckOutDate())) {
+        if(!utilDAO.canReserve(roomId, reservationDate.getCheckInDate(), reservationDate.getCheckOutDate())) {
             throw new IllegalArgumentException("Already reserved room, Please reserve another room!");
         }
 
