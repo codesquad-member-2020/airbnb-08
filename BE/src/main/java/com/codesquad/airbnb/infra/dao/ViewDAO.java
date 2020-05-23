@@ -40,7 +40,6 @@ public class ViewDAO {
                 "IF(r.host_is_superhost = 't', '슈퍼호스트', '') AS host, " +
                 "l.country AS country, " +
                 "p.price AS price, " +
-                "r2.number_of_reviews as number, " +
                 "r2.review_scores_rating AS rating " +
                 "FROM rooms r " +
                 "INNER JOIN locations l on r.room_id = l.room_id " +
@@ -128,5 +127,34 @@ public class ViewDAO {
     private Integer calculateAverage(List<Integer> prices) {
         OptionalDouble average = prices.stream().mapToDouble(a -> a).average();
         return average.isPresent() ? (int) average.getAsDouble() : 0;
+    }
+
+    public Reservation showBillAndReview(Long roomId, ReservationDate reservationDate, Guest guest) {
+
+        String sql = "SELECT r.room_id AS id, IF(r.host_is_superhost = 't', p.price * 0.9, p.price) AS price, p.cleaning_fee, p.security_deposit, r2.number_of_reviews, r2.review_scores_rating AS rating FROM rooms r INNER JOIN prices p on r.room_id = p.room_id INNER JOIN reviews r2 on r.room_id = r2.room_id WHERE r.room_id = ? GROUP BY r.room_id;";
+
+        RowMapper<Reservation> reservationRowMapper = new RowMapper<Reservation>() {
+            @Override
+            public Reservation mapRow(ResultSet rs, int rowNum) throws SQLException {
+                int salesPrice = rs.getInt("price");
+                int length = (int) (ChronoUnit.DAYS.between(reservationDate.getCheckInDate(), reservationDate.getCheckOutDate()));
+                int cleaningFee = rs.getInt("cleaning_fee");
+                int deposit = rs.getInt("security_deposit");
+                int priceWithFee = (salesPrice * length) + cleaningFee + deposit;
+
+                Bill bill = new Bill(
+                        salesPrice,
+                        length + 1,
+                        salesPrice * length,
+                        cleaningFee,
+                        deposit,
+                        priceWithFee
+                );
+                Review review = new Review(rs.getInt("number_of_reviews"), rs.getDouble("rating"));
+                return new Reservation(bill, review);
+            }
+        };
+
+        return this.jdbcTemplate.queryForObject(sql, new Object[]{roomId}, reservationRowMapper);
     }
 }

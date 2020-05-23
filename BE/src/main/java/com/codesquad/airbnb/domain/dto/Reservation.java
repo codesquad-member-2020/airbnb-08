@@ -5,9 +5,9 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class Review {
+public class Reservation {
 
-    private int numberOfReviews;
+    private final Bill bill;
 
-    private double reviewScoreRating;
+    private final Review review;
 }
