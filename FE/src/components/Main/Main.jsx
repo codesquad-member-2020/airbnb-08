@@ -2,8 +2,8 @@ import React from "react";
 import styled, { createGlobalStyle, ThemeProvider } from "styled-components";
 import reset from "styled-reset";
 import Header from "@/components/Header/Header";
-import Accommodation from "@Main/Accommodation/Accommodation";
-import FilterButton from "@Main/FilterButton/FilterButton";
+import Accommodation from "@/components/Main/Accommodation/Accommodation";
+import FilterButton from "@/components/Main/FilterButton/FilterButton";
 import theme from "@/style/theme";
 
 const Main = () => {

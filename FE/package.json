@@ -7,6 +7,7 @@
     "build": "rm -rf dist/ && webpack --env=prod"
   },
   "dependencies": {
+    "babel-preset-react": "^6.24.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-redux": "^7.2.0",

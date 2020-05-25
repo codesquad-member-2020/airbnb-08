@@ -3,20 +3,13 @@ const webpack = require("webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = {
-  entry: "./src/index.tsx",
+  entry: "./src/index.jsx",
 
   module: {
     rules: [
       {
         test: /\.tsx?$/,
         use: ["babel-loader", "ts-loader"],
-      },
-      {
-        test: /\.(jpg|png)$/,
-        loader: "file-loader",
-        options: {
-          name: "[name].[ext]?[hash]",
-        },
       },
       {
         test: /\.jsx?$/,
@@ -26,11 +19,18 @@ module.exports = {
         },
         exclude: /node_modules/,
       },
+      {
+        test: /\.(jpg|png)$/,
+        loader: "file-loader",
+        options: {
+          name: "[name].[ext]?[hash]",
+        },
+      },
     ],
   },
 
   resolve: {
-    extensions: [".js", "jsx", ".ts", ".tsx"],
+    extensions: [".js", ".jsx", ".ts", ".tsx"],
     alias: {
       "@": path.resolve(__dirname, "src/"),
       "@Main": path.resolve(__dirname, "src/components/Main/"),
