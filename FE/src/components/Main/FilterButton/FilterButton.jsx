@@ -4,7 +4,7 @@ import GuestCountModal from "@GuestCountModal/GuestCountModal";
 import CalendarModal from "@CalendarModal/CalendarModal";
 import PriceModal from "@PriceModal/PriceModal";
 
-const Wrapper = styled.button`
+const Wrapper = styled.div`
   border-radius: 20px;
   padding: 10px 15px;
   margin: 10px 5px;
@@ -31,8 +31,8 @@ const FilterButton = ({
       >
         게스트 4명
       </Wrapper>
-      {dateVisible && <GuestCountModal modal={modal} />}
-      {guestVisible && <CalendarModal modal={modal} />}
+      {dateVisible && <CalendarModal modal={modal} />}
+      {guestVisible && <GuestCountModal modal={modal} />}
       {priceVisible && <PriceModal modal={modal} />}
     </>
   );
