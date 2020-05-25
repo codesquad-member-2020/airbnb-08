@@ -5,7 +5,7 @@ export const adultDecrementCount = (payload) => {
   };
 };
 
-export const audltIncrementCount = (payload) => {
+export const adultIncrementCount = (payload) => {
   return {
     type: "ADULT_INCREMENT_COUNT",
     payload,
