@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import * as actions from "@/actions/actions";
@@ -42,6 +42,11 @@ const CounterButton = styled.button`
   color: ${(props) => props.theme.subColor};
   outline: 0;
   background: white;
+  :disabled,
+  :disabled:hover {
+    color: #e6e6e6;
+    border: solid 1px #e6e6e6;
+  }
   &:hover {
     color: ${(props) => props.theme.mainColor};
     border: solid 1px ${(props) => props.theme.mainColor};
@@ -55,8 +60,8 @@ const Count = styled.span`
 
 const GuestCount = ({ ageType }) => {
   const dispatch = useDispatch();
-  // const { adultCount, childrenCount, babyCount, totalCount } = useSelector((state) => state);
   const countState = useSelector((state) => state);
+  const [isDisable, setIsDisable] = useState(false);
 
   const { title, info } = guestCountConstant[ageType];
 
@@ -70,6 +75,16 @@ const GuestCount = ({ ageType }) => {
     dispatch(actionObj);
   };
 
+  const blockButton = (limitNumber) => {
+    const currentState = countState[`${ageType}Count`];
+    if (currentState === limitNumber) {
+      setIsDisable(true);
+      return;
+    } else {
+      setIsDisable(false);
+    }
+  };
+
   return (
     <Wrapper>
       <GuestTitleWrapper>
@@ -78,16 +93,20 @@ const GuestCount = ({ ageType }) => {
       </GuestTitleWrapper>
       <CountWrapper>
         <CounterButton
+          disabled
           onClick={() => {
             decrementCountHandler(ageType);
+            blockButton(4);
           }}
         >
           -
         </CounterButton>
         <Count>{countState[`${ageType}Count`]}</Count>
         <CounterButton
+          style={{ disabled: { isDisable } }}
           onClick={() => {
             incrementCountHandler(ageType);
+            blockButton(8);
           }}
         >
           +
