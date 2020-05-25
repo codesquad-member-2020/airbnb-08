@@ -32,8 +32,8 @@ const FilterButton = ({
         게스트 4명
       </Wrapper>
       {dateVisible && <GuestCountModal modal={modal} />}
-      {guestVisible && <GuestCountModal modal={modal} />}
-      {priceVisible && <GuestCountModal modal={modal} />}
+      {guestVisible && <CalendarModal modal={modal} />}
+      {priceVisible && <PriceModal modal={modal} />}
     </>
   );
 };
