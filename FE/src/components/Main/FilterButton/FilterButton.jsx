@@ -1,7 +1,10 @@
 import React from "react";
 import styled from "styled-components";
+import GuestCountModal from "@GuestCountModal/GuestCountModal";
+import CalendarModal from "@CalendarModal/CalendarModal";
+import PriceModal from "@PriceModal/PriceModal";
 
-const Wrapper = styled.div`
+const Wrapper = styled.button`
   border-radius: 20px;
   padding: 10px 15px;
   margin: 10px 5px;
@@ -12,10 +15,25 @@ const Wrapper = styled.div`
   }
 `;
 
-const FilterButton = () => {
+const FilterButton = ({
+  filterButtonClickHandler,
+  dateVisible,
+  guestVisible,
+  priceVisible,
+  modal,
+}) => {
   return (
     <>
-      <Wrapper>게스트 4명</Wrapper>
+      <Wrapper
+        onClick={() => {
+          filterButtonClickHandler(modal);
+        }}
+      >
+        게스트 4명
+      </Wrapper>
+      {dateVisible && <GuestCountModal modal={modal} />}
+      {guestVisible && <GuestCountModal modal={modal} />}
+      {priceVisible && <GuestCountModal modal={modal} />}
     </>
   );
 };
