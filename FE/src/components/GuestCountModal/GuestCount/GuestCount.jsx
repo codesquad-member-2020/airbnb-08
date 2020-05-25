@@ -1,5 +1,8 @@
 import React from "react";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
+import * as actions from "@/actions/actions";
+import { guestCountConstant } from "@/common/constants/guestCountConstant";
 
 const Wrapper = styled.div`
   display: flex;
@@ -50,16 +53,21 @@ const Count = styled.span`
   margin: 0 20px;
 `;
 
-const GuestCount = () => {
+const GuestCount = ({ ageType }) => {
+  const dispatch = useDispatch();
+  const { adultCount, childrenCount, babyCount, totalCount } = useSelector((state) => state);
+
+  const { title, info } = guestCountConstant[ageType];
+
   return (
     <Wrapper>
       <GuestTitleWrapper>
-        <Guest>성인</Guest>
-        <Info>만 13세 이상</Info>
+        <Guest>{title}</Guest>
+        <Info>{info}</Info>
       </GuestTitleWrapper>
       <CountWrapper>
         <CounterButton>-</CounterButton>
-        <Count>1</Count>
+        <Count>0</Count>
         <CounterButton>+</CounterButton>
       </CountWrapper>
     </Wrapper>
