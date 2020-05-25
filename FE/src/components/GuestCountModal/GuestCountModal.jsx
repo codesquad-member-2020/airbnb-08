@@ -22,9 +22,9 @@ const GuestCountModal = ({ modal }) => {
   return (
     <>
       <Modal>
-        <GuestCount />
-        <GuestCount />
-        <GuestCount />
+        <GuestCount ageType="adult" />
+        <GuestCount ageType="children" />
+        <GuestCount ageType="baby" />
         <ModalButtons />
       </Modal>
     </>
