@@ -16,7 +16,7 @@ configurations {
 }
 
 bootWar {
-    archiveFileName = "ROOT.war"	// 해당하는 이름으로 war 생성
+    archiveFileName = "airbnb08.war"	// 해당하는 이름으로 war 생성
 }
 
 repositories {
