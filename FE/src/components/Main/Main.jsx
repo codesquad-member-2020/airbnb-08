@@ -14,6 +14,7 @@ const StyleReset = createGlobalStyle`
 const Wrapper = styled.div`
   width: 1200px;
   margin: auto;
+  position: relative;
 `;
 
 const ResultTitle = styled.div`
