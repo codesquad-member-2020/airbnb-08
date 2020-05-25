@@ -2,6 +2,7 @@ plugins {
     id 'org.springframework.boot' version '2.3.0.RELEASE'
     id 'io.spring.dependency-management' version '1.0.9.RELEASE'
     id 'java'
+    id 'war' //war 설정
 }
 
 group = 'com.codesquad'
@@ -12,6 +13,10 @@ configurations {
     compileOnly {
         extendsFrom annotationProcessor
     }
+}
+
+bootWar {
+    archiveFileName = "ROOT.war"	// 해당하는 이름으로 war 생성
 }
 
 repositories {
@@ -27,6 +32,9 @@ dependencies {
 
     // hibernate validation
     implementation 'org.hibernate:hibernate-validator:7.0.0.Alpha2'
+
+    // 외부 톰캣 설정
+    providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
 
     implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
     implementation 'org.springframework.boot:spring-boot-starter-web'
