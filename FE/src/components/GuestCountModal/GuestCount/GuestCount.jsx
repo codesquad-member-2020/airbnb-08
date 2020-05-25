@@ -33,9 +33,16 @@ const CounterButton = styled.button`
   height: 40px;
   border-radius: 40px;
   font-size: ${(props) => props.theme.xlarge};
+  font-weight: bold;
   line-height: 10px;
   border: 1px solid ${(props) => props.theme.subColor};
   color: ${(props) => props.theme.subColor};
+  outline: 0;
+  background: white;
+  &:hover {
+    color: ${(props) => props.theme.mainColor};
+    border: solid 1px ${(props) => props.theme.mainColor};
+  }
 `;
 
 const Count = styled.span`
