@@ -40,7 +40,6 @@ const Main = () => {
   const [priceVisible, setPriceVisible] = useState(false);
 
   const filterButtonClickHandler = (modal) => {
-    console.log("click", modal);
     switch (modal) {
       case "date":
         setDateVisible(!dateVisible);
