@@ -1,31 +1,31 @@
 import React from "react";
 import styled from "styled-components";
-
-const Wrapper = styled.div`
-  position: fixed;
-  overflow-y: scroll;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-`;
+import GuestCount from "@GuestCountModal/GuestCount/GuestCount";
 
 const Modal = styled.div`
   position: absolute;
   width: 500px;
   height: 400px;
-  top: 17%;
-  left: 25%;
+  top: 170px;
+  left: 120px;
   background: white;
   border: solid 1px ${(props) => props.theme.subColor};
   border-radius: 10px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 
 const GuestCountModal = ({ modal }) => {
   return (
-    <Wrapper>
-      <Modal></Modal>
-    </Wrapper>
+    <>
+      <Modal>
+        <GuestCount />
+        <GuestCount />
+        <GuestCount />
+      </Modal>
+    </>
   );
 };
 
