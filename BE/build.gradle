@@ -2,7 +2,7 @@ plugins {
     id 'org.springframework.boot' version '2.3.0.RELEASE'
     id 'io.spring.dependency-management' version '1.0.9.RELEASE'
     id 'java'
-    id 'war' //war 설정
+    id 'war' //war 설
 }
 
 group = 'com.codesquad'
@@ -35,6 +35,9 @@ dependencies {
 
     // 외부 톰캣 설정
     providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
+
+    // 암호화
+    implementation 'com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.2'
 
     implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
     implementation 'org.springframework.boot:spring-boot-starter-web'

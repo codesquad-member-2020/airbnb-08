@@ -1,7 +1,6 @@
 package com.codesquad.airbnb.ui;
 
 import com.codesquad.airbnb.domain.dto.*;
-import com.codesquad.airbnb.domain.dto.Confirmation;
 import com.codesquad.airbnb.infra.dao.ReservationDAO;
 import com.codesquad.airbnb.infra.dao.UtilDAO;
 import com.codesquad.airbnb.infra.dao.ViewDAO;
