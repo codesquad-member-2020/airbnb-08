@@ -27,7 +27,7 @@ const guestCountReducer = (state = initialState, action) => {
         return {
           ...state,
           [`${ageType}Count`]: state[`${ageType}Count`] + 1,
-          totalCount: state.totalCount + 1,
+          totalCount: ageType === "baby" ? state.totalCount : state.totalCount + 1,
           [`${ageType}Min`]: false,
           [`${ageType}Max`]: true,
           countType: ageType,
@@ -35,7 +35,7 @@ const guestCountReducer = (state = initialState, action) => {
       return {
         ...state,
         [`${ageType}Count`]: state[`${ageType}Count`] + 1,
-        totalCount: state.totalCount + 1,
+        totalCount: ageType === "baby" ? state.totalCount : state.totalCount + 1,
         [`${ageType}Min`]: false,
         [`${ageType}Max`]: false,
       };
@@ -50,7 +50,7 @@ const guestCountReducer = (state = initialState, action) => {
         return {
           ...state,
           [`${ageType}Count`]: state[`${ageType}Count`] - 1,
-          totalCount: state.totalCount - 1,
+          totalCount: ageType === "baby" ? state.totalCount : state.totalCount - 1,
           [`${ageType}Min`]: true,
           [`${ageType}Max`]: false,
           countType: ageType,
@@ -58,7 +58,7 @@ const guestCountReducer = (state = initialState, action) => {
       return {
         ...state,
         [`${ageType}Count`]: state[`${ageType}Count`] - 1,
-        totalCount: state.totalCount - 1,
+        totalCount: ageType === "baby" ? state.totalCount : state.totalCount - 1,
         [`${ageType}Min`]: false,
         [`${ageType}Max`]: false,
       };
