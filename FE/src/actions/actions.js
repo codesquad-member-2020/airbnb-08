@@ -1,41 +1,15 @@
-export const adultDecrementCount = (payload) => {
+export const decrementCount = (ageType, payload) => {
   return {
-    type: "ADULT_DECREMENT_COUNT",
+    type: `${ageType}_DECREMENT_COUNT`,
+    ageType: ageType,
     payload,
   };
 };
 
-export const adultIncrementCount = (payload) => {
+export const incrementCount = (ageType, payload) => {
   return {
-    type: "ADULT_INCREMENT_COUNT",
-    payload,
-  };
-};
-
-export const childrenDecrementCount = (payload) => {
-  return {
-    type: "CHILDREN_DECREMENT_COUNT",
-    payload,
-  };
-};
-
-export const childrenIncrementCount = (payload) => {
-  return {
-    type: "CHILDREN_INCREMENT_COUNT",
-    payload,
-  };
-};
-
-export const babyDecrementCount = (payload) => {
-  return {
-    type: "BABY_DECREMENT_COUNT",
-    payload,
-  };
-};
-
-export const babyIncrementCount = (payload) => {
-  return {
-    type: "BABY_INCREMENT_COUNT",
+    type: `${ageType}_INCREMENT_COUNT`,
+    ageType: ageType,
     payload,
   };
 };
