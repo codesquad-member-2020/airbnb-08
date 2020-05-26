@@ -13,3 +13,10 @@ export const incrementCount = (ageType, payload) => {
     payload,
   };
 };
+
+export const deleteCount = (payload) => {
+  return {
+    type: "DELETE_COUNT",
+    payload,
+  };
+};
