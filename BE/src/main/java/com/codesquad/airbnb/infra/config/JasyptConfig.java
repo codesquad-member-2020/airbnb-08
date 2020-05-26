@@ -3,6 +3,7 @@ package com.codesquad.airbnb.infra.config;
 import org.jasypt.encryption.StringEncryptor;
 import org.jasypt.encryption.pbe.PooledPBEStringEncryptor;
 import org.jasypt.encryption.pbe.config.SimpleStringPBEConfig;
+import org.jasypt.salt.StringFixedSaltGenerator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -19,7 +20,7 @@ public class JasyptConfig {
         config.setAlgorithm("PBEWithMD5AndDES"); //사용할 알고리즘
         config.setKeyObtentionIterations("1000");
         config.setPoolSize("1");
-        config.setSaltGeneratorClassName("org.jasypt.salt.RandomSaltGenerator");
+        config.setSaltGenerator(new StringFixedSaltGenerator("FixedSalt"));
         config.setStringOutputType("base64");
         encryptor.setConfig(config);
         return encryptor;

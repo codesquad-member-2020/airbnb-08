@@ -1,3 +1,7 @@
+jasypt:
+  encryptor:
+    bean: jasyptStringEncryptor
+
 spring:
   profiles:
     active: local
@@ -9,19 +13,21 @@ spring:
 logging:
   level:
     sql: debug
+
 ---
 spring:
   profiles: local
 
   datasource:
-    url: ENC(HSjfo6OYwgBwHCc/00w5bbZOxmOQPHQgBOvTG1WU5P1v+4NC2r8QKmiygx1tvQ6l1Ty+XuYnYGT9rlbua2WwbrU9v/Og1TPkTd/bIvFhrBQeZl0Pjxr0xQ==)
-    username: ENC(/5pFz7soRZT+On8AeVz8hQ==)
-    password: ENC(CSt6010jO5jxYaOOwIE1TWHdaVqE9aqw)
+    url: ENC(BDec5XAPjm1PZVU9+3IkeWtJvf50AWsMLUFjCNIEinUcCnIogDjW3DtGHkS6ztfV16vWVa6io5JUL/5LNJuGBB+EYttfYqf/f2nBMNPcMzo=)
+    username: ENC(/DEaWdfpObo=)
+    password: ENC(E9hxauGe3BgotYjCaS4O+g==)
+
 ---
 spring:
   profiles: real_server
 
   datasource:
-    url: ENC(HSjfo6OYwgBwHCc/00w5bbZOxmOQPHQgBOvTG1WU5P1v+4NC2r8QKmiygx1tvQ6l1Ty+XuYnYGT9rlbua2WwbrU9v/Og1TPkTd/bIvFhrBQeZl0Pjxr0xQ==)
-    username: ENC(sPi1tjFxEt/Nvo8KMdYjNmVoM9l7VVf9)
-    password: ENC(mj8NhgF4CKjUnIW0w+Xhn0FN4rvU5hx9)
+    url: ENC(BDec5XAPjm1PZVU9+3IkeWtJvf50AWsMLUFjCNIEinUcCnIogDjW3DtGHkS6ztfV16vWVa6io5JUL/5LNJuGBB+EYttfYqf/f2nBMNPcMzo=)
+    username: ENC(SGzp40WhXRiCGoSbBkM1zw==)
+    password: ENC(E9hxauGe3BgotYjCaS4O+g==)
