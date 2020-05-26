@@ -1,0 +1,27 @@
+spring:
+  profiles:
+    active: local
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    platform: mysql
+
+logging:
+  level:
+    sql: debug
+---
+spring:
+  profiles: local
+
+  datasource:
+    url: ENC(HSjfo6OYwgBwHCc/00w5bbZOxmOQPHQgBOvTG1WU5P1v+4NC2r8QKmiygx1tvQ6l1Ty+XuYnYGT9rlbua2WwbrU9v/Og1TPkTd/bIvFhrBQeZl0Pjxr0xQ==)
+    username: ENC(/5pFz7soRZT+On8AeVz8hQ==)
+    password: ENC(CSt6010jO5jxYaOOwIE1TWHdaVqE9aqw)
+---
+spring:
+  profiles: real_server
+
+  datasource:
+    url: ENC(HSjfo6OYwgBwHCc/00w5bbZOxmOQPHQgBOvTG1WU5P1v+4NC2r8QKmiygx1tvQ6l1Ty+XuYnYGT9rlbua2WwbrU9v/Og1TPkTd/bIvFhrBQeZl0Pjxr0xQ==)
+    username: ENC(sPi1tjFxEt/Nvo8KMdYjNmVoM9l7VVf9)
+    password: ENC(mj8NhgF4CKjUnIW0w+Xhn0FN4rvU5hx9)

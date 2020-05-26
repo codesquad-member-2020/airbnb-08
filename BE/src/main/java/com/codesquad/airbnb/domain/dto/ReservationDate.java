@@ -21,13 +21,13 @@ public class ReservationDate {
     }
 
     private void validCheckInDate() {
-        if(checkInDate.equals(LocalDate.MIN)) {
+        if (checkInDate.equals(LocalDate.MIN)) {
             throw new IllegalArgumentException("Please Input Check-In-Date!");
         }
     }
 
     private void validCheckOutDate() {
-        if(checkOutDate.equals(LocalDate.MAX)) {
+        if (checkOutDate.equals(LocalDate.MAX)) {
             throw new IllegalArgumentException("Please Input Check-Out-Date!");
         }
     }
