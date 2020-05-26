@@ -5,6 +5,7 @@ const theme = {
   small: "12px",
   medium: "15px",
   large: "18px",
+  xlarge: "24px",
 };
 
 export default theme;
