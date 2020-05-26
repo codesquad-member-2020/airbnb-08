@@ -1,6 +1,6 @@
-import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React from "react";
 import styled from "styled-components";
+import { useDispatch, useSelector } from "react-redux";
 import * as actions from "@/actions/actions";
 import { guestCountConstant } from "@/common/constants/guestCountConstant";
 
@@ -61,28 +61,17 @@ const Count = styled.span`
 const GuestCount = ({ ageType }) => {
   const dispatch = useDispatch();
   const countState = useSelector((state) => state);
-  const [isDisable, setIsDisable] = useState(false);
-
+  const currentCount = countState[`${ageType}Count`];
   const { title, info } = guestCountConstant[ageType];
 
   const incrementCountHandler = (ageType) => {
-    const actionObj = actions[`${ageType}IncrementCount`]();
+    const actionObj = actions.incrementCount(ageType);
     dispatch(actionObj);
   };
 
   const decrementCountHandler = (ageType) => {
-    const actionObj = actions[`${ageType}DecrementCount`]();
+    const actionObj = actions.decrementCount(ageType);
     dispatch(actionObj);
-  };
-
-  const blockButton = (limitNumber) => {
-    const currentState = countState[`${ageType}Count`];
-    if (currentState === limitNumber) {
-      setIsDisable(true);
-      return;
-    } else {
-      setIsDisable(false);
-    }
   };
 
   return (
@@ -93,20 +82,18 @@ const GuestCount = ({ ageType }) => {
       </GuestTitleWrapper>
       <CountWrapper>
         <CounterButton
-          disabled
+          disabled={countState[`${ageType}Min`]}
           onClick={() => {
             decrementCountHandler(ageType);
-            blockButton(4);
           }}
         >
           -
         </CounterButton>
-        <Count>{countState[`${ageType}Count`]}</Count>
+        <Count>{currentCount}</Count>
         <CounterButton
-          style={{ disabled: { isDisable } }}
+          disabled={countState[`${ageType}Max`]}
           onClick={() => {
             incrementCountHandler(ageType);
-            blockButton(8);
           }}
         >
           +
