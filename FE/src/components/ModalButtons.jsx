@@ -36,11 +36,17 @@ const SaveButton = styled.button`
   }
 `;
 
-const ModalButtons = ({ clickHandler }) => {
+const ModalButtons = ({ deleteClickHandler, closeClickHandler, modal }) => {
   return (
     <Wrapper>
-      <DeleteButton onClick={clickHandler}>지우기</DeleteButton>
-      <SaveButton>저장</SaveButton>
+      <DeleteButton onClick={deleteClickHandler}>지우기</DeleteButton>
+      <SaveButton
+        onClick={() => {
+          closeClickHandler(modal);
+        }}
+      >
+        저장
+      </SaveButton>
     </Wrapper>
   );
 };

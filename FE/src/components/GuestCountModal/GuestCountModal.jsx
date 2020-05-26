@@ -20,10 +20,10 @@ const Modal = styled.div`
   align-items: center;
 `;
 
-const GuestCountModal = () => {
+const GuestCountModal = ({ closeClickHandler, modal }) => {
   const dispatch = useDispatch();
 
-  const deleteCountHandler = () => {
+  const deleteClickHandler = () => {
     const actionObj = actions.deleteCount();
     dispatch(actionObj);
   };
@@ -34,7 +34,11 @@ const GuestCountModal = () => {
         <GuestCount ageType="adult" />
         <GuestCount ageType="children" />
         <GuestCount ageType="baby" />
-        <ModalButtons clickHandler={deleteCountHandler} />
+        <ModalButtons
+          deleteClickHandler={deleteClickHandler}
+          closeClickHandler={closeClickHandler}
+          modal={modal}
+        />
       </Modal>
     </>
   );
