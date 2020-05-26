@@ -1,5 +1,7 @@
 import React from "react";
 import styled from "styled-components";
+import { useDispatch, useSelector } from "react-redux";
+import * as actions from "@/actions/actions";
 import GuestCount from "@GuestCountModal/GuestCount/GuestCount";
 import ModalButtons from "@/components/ModalButtons";
 
@@ -18,14 +20,21 @@ const Modal = styled.div`
   align-items: center;
 `;
 
-const GuestCountModal = ({ modal }) => {
+const GuestCountModal = () => {
+  const dispatch = useDispatch();
+
+  const deleteCountHandler = () => {
+    const actionObj = actions.deleteCount();
+    dispatch(actionObj);
+  };
+
   return (
     <>
       <Modal>
         <GuestCount ageType="adult" />
         <GuestCount ageType="children" />
         <GuestCount ageType="baby" />
-        <ModalButtons />
+        <ModalButtons clickHandler={deleteCountHandler} />
       </Modal>
     </>
   );
