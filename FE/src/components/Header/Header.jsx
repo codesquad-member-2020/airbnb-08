@@ -1,5 +1,7 @@
 import React from "react";
 import styled from "styled-components";
+import logo from "@/image/airbnbLogo.png";
+import menuLogo from "@/image/menuLogo.png";
 
 const Wrapper = styled.div`
   display: flex;
@@ -47,11 +49,11 @@ const Header = () => {
   return (
     <>
       <Wrapper>
-        <Logo src="https://t1.daumcdn.net/cfile/tistory/99CA8E3359CF022A03" />
+        <Logo src={logo} />
         <MenuWrapper>
           <MenuContent>
             <MenuIcon>
-              <MenuImg src="https://cdn.icon-icons.com/icons2/1790/PNG/512/global1_114607.png" />
+              <MenuImg src={menuLogo} />
               <MenuIconBtn>∨</MenuIconBtn>
             </MenuIcon>
           </MenuContent>
