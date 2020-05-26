@@ -24,14 +24,22 @@ const FilterButton = ({
   priceVisible,
   modal,
 }) => {
-  const dispatch = useDispatch();
   const { totalCount, babyCount } = useSelector((state) => state);
 
   const showGuestCount = () => {
-    if (!totalCount && !babyCount) return "인원";
-    return totalCount && !babyCount
-      ? `게스트 ${totalCount}명`
-      : `게스트 ${totalCount}명, 유아 ${babyCount}명`;
+    switch (modal) {
+      case "date":
+        return "날짜";
+      case "guest":
+        if (!totalCount && !babyCount) return "인원";
+        return totalCount && !babyCount
+          ? `게스트 ${totalCount}명`
+          : `게스트 ${totalCount}명, 유아 ${babyCount}명`;
+      case "price":
+        return "요금";
+      default:
+        break;
+    }
   };
 
   return (
