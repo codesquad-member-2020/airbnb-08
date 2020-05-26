@@ -4,11 +4,13 @@ import reset from "styled-reset";
 import Header from "@/components/Header/Header";
 import Accommodation from "@/components/Main/Accommodation/Accommodation";
 import FilterButton from "@/components/Main/FilterButton/FilterButton";
-import GuestCountModal from "@GuestCountModal/GuestCountModal";
 import theme from "@/style/theme";
 
 const StyleReset = createGlobalStyle`
   ${reset};
+  button {
+    cursor: pointer;
+  }
 `;
 
 const Wrapper = styled.div`
@@ -50,7 +52,6 @@ const Main = () => {
       case "price":
         setPriceVisible(!priceVisible);
         break;
-
       default:
         break;
     }
@@ -79,7 +80,6 @@ const Main = () => {
               modal="price"
             ></FilterButton>
           </FilterButtonWrapper>
-          {/* {dateVisible && <GuestCountModal />} */}
           <ResultTitle>300개 이상의 숙소</ResultTitle>
           <AccommodationWrapper>
             <Accommodation></Accommodation>
