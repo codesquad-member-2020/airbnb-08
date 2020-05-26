@@ -3,49 +3,69 @@ const initialState = {
   childrenCount: 0,
   babyCount: 0,
   totalCount: 0,
+  adultMin: true,
+  adultMax: false,
+  childrenMin: true,
+  childrenMax: false,
+  babyMin: true,
+  babyMax: false,
+  countType: "",
 };
 
 const guestCountReducer = (state = initialState, action) => {
-  switch (action.type) {
-    case "ADULT_INCREMENT_COUNT":
-      if (state.adultCount === 8) return state;
+  const { type, ageType } = action;
+
+  switch (type) {
+    case `${ageType}_INCREMENT_COUNT`:
+      if (state[`${ageType}Count`] === 8)
+        return {
+          ...state,
+          [`${ageType}Max`]: true,
+          countType: ageType,
+        };
+      if (state[`${ageType}Count`] >= 7)
+        return {
+          ...state,
+          [`${ageType}Count`]: state[`${ageType}Count`] + 1,
+          totalCount: state.totalCount + 1,
+          [`${ageType}Min`]: false,
+          [`${ageType}Max`]: true,
+          countType: ageType,
+        };
       return {
         ...state,
-        adultCount: state.adultCount + 1,
+        [`${ageType}Count`]: state[`${ageType}Count`] + 1,
         totalCount: state.totalCount + 1,
+        [`${ageType}Min`]: false,
+        [`${ageType}Max`]: false,
       };
-    case "ADULT_DECREMENT_COUNT":
-      if (state.adultCount === 0) return state;
+    case `${ageType}_DECREMENT_COUNT`:
+      if (state[`${ageType}Count`] === 0)
+        return {
+          ...state,
+          [`${ageType}Min`]: true,
+          countType: ageType,
+        };
+      if (state[`${ageType}Count`] <= 1)
+        return {
+          ...state,
+          [`${ageType}Count`]: state[`${ageType}Count`] - 1,
+          totalCount: state.totalCount - 1,
+          [`${ageType}Min`]: true,
+          [`${ageType}Max`]: false,
+          countType: ageType,
+        };
       return {
         ...state,
-        adultCount: state.adultCount - 1,
+        [`${ageType}Count`]: state[`${ageType}Count`] - 1,
         totalCount: state.totalCount - 1,
+        [`${ageType}Min`]: false,
+        [`${ageType}Max`]: false,
       };
-    case "CHILDREN_INCREMENT_COUNT":
-      if (state.childrenCount === 8) return state;
+    case "DELETE_COUNT":
       return {
         ...state,
-        childrenCount: state.childrenCount + 1,
-        totalCount: state.totalCount + 1,
-      };
-    case "CHILDREN_DECREMENT_COUNT":
-      if (state.childrenCount === 0) return state;
-      return {
-        ...state,
-        childrenCount: state.childrenCount - 1,
-        totalCount: state.totalCount - 1,
-      };
-    case "BABY_INCREMENT_COUNT":
-      if (state.babyCount === 8) return state;
-      return {
-        ...state,
-        babyCount: state.babyCount + 1,
-      };
-    case "BABY_DECREMENT_COUNT":
-      if (state.babyCount === 0) return state;
-      return {
-        ...state,
-        babyCount: state.babyCount - 1,
+        ...initialState,
       };
     default:
       return state;
