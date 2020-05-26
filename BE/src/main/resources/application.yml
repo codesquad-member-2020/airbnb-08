@@ -14,6 +14,10 @@ logging:
   level:
     sql: debug
 
+github:
+    redirect_url: https://github.com/login/oauth/access_token
+
+debug: true
 ---
 spring:
   profiles: local
@@ -23,6 +27,9 @@ spring:
     username: ENC(MXeQAanxppo=)
     password: ENC(QQErW0P9WFtyBoyisL9XAw==)
 
+github:
+    client_id: ENC(7c10b64db1213a6aa722)
+    client_secret: ENC(9B04CF83IGcKbUt225dta7TlLtBclJnvIURo15mlXo2nbqK+0OWhcY1cT67HqutU)
 ---
 spring:
   profiles: real_server
@@ -31,3 +38,7 @@ spring:
     url: ENC(yAAKfSsndK8iJjvfYMsK/+Lrb9vQfJ//0JQ4sz1ZF5H2ebBOzWYY2glEFb/fjAqg+gVzvRQTd8cfOL3a/rDKl7LLY0rRQ3B+L6cQDN/p6QY=)
     username: ENC(60LPIowemN6kQSuE99JQ3w==)
     password: ENC(QQErW0P9WFtyBoyisL9XAw==)
+
+github:
+    client_id:
+    client_secret:
