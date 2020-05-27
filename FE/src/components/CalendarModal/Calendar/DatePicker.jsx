@@ -9,12 +9,6 @@ import { initialState, datePickerReducer } from "@/reducers/datePickerReducer";
 const Datepicker = ({ closeClickHandler, modal }) => {
   const [state, dispatch] = useReducer(datePickerReducer, initialState);
 
-  // const [state, setState] = useState({
-  //   startDate: null,
-  //   endDate: null,
-  //   focusedInput: START_DATE,
-  // });
-
   const {
     firstDayOfWeek,
     activeMonths,
@@ -38,14 +32,6 @@ const Datepicker = ({ closeClickHandler, modal }) => {
     onFocusChange: (focusedInput) => dispatch({ type: "focusChange", payload: focusedInput }),
     minBookingDate: new Date(),
   });
-
-  // function handleDateChange(data) {
-  //   if (!data.focusedInput) {
-  //     setState({ ...data, focusedInput: START_DATE });
-  //   } else {
-  //     setState(data);
-  //   }
-  // }
 
   const deleteClickHandler = () => {
     dispatch({ type: "dateDelete" });
