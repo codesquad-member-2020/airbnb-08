@@ -16,7 +16,6 @@ const StyleReset = createGlobalStyle`
 const Wrapper = styled.div`
   width: 1200px;
   margin: auto;
-  position: relative;
 `;
 
 const ResultTitle = styled.div`
@@ -45,12 +44,18 @@ const Main = () => {
     switch (modal) {
       case "date":
         setDateVisible(!dateVisible);
+        setGuestVisible(false);
+        setPriceVisible(false);
         break;
       case "guest":
         setGuestVisible(!guestVisible);
+        setDateVisible(false);
+        setPriceVisible(false);
         break;
       case "price":
         setPriceVisible(!priceVisible);
+        setDateVisible(false);
+        setGuestVisible(false);
         break;
       default:
         break;
