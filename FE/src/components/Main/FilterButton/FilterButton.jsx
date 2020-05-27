@@ -3,14 +3,14 @@ import styled from "styled-components";
 import GuestCountModal from "@GuestCountModal/GuestCountModal";
 import CalendarModal from "@CalendarModal/CalendarModal";
 import PriceModal from "@PriceModal/PriceModal";
-import { useDispatch, useSelector } from "react-redux";
-import * as actions from "@/actions/actions";
+import { useSelector } from "react-redux";
 import moment from "moment";
 
 const Wrapper = styled.div`
   border-radius: 20px;
   padding: 10px 15px;
   margin: 10px 5px;
+  position: relative;
   box-sizing: border-box;
   box-shadow: 0 0 0 1px ${(props) => props.theme.subColor};
   &:hover {
@@ -56,16 +56,16 @@ const FilterButton = ({
         }}
       >
         {showResult()}
+        <CalendarModal
+          dateVisible={dateVisible}
+          modal={modal}
+          closeClickHandler={filterButtonClickHandler}
+        />
+        {guestVisible && (
+          <GuestCountModal modal={modal} closeClickHandler={filterButtonClickHandler} />
+        )}
+        {priceVisible && <PriceModal modal={modal} />}
       </Wrapper>
-      <CalendarModal
-        dateVisible={dateVisible}
-        modal={modal}
-        closeClickHandler={filterButtonClickHandler}
-      />
-      {guestVisible && (
-        <GuestCountModal modal={modal} closeClickHandler={filterButtonClickHandler} />
-      )}
-      {priceVisible && <PriceModal modal={modal} />}
     </>
   );
 };
