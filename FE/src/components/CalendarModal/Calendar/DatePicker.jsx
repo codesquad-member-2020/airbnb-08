@@ -1,16 +1,16 @@
 import React, { useState } from "react";
 import { useDatepicker, START_DATE } from "@datepicker-react/hooks";
-import { jsx } from "@emotion/core";
 import Month from "@CalendarModal/Calendar/Month";
 import NavButton from "@CalendarModal/Calendar/NavButton";
 import DatepickerContext from "@CalendarModal/Calendar/DatepickerContext";
 
-function Datepicker() {
+const Datepicker = () => {
   const [state, setState] = useState({
     startDate: null,
     endDate: null,
     focusedInput: START_DATE,
   });
+
   const {
     firstDayOfWeek,
     activeMonths,
@@ -30,6 +30,7 @@ function Datepicker() {
     endDate: state.endDate,
     focusedInput: state.focusedInput,
     onDatesChange: handleDateChange,
+    minBookingDate: new Date(),
   });
 
   function handleDateChange(data) {
@@ -54,18 +55,6 @@ function Datepicker() {
         onDateHover,
       }}
     >
-      {/* <div>
-        <strong>Focused input: </strong>
-        {state.focusedInput}
-      </div>
-      <div>
-        <strong>Start date: </strong>
-        {state.startDate && state.startDate.toLocaleString()}
-      </div>
-      <div>
-        <strong>End date: </strong>
-        {state.endDate && state.endDate.toLocaleString()}
-      </div> */}
       <div
         style={{
           position: "absolute",
@@ -74,6 +63,7 @@ function Datepicker() {
           display: "flex",
           justifyContent: "space-between",
           zIndex: "3",
+          margin: "0 30px 0 30px",
         }}
       >
         <NavButton onClick={goToPreviousMonths}>Previous</NavButton>
@@ -85,9 +75,11 @@ function Datepicker() {
           display: "grid",
           gridTemplateColumns: "repeat(2,1fr)",
           gridGap: "0 32px",
-          height: "100%",
+          height: "85%",
+          margin: "0 30px 0 30px",
         }}
       >
+        {console.log(state.startDate, state.endDate, state.focusedInput)}
         {activeMonths.map((month) => (
           <Month
             key={`${month.year}-${month.month}`}
@@ -99,6 +91,6 @@ function Datepicker() {
       </div>
     </DatepickerContext.Provider>
   );
-}
+};
 
 export default Datepicker;
