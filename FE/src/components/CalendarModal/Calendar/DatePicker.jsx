@@ -1,15 +1,19 @@
-import React, { useState } from "react";
-import { useDatepicker, START_DATE } from "@datepicker-react/hooks";
+import React, { useReducer } from "react";
+import { useDatepicker } from "@datepicker-react/hooks";
 import Month from "@CalendarModal/Calendar/Month";
 import NavButton from "@CalendarModal/Calendar/NavButton";
 import DatepickerContext from "@CalendarModal/Calendar/DatepickerContext";
+import ModalButtons from "@/components/ModalButtons";
+import { initialState, datePickerReducer } from "@/reducers/datePickerReducer";
 
-const Datepicker = () => {
-  const [state, setState] = useState({
-    startDate: null,
-    endDate: null,
-    focusedInput: START_DATE,
-  });
+const Datepicker = ({ closeClickHandler, modal }) => {
+  const [state, dispatch] = useReducer(datePickerReducer, initialState);
+
+  // const [state, setState] = useState({
+  //   startDate: null,
+  //   endDate: null,
+  //   focusedInput: START_DATE,
+  // });
 
   const {
     firstDayOfWeek,
@@ -29,17 +33,23 @@ const Datepicker = () => {
     startDate: state.startDate,
     endDate: state.endDate,
     focusedInput: state.focusedInput,
-    onDatesChange: handleDateChange,
+    // onDatesChange: handleDateChange
+    onDatesChange: (data) => dispatch({ type: "dateChange", payload: data }),
+    onFocusChange: (focusedInput) => dispatch({ type: "focusChange", payload: focusedInput }),
     minBookingDate: new Date(),
   });
 
-  function handleDateChange(data) {
-    if (!data.focusedInput) {
-      setState({ ...data, focusedInput: START_DATE });
-    } else {
-      setState(data);
-    }
-  }
+  // function handleDateChange(data) {
+  //   if (!data.focusedInput) {
+  //     setState({ ...data, focusedInput: START_DATE });
+  //   } else {
+  //     setState(data);
+  //   }
+  // }
+
+  const deleteClickHandler = () => {
+    dispatch({ type: "dateDelete" });
+  };
 
   return (
     <DatepickerContext.Provider
@@ -89,6 +99,11 @@ const Datepicker = () => {
           />
         ))}
       </div>
+      <ModalButtons
+        deleteClickHandler={deleteClickHandler}
+        closeClickHandler={closeClickHandler}
+        modal={modal}
+      />
     </DatepickerContext.Provider>
   );
 };
