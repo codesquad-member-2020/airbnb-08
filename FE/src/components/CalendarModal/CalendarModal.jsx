@@ -14,10 +14,10 @@ const Wrapper = styled.div`
   box-sizing: border-box;
 `;
 
-const CalendarModal = ({ closeClickHandler, modal }) => {
+const CalendarModal = ({ closeClickHandler, modal, dateVisible }) => {
   return (
     <>
-      <Wrapper>
+      <Wrapper style={{ display: dateVisible ? "block" : "none" }}>
         <DatePicker modal={modal} closeClickHandler={closeClickHandler} />
       </Wrapper>
     </>
