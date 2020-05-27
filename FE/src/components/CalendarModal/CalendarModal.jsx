@@ -4,8 +4,8 @@ import DatePicker from "@CalendarModal/Calendar/DatePicker";
 
 const Wrapper = styled.div`
   position: absolute;
-  top: 45px;
-  left: 0;
+  top: 55px;
+  left: 5px;
   width: 760px;
   height: 480px;
   padding: 50px 0 30px 0;
