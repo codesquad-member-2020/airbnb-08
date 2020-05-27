@@ -3,7 +3,7 @@ import React from "react";
 
 import { createStore } from "redux";
 import { Provider } from "react-redux";
-import { guestCountReducer } from "@/reducers/reducers";
+import { guestCountReducer } from "@/reducers/guestCountReducer";
 
 const rootElement = document.getElementById("root");
 

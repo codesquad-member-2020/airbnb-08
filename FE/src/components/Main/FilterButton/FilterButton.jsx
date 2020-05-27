@@ -51,7 +51,7 @@ const FilterButton = ({
       >
         {showGuestCount()}
       </Wrapper>
-      {dateVisible && <CalendarModal modal={modal} />}
+      {dateVisible && <CalendarModal modal={modal} closeClickHandler={filterButtonClickHandler} />}
       {guestVisible && (
         <GuestCountModal modal={modal} closeClickHandler={filterButtonClickHandler} />
       )}
