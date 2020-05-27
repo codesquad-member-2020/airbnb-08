@@ -20,3 +20,10 @@ export const deleteCount = (payload) => {
     payload,
   };
 };
+
+export const dateChange = (payload) => {
+  return {
+    type: "dateChange",
+    payload,
+  };
+};

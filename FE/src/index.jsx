@@ -1,13 +1,16 @@
 import ReactDOM from "react-dom";
 import React from "react";
 
-import { createStore } from "redux";
+import { createStore, combineReducers } from "redux";
 import { Provider } from "react-redux";
 import { guestCountReducer } from "@/reducers/guestCountReducer";
+import { datePickerReducer } from "@/reducers/datePickerReducer";
 
 const rootElement = document.getElementById("root");
 
-const store = createStore(guestCountReducer);
+const rootReducer = combineReducers({ guestCountReducer, datePickerReducer });
+const store = createStore(rootReducer);
+console.log(store.getState());
 
 import(/*webpackChunkName: 'app' */ "@/App").then(({ default: App }) =>
   ReactDOM.render(

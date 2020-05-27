@@ -6,7 +6,7 @@ const initialState = {
   focusedInput: START_DATE,
 };
 
-const datePickerReducer = (state, action) => {
+const datePickerReducer = (state = initialState, action) => {
   switch (action.type) {
     case "focusChange":
       return { ...state, focusedInput: action.payload };
