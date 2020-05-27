@@ -7,10 +7,12 @@ import { useSelector } from "react-redux";
 import moment from "moment";
 
 const Wrapper = styled.div`
+  position: relative;
+`;
+const Button = styled.div`
   border-radius: 20px;
   padding: 10px 15px;
   margin: 10px 5px;
-  position: relative;
   box-sizing: border-box;
   box-shadow: 0 0 0 1px ${(props) => props.theme.subColor};
   &:hover {
@@ -50,12 +52,15 @@ const FilterButton = ({
 
   return (
     <>
-      <Wrapper
-        onClick={() => {
-          filterButtonClickHandler(modal);
-        }}
-      >
-        {showResult()}
+      <Wrapper>
+        <Button
+          onClick={() => {
+            filterButtonClickHandler(modal);
+          }}
+        >
+          {showResult()}
+        </Button>
+
         <CalendarModal
           dateVisible={dateVisible}
           modal={modal}
