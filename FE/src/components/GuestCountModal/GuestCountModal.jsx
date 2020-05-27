@@ -9,8 +9,8 @@ const Modal = styled.div`
   position: absolute;
   width: 500px;
   height: 350px;
-  top: 170px;
-  left: 120px;
+  top: 55px;
+  left: 5px;
   background: white;
   border: solid 1px ${(props) => props.theme.subColor};
   border-radius: 10px;

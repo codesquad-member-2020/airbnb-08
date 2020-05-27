@@ -3,10 +3,13 @@ import styled from "styled-components";
 import GuestCountModal from "@GuestCountModal/GuestCountModal";
 import CalendarModal from "@CalendarModal/CalendarModal";
 import PriceModal from "@PriceModal/PriceModal";
-import { useDispatch, useSelector } from "react-redux";
-import * as actions from "@/actions/actions";
+import { useSelector } from "react-redux";
+import moment from "moment";
 
 const Wrapper = styled.div`
+  position: relative;
+`;
+const Button = styled.div`
   border-radius: 20px;
   padding: 10px 15px;
   margin: 10px 5px;
@@ -24,12 +27,17 @@ const FilterButton = ({
   priceVisible,
   modal,
 }) => {
-  const { totalCount, babyCount } = useSelector((state) => state);
+  const { guestCountReducer, datePickerReducer } = useSelector((state) => state);
+  const { totalCount, babyCount } = guestCountReducer;
+  const { startDate, endDate } = datePickerReducer;
 
-  const showGuestCount = () => {
+  const showResult = () => {
     switch (modal) {
       case "date":
-        return "날짜";
+        if (!startDate && !endDate) return "날짜";
+        const start = moment(startDate).format("yyyy-MM-DD");
+        const end = moment(endDate).format("yyyy-MM-DD");
+        return start && !endDate ? `${start} - 체크아웃` : `${start} - ${end}`;
       case "guest":
         if (!totalCount && !babyCount) return "인원";
         return totalCount && !babyCount
@@ -44,18 +52,25 @@ const FilterButton = ({
 
   return (
     <>
-      <Wrapper
-        onClick={() => {
-          filterButtonClickHandler(modal);
-        }}
-      >
-        {showGuestCount()}
+      <Wrapper>
+        <Button
+          onClick={() => {
+            filterButtonClickHandler(modal);
+          }}
+        >
+          {showResult()}
+        </Button>
+
+        <CalendarModal
+          dateVisible={dateVisible}
+          modal={modal}
+          closeClickHandler={filterButtonClickHandler}
+        />
+        {guestVisible && (
+          <GuestCountModal modal={modal} closeClickHandler={filterButtonClickHandler} />
+        )}
+        {priceVisible && <PriceModal modal={modal} />}
       </Wrapper>
-      {dateVisible && <CalendarModal modal={modal} closeClickHandler={filterButtonClickHandler} />}
-      {guestVisible && (
-        <GuestCountModal modal={modal} closeClickHandler={filterButtonClickHandler} />
-      )}
-      {priceVisible && <PriceModal modal={modal} />}
     </>
   );
 };
