@@ -3,7 +3,58 @@ import styled from "styled-components";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import Slider from "@material-ui/core/slider";
 
-const counts = Array.from({ length: 50 }).map(() => Math.floor(Math.random() * 500));
+const counts = [
+  0,
+  28,
+  116,
+  146,
+  150,
+  118,
+  71,
+  94,
+  64,
+  50,
+  34,
+  24,
+  30,
+  7,
+  9,
+  6,
+  4,
+  15,
+  1,
+  3,
+  4,
+  5,
+  2,
+  2,
+  3,
+  3,
+  1,
+  1,
+  1,
+  0,
+  1,
+  0,
+  3,
+  0,
+  200,
+  300,
+  0,
+  0,
+  0,
+  0,
+  1,
+  0,
+  0,
+  1,
+  0,
+  0,
+  0,
+  0,
+  0,
+  2,
+];
 
 const Wrapper = styled.div``;
 
@@ -14,13 +65,13 @@ const AveragePriceMessage = styled.p`
 const PriceRangeWrapper = styled.div`
   position: relative;
   width: 400px;
-  height: 250px;
+  height: 200px;
 `;
 
 const GraphWrapper = styled.div`
   display: flex;
   width: 400px;
-  height: 200px;
+  height: 150px;
   top: 20px;
   position: relative;
   align-items: flex-end;
@@ -28,7 +79,7 @@ const GraphWrapper = styled.div`
 
 const Graph = styled.div`
   width: calc(400px / 50);
-  height: calc(200px / 1000 * ${(props) => props.count});
+  height: calc(150px / 200 * ${(props) => props.count});
   margin-right: 2px;
   background-color: ${({ theme }) => theme.subColor};
 `;
@@ -48,7 +99,7 @@ const PriceRangeChart = () => {
       height: 3,
       padding: "13px 0",
       position: "absolute",
-      top: "208px",
+      top: "157px",
     },
     thumb: {
       height: 27,
@@ -96,7 +147,7 @@ const PriceRangeChart = () => {
       <PriceRangeWrapper>
         <GraphWrapper>
           {counts.map((count, index) => (
-            <Graph count={count} key={index}></Graph>
+            <Graph count={count >= 200 ? 200 : count} key={index}></Graph>
           ))}
         </GraphWrapper>
         <div className={classes.root}>
