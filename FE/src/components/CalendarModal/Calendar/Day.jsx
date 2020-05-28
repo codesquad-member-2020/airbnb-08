@@ -3,7 +3,7 @@ import { useRef, useContext } from "react";
 import { useDay } from "@datepicker-react/hooks";
 import { jsx } from "@emotion/core";
 import DatepickerContext from "./DatepickerContext";
-import getColor from "@/common/calendarUtil/getColor";
+import getColor from "@CalendarModal/Calendar/getColor";
 
 function Day({ dayLabel, date }) {
   const dayRef = useRef(null);
