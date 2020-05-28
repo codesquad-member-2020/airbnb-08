@@ -39,8 +39,8 @@ const Datepicker = ({ closeClickHandler, modal }) => {
   });
 
   const deleteClickHandler = () => {
-    reducerDispatch(dateDelete);
-    reduxDispatch(dateDelete);
+    reducerDispatch(dateDelete());
+    reduxDispatch(dateDelete());
   };
 
   return (
