@@ -1,7 +1,73 @@
-import React from "react";
+import React, { useState } from "react";
+import styled from "styled-components";
+import { makeStyles, withStyles } from "@material-ui/core/styles";
+import Slider from "@material-ui/core/slider";
+
+const useStyles = makeStyles({
+  root: {
+    width: 400,
+  },
+});
 
 const PriceRangeChart = () => {
-  return <div></div>;
+  const classes = useStyles();
+
+  const AirbnbSlider = withStyles({
+    root: {
+      color: "#A4A4A4",
+      height: 3,
+      padding: "13px 0",
+    },
+    thumb: {
+      height: 27,
+      width: 27,
+      backgroundColor: "#fff",
+      border: "1px solid currentColor",
+      marginTop: -12,
+      marginLeft: -13,
+      boxShadow: "#ebebeb 0 2px 2px",
+      "&:focus, &:hover, &$active": {
+        boxShadow: "#ccc 0 2px 3px 1px",
+      },
+      "& .bar": {
+        // display: inline-block !important;
+        height: 9,
+        width: 1,
+        backgroundColor: "currentColor",
+        marginLeft: 1,
+        marginRight: 1,
+      },
+    },
+    active: {},
+    track: {
+      height: 3,
+    },
+    rail: {
+      color: "#d8d8d8",
+      opacity: 1,
+      height: 3,
+    },
+  })(Slider);
+
+  function AirbnbThumbComponent(props) {
+    return (
+      <span {...props}>
+        <span className="bar" />
+        <span className="bar" />
+        <span className="bar" />
+      </span>
+    );
+  }
+
+  return (
+    <div className={classes.root}>
+      <AirbnbSlider
+        ThumbComponent={AirbnbThumbComponent}
+        getAriaLabel={(index) => (index === 0 ? "Minimum price" : "Maximum price")}
+        defaultValue={[0, 100]}
+      />
+    </div>
+  );
 };
 
 export default PriceRangeChart;
