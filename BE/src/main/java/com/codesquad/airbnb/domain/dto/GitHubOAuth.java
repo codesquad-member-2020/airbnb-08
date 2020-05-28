@@ -11,11 +11,7 @@ import org.springframework.stereotype.Component;
 @Component
 @ConfigurationProperties("github")
 @ToString
-public class OAuthAppInfo {
-
-    private String codeUrlBase;
-
-    private String codeUrlOption;
+public class GitHubOAuth {
 
     private String accessTokenUrl;
 

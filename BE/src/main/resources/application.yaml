@@ -19,9 +19,8 @@ logging:
     sql: debug
 
 github:
-  code-url-base: https://github.com/login/oauth/authorize\?client_id=
-  code-url-option: \&scope=user%20public_repo;
   access-token-url: https://github.com/login/oauth/access_token
+
 
 debug: true
 ---
