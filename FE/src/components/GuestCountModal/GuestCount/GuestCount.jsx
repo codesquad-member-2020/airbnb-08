@@ -16,12 +16,12 @@ const GuestTitleWrapper = styled.div`
 `;
 
 const Guest = styled.div`
-  font-size: ${(props) => props.theme.xlarge};
+  font-size: ${({ theme }) => theme.xlarge};
   margin-bottom: 15px;
 `;
 
 const Info = styled.div`
-  font-size: ${(props) => props.theme.large};
+  font-size: ${({ theme }) => theme.large};
 `;
 
 const CountWrapper = styled.div`
@@ -35,11 +35,11 @@ const CounterButton = styled.button`
   width: 40px;
   height: 40px;
   border-radius: 40px;
-  font-size: ${(props) => props.theme.xlarge};
+  font-size: ${({ theme }) => theme.xlarge};
   font-weight: bold;
   line-height: 10px;
-  border: 1px solid ${(props) => props.theme.subColor};
-  color: ${(props) => props.theme.subColor};
+  border: 1px solid ${({ theme }) => theme.subColor};
+  color: ${({ theme }) => theme.subColor};
   outline: 0;
   background: white;
   :disabled,
@@ -48,13 +48,13 @@ const CounterButton = styled.button`
     border: solid 1px #e6e6e6;
   }
   &:hover {
-    color: ${(props) => props.theme.mainColor};
-    border: solid 1px ${(props) => props.theme.mainColor};
+    color: ${({ theme }) => theme.mainColor};
+    border: solid 1px ${({ theme }) => theme.mainColor};
   }
 `;
 
 const Count = styled.span`
-  font-size: ${(props) => props.theme.xlarge};
+  font-size: ${({ theme }) => theme.xlarge};
   margin: 0 20px;
 `;
 

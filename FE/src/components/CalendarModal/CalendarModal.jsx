@@ -10,7 +10,7 @@ const Wrapper = styled.div`
   height: 480px;
   padding: 50px 0 30px 0;
   background: white;
-  border: solid 1px ${(props) => props.theme.subColor};
+  border: solid 1px ${({ theme }) => theme.subColor};
   border-radius: 10px;
   box-sizing: border-box;
 `;

@@ -12,7 +12,7 @@ const Modal = styled.div`
   top: 55px;
   left: 5px;
   background: white;
-  border: solid 1px ${(props) => props.theme.subColor};
+  border: solid 1px ${({ theme }) => theme.subColor};
   border-radius: 10px;
   padding-top: 40px;
   display: flex;
