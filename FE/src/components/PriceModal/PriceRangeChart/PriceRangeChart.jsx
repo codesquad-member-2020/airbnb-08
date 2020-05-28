@@ -1,7 +1,37 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import Slider from "@material-ui/core/slider";
+
+const counts = Array.from({ length: 50 }).map(() => Math.floor(Math.random() * 500));
+
+const Wrapper = styled.div``;
+
+const AveragePriceMessage = styled.p`
+  font-size: ${({ theme }) => theme.large};
+`;
+
+const PriceRangeWrapper = styled.div`
+  position: relative;
+  width: 400px;
+  height: 250px;
+`;
+
+const GraphWrapper = styled.div`
+  display: flex;
+  width: 400px;
+  height: 200px;
+  top: 20px;
+  position: relative;
+  align-items: flex-end;
+`;
+
+const Graph = styled.div`
+  width: calc(400px / 50);
+  height: calc(200px / 1000 * ${(props) => props.count});
+  margin-right: 2px;
+  background-color: ${({ theme }) => theme.subColor};
+`;
 
 const useStyles = makeStyles({
   root: {
@@ -17,6 +47,8 @@ const PriceRangeChart = () => {
       color: "#A4A4A4",
       height: 3,
       padding: "13px 0",
+      position: "absolute",
+      top: "208px",
     },
     thumb: {
       height: 27,
@@ -30,7 +62,6 @@ const PriceRangeChart = () => {
         boxShadow: "#ccc 0 2px 3px 1px",
       },
       "& .bar": {
-        // display: inline-block !important;
         height: 9,
         width: 1,
         backgroundColor: "currentColor",
@@ -49,7 +80,7 @@ const PriceRangeChart = () => {
     },
   })(Slider);
 
-  function AirbnbThumbComponent(props) {
+  const AirbnbThumbComponent = (props) => {
     return (
       <span {...props}>
         <span className="bar" />
@@ -57,16 +88,26 @@ const PriceRangeChart = () => {
         <span className="bar" />
       </span>
     );
-  }
+  };
 
   return (
-    <div className={classes.root}>
-      <AirbnbSlider
-        ThumbComponent={AirbnbThumbComponent}
-        getAriaLabel={(index) => (index === 0 ? "Minimum price" : "Maximum price")}
-        defaultValue={[0, 100]}
-      />
-    </div>
+    <Wrapper>
+      <AveragePriceMessage>평균 1박 요금은 ₩175,000입니다.</AveragePriceMessage>
+      <PriceRangeWrapper>
+        <GraphWrapper>
+          {counts.map((count, index) => (
+            <Graph count={count} key={index}></Graph>
+          ))}
+        </GraphWrapper>
+        <div className={classes.root}>
+          <AirbnbSlider
+            ThumbComponent={AirbnbThumbComponent}
+            getAriaLabel={(index) => (index === 0 ? "Minimum price" : "Maximum price")}
+            defaultValue={[0, 100]}
+          />
+        </div>
+      </PriceRangeWrapper>
+    </Wrapper>
   );
 };
 
