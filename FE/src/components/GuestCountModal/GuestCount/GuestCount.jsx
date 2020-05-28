@@ -60,8 +60,8 @@ const Count = styled.span`
 
 const GuestCount = ({ ageType }) => {
   const dispatch = useDispatch();
-  const countState = useSelector((state) => state);
-  const currentCount = countState.guestCountReducer[`${ageType}Count`];
+  const { guestCountReducer } = useSelector((state) => state);
+  const currentCount = guestCountReducer[`${ageType}Count`];
   const { title, info } = guestCountConstant[ageType];
 
   const incrementCountHandler = (ageType) => {
@@ -82,7 +82,7 @@ const GuestCount = ({ ageType }) => {
       </GuestTitleWrapper>
       <CountWrapper>
         <CounterButton
-          disabled={countState.guestCountReducer[`${ageType}Min`]}
+          disabled={guestCountReducer[`${ageType}Min`]}
           onClick={() => {
             decrementCountHandler(ageType);
           }}
@@ -91,7 +91,7 @@ const GuestCount = ({ ageType }) => {
         </CounterButton>
         <Count>{currentCount}</Count>
         <CounterButton
-          disabled={countState.guestCountReducer[`${ageType}Max`]}
+          disabled={guestCountReducer[`${ageType}Max`]}
           onClick={() => {
             incrementCountHandler(ageType);
           }}
