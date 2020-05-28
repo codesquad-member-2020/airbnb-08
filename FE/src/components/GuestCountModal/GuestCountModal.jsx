@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { useDispatch } from "react-redux";
-import * as actions from "@/actions/actions";
+import * as actions from "@/actions/guestCountAction";
 import GuestCount from "@GuestCountModal/GuestCount/GuestCount";
 import ModalButtons from "@/components/ModalButtons";
 

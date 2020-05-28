@@ -5,7 +5,7 @@ import NavButton from "@CalendarModal/Calendar/NavButton";
 import DatepickerContext from "@CalendarModal/Calendar/DatepickerContext";
 import ModalButtons from "@/components/ModalButtons";
 import { initialState, datePickerReducer } from "@/reducers/datePickerReducer";
-import { dateChange } from "@/actions/actions";
+import { dateChange } from "@/actions/datePickerAction";
 import { useDispatch } from "react-redux";
 
 const Datepicker = ({ closeClickHandler, modal }) => {

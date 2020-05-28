@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
-import * as actions from "@/actions/actions";
+import * as actions from "@/actions/guestCountAction";
 import { guestCountConstant } from "@/common/constants/guestCountConstant";
 
 const Wrapper = styled.div`
