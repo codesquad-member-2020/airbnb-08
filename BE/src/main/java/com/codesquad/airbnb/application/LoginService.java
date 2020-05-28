@@ -14,12 +14,14 @@ public class LoginService {
 
     private final GitHubOAuth gitHubOAuth;
 
-    public void login(String code) {
-        String accessToken = getAccessToken(code);
+    public String[] login(String code) {
+        return getAccessToken(code).split("[=&]");
     }
 
     public String getAccessToken(String code) {
-        return new RestTemplate().postForObject(gitHubOAuth.getAccessTokenUrl(), new GitHubTokenRequest(code, gitHubOAuth), String.class);
+        return new RestTemplate()
+                .postForObject(gitHubOAuth.getAccessTokenUrl(), new GitHubTokenRequest(code, gitHubOAuth), String.class)
+                .split("[=&]")[1];
     }
     
     private void getUserEmail() {
