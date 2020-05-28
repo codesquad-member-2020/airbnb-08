@@ -10,12 +10,17 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     platform: mysql
 
+  mustache:
+    suffix: .html
+
 logging:
   level:
     sql: debug
 
 github:
-  redirect_url: https://github.com/login/oauth/access_token
+  code-url-base: https://github.com/login/oauth/authorize\?client_id=
+  code-url-option: \&scope=user%20public_repo;
+  access-token-url: https://github.com/login/oauth/access_token
 
 debug: true
 ---
@@ -28,8 +33,8 @@ spring:
     password: ENC(QQErW0P9WFtyBoyisL9XAw==)
 
 github:
-  client_id: ENC(7c10b64db1213a6aa722)
-  client_secret: ENC(9B04CF83IGcKbUt225dta7TlLtBclJnvIURo15mlXo2nbqK+0OWhcY1cT67HqutU)
+  client-id: ENC(pZX3ky4LlJA0EaNyjfryTJrrg+wMqS17)
+  client-secret: ENC(9B04CF83IGcKbUt225dta7TlLtBclJnvIURo15mlXo2nbqK+0OWhcY1cT67HqutU)
 ---
 spring:
   profiles: real_server
@@ -40,5 +45,5 @@ spring:
     password: ENC(QQErW0P9WFtyBoyisL9XAw==)
 
 github:
-  client_id:
-  client_secret:
+  client-id:
+  client-secret:

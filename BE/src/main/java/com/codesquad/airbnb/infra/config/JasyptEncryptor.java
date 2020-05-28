@@ -1,6 +1,5 @@
 package com.codesquad.airbnb.infra.config;
 
-import lombok.extern.slf4j.Slf4j;
 import org.jasypt.encryption.pbe.PooledPBEStringEncryptor;
 import org.jasypt.encryption.pbe.config.SimpleStringPBEConfig;
 import org.jasypt.salt.StringFixedSaltGenerator;
