@@ -16,8 +16,7 @@ const Button = styled.div`
   margin: 10px 5px;
   box-sizing: border-box;
   box-shadow: 0 0 0 1px ${(props) => props.theme.subColor};
-  &:hover,
-  .active {
+  &:hover {
     box-shadow: 0 0 0 2px ${(props) => props.theme.mainColor};
   }
 `;
