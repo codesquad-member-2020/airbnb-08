@@ -1,5 +1,7 @@
-import React, { useRef, useContext } from "react";
+/** @jsx jsx */
+import { useRef, useContext } from "react";
 import { useDay } from "@datepicker-react/hooks";
+import { jsx } from "@emotion/core";
 import DatepickerContext from "./DatepickerContext";
 import getColor from "@CalendarModal/Calendar/getColor";
 
