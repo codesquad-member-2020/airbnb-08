@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
-import * as actions from "@/actions/guestCountAction";
+import { incrementCount, decrementCount } from "@/actions/guestCountAction";
 import { guestCountConstant } from "@/common/constants/guestCountConstant";
 
 const Wrapper = styled.div`
@@ -65,13 +65,11 @@ const GuestCount = ({ ageType }) => {
   const { title, info } = guestCountConstant[ageType];
 
   const incrementCountHandler = (ageType) => {
-    const actionObj = actions.incrementCount(ageType);
-    dispatch(actionObj);
+    dispatch(incrementCount(ageType));
   };
 
   const decrementCountHandler = (ageType) => {
-    const actionObj = actions.decrementCount(ageType);
-    dispatch(actionObj);
+    dispatch(decrementCount(ageType));
   };
 
   return (
@@ -83,18 +81,14 @@ const GuestCount = ({ ageType }) => {
       <CountWrapper>
         <CounterButton
           disabled={guestCountReducer[`${ageType}Min`]}
-          onClick={() => {
-            decrementCountHandler(ageType);
-          }}
+          onClick={() => decrementCountHandler(ageType)}
         >
           -
         </CounterButton>
         <Count>{currentCount}</Count>
         <CounterButton
           disabled={guestCountReducer[`${ageType}Max`]}
-          onClick={() => {
-            incrementCountHandler(ageType);
-          }}
+          onClick={() => incrementCountHandler(ageType)}
         >
           +
         </CounterButton>
