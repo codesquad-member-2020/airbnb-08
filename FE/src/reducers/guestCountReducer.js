@@ -38,6 +38,7 @@ const guestCountReducer = (state = initialState, action) => {
         totalCount: ageType === "baby" ? state.totalCount : state.totalCount + 1,
         [`${ageType}Min`]: false,
         [`${ageType}Max`]: false,
+        countType: ageType,
       };
     case `${ageType}_DECREMENT_COUNT`:
       if (state[`${ageType}Count`] === 0)
@@ -61,6 +62,7 @@ const guestCountReducer = (state = initialState, action) => {
         totalCount: ageType === "baby" ? state.totalCount : state.totalCount - 1,
         [`${ageType}Min`]: false,
         [`${ageType}Max`]: false,
+        countType: ageType,
       };
     case "DELETE_COUNT":
       return {
