@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import PriceRangeChart from "@PriceModal/PriceRangeChart/PriceRangeChart";
+import SelectedRange from "@PriceModal/SelectedRange/SelectedRange";
 
 const Modal = styled.div`
   position: absolute;
@@ -21,6 +22,7 @@ const PriceModal = () => {
   return (
     <Modal>
       <PriceRangeChart></PriceRangeChart>
+      <SelectedRange></SelectedRange>
     </Modal>
   );
 };
