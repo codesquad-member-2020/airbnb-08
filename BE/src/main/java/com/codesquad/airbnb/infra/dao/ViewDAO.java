@@ -112,8 +112,9 @@ public class ViewDAO {
         int[] counts = new int[endPrice/divide];
 
         for (int price : prices) {
-            if((price/divide) >= (endPrice/divide)) {
+            if(price >= endPrice) {
                 counts[(endPrice/divide)-1]++;
+                continue;
             }
             counts[price/divide] ++;
         }
