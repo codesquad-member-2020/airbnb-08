@@ -20,4 +20,6 @@ public class Statistics {
     private int averagePrice;
 
     private List<Integer> prices;
+
+    private int[] counts;
 }
