@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { useDispatch } from "react-redux";
-import * as actions from "@/actions/actions";
+import * as actions from "@/actions/guestCountAction";
 import GuestCount from "@GuestCountModal/GuestCount/GuestCount";
 import ModalButtons from "@/components/ModalButtons";
 
@@ -12,7 +12,7 @@ const Modal = styled.div`
   top: 55px;
   left: 5px;
   background: white;
-  border: solid 1px ${(props) => props.theme.subColor};
+  border: solid 1px ${({ theme }) => theme.subColor};
   border-radius: 10px;
   padding-top: 40px;
   display: flex;

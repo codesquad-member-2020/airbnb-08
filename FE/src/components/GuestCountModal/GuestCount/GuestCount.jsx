@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
-import * as actions from "@/actions/actions";
+import { incrementCount, decrementCount } from "@/actions/guestCountAction";
 import { guestCountConstant } from "@/common/constants/guestCountConstant";
 
 const Wrapper = styled.div`
@@ -16,12 +16,12 @@ const GuestTitleWrapper = styled.div`
 `;
 
 const Guest = styled.div`
-  font-size: ${(props) => props.theme.xlarge};
+  font-size: ${({ theme }) => theme.xlarge};
   margin-bottom: 15px;
 `;
 
 const Info = styled.div`
-  font-size: ${(props) => props.theme.large};
+  font-size: ${({ theme }) => theme.large};
 `;
 
 const CountWrapper = styled.div`
@@ -35,11 +35,11 @@ const CounterButton = styled.button`
   width: 40px;
   height: 40px;
   border-radius: 40px;
-  font-size: ${(props) => props.theme.xlarge};
+  font-size: ${({ theme }) => theme.xlarge};
   font-weight: bold;
   line-height: 10px;
-  border: 1px solid ${(props) => props.theme.subColor};
-  color: ${(props) => props.theme.subColor};
+  border: 1px solid ${({ theme }) => theme.subColor};
+  color: ${({ theme }) => theme.subColor};
   outline: 0;
   background: white;
   :disabled,
@@ -48,30 +48,28 @@ const CounterButton = styled.button`
     border: solid 1px #e6e6e6;
   }
   &:hover {
-    color: ${(props) => props.theme.mainColor};
-    border: solid 1px ${(props) => props.theme.mainColor};
+    color: ${({ theme }) => theme.mainColor};
+    border: solid 1px ${({ theme }) => theme.mainColor};
   }
 `;
 
 const Count = styled.span`
-  font-size: ${(props) => props.theme.xlarge};
+  font-size: ${({ theme }) => theme.xlarge};
   margin: 0 20px;
 `;
 
 const GuestCount = ({ ageType }) => {
   const dispatch = useDispatch();
-  const countState = useSelector((state) => state);
-  const currentCount = countState.guestCountReducer[`${ageType}Count`];
+  const { guestCountReducer } = useSelector((state) => state);
+  const currentCount = guestCountReducer[`${ageType}Count`];
   const { title, info } = guestCountConstant[ageType];
 
   const incrementCountHandler = (ageType) => {
-    const actionObj = actions.incrementCount(ageType);
-    dispatch(actionObj);
+    dispatch(incrementCount(ageType));
   };
 
   const decrementCountHandler = (ageType) => {
-    const actionObj = actions.decrementCount(ageType);
-    dispatch(actionObj);
+    dispatch(decrementCount(ageType));
   };
 
   return (
@@ -82,19 +80,15 @@ const GuestCount = ({ ageType }) => {
       </GuestTitleWrapper>
       <CountWrapper>
         <CounterButton
-          disabled={countState.guestCountReducer[`${ageType}Min`]}
-          onClick={() => {
-            decrementCountHandler(ageType);
-          }}
+          disabled={guestCountReducer[`${ageType}Min`]}
+          onClick={() => decrementCountHandler(ageType)}
         >
           -
         </CounterButton>
         <Count>{currentCount}</Count>
         <CounterButton
-          disabled={countState.guestCountReducer[`${ageType}Max`]}
-          onClick={() => {
-            incrementCountHandler(ageType);
-          }}
+          disabled={guestCountReducer[`${ageType}Max`]}
+          onClick={() => incrementCountHandler(ageType)}
         >
           +
         </CounterButton>

@@ -22,7 +22,7 @@ const ResultTitle = styled.div`
   margin: 40px 0px 10px 10px;
   font-size: 24px;
   font-weight: bold;
-  color: ${(props) => props.theme.mainColor};
+  color: ${({ theme }) => theme.mainColor};
 `;
 
 const FilterButtonWrapper = styled.div`

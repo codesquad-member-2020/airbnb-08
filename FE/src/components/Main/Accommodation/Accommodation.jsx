@@ -24,27 +24,27 @@ const BadgeCountryWrapper = styled.div`
 `;
 
 const Badge = styled.div`
-  color: ${(props) => props.theme.mainColor};
-  border: solid 1px ${(props) => props.theme.mainColor};
+  color: ${({ theme }) => theme.mainColor};
+  border: solid 1px ${({ theme }) => theme.mainColor};
   border-radius: 3px;
   padding: 3px;
-  font-size: ${(props) => props.theme.small};
-  height: ${(props) => props.theme.medium};
-  line-height: ${(props) => props.theme.medium};
+  font-size: ${({ theme }) => theme.small};
+  height: ${({ theme }) => theme.medium};
+  line-height: ${({ theme }) => theme.medium};
   font-weight: bold;
 `;
 
 const Country = styled.div`
-  color: ${(props) => props.theme.subColor};
-  font-size: ${(props) => props.theme.medium};
+  color: ${({ theme }) => theme.subColor};
+  font-size: ${({ theme }) => theme.medium};
   margin: 0 10px;
   padding: 3px;
 `;
 
 const Rating = styled.div`
-  color: ${(props) => props.theme.pointColor};
+  color: ${({ theme }) => theme.pointColor};
   span {
-    color: ${(props) => props.theme.mainColor};
+    color: ${({ theme }) => theme.mainColor};
   }
 `;
 
@@ -53,7 +53,7 @@ const Title = styled.div`
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  font-size: ${(props) => props.theme.large};
+  font-size: ${({ theme }) => theme.large};
   margin-bottom: 10px;
 `;
 
@@ -66,12 +66,12 @@ const OriginalPrice = styled.div`
   text-decoration: line-through;
   font-weight: bold;
   margin-right: 5px;
-  color: ${(props) => props.theme.subColor};
+  color: ${({ theme }) => theme.subColor};
 `;
 
 const Price = styled.div`
   font-weight: bold;
-  font-size: ${(props) => props.theme.large};
+  font-size: ${({ theme }) => theme.large};
   ::after {
     content: "/1박";
     font-weight: normal;
@@ -84,16 +84,16 @@ const PriceReservationWrapper = styled.div`
 `;
 
 const TotalPrice = styled.div`
-  font-size: ${(props) => props.theme.medium};
-  color: ${(props) => props.theme.subColor};
+  font-size: ${({ theme }) => theme.medium};
+  color: ${({ theme }) => theme.subColor};
 `;
 
 const ReservationButton = styled.button`
   color: white;
-  font-size: ${(props) => props.theme.large};
+  font-size: ${({ theme }) => theme.large};
   font-weight: bold;
   padding: 5px;
-  background: ${(props) => props.theme.pointColor};
+  background: ${({ theme }) => theme.pointColor};
   width: 80px;
   border: 0;
   outline: 0;
