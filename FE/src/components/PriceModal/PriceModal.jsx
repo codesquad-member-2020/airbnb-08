@@ -5,7 +5,7 @@ import PriceRangeChart from "@PriceModal/PriceRangeChart/PriceRangeChart";
 const Modal = styled.div`
   position: absolute;
   width: 500px;
-  height: 350px;
+  height: 450px;
   top: 55px;
   left: 5px;
   background: white;
