@@ -9,13 +9,15 @@ import moment from "moment";
 const Wrapper = styled.div`
   position: relative;
 `;
+
 const Button = styled.div`
   border-radius: 20px;
   padding: 10px 15px;
   margin: 10px 5px;
   box-sizing: border-box;
   box-shadow: 0 0 0 1px ${(props) => props.theme.subColor};
-  &:hover {
+  &:hover,
+  .active {
     box-shadow: 0 0 0 2px ${(props) => props.theme.mainColor};
   }
 `;
@@ -27,9 +29,10 @@ const FilterButton = ({
   priceVisible,
   modal,
 }) => {
-  const { guestCountReducer, datePickerReducer } = useSelector((state) => state);
-  const { totalCount, babyCount } = guestCountReducer;
-  const { startDate, endDate } = datePickerReducer;
+  const {
+    guestCountReducer: { totalCount, babyCount },
+    datePickerReducer: { startDate, endDate },
+  } = useSelector((state) => state);
 
   const showResult = () => {
     switch (modal) {
@@ -60,7 +63,6 @@ const FilterButton = ({
         >
           {showResult()}
         </Button>
-
         <CalendarModal
           dateVisible={dateVisible}
           modal={modal}
