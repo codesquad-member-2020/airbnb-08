@@ -21,14 +21,7 @@ public class LoginService {
 
     private final OAuthAppInfo oAuthAppInfo;
 
-    public String getCode() {
-        ResponseEntity<?> response = new RestTemplate().getForEntity(oAuthAppInfo.getCodeUrlBase() + oAuthAppInfo.getClientId() + oAuthAppInfo.getCodeUrlOption(), String.class);
-        return (String) response.getBody();
-    }
-
     public GitHubToken getAccessToken(String code) {
-        log.info("OAuthAppInfo : {}", oAuthAppInfo);
-
         MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
         Map<String, String> header = new HashMap<>();
         header.put("Accept", "application/json");

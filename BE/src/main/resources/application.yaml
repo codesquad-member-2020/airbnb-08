@@ -10,8 +10,9 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     platform: mysql
 
-  mustache:
-    suffix: .html
+# handlebars 설정
+handlebars:
+  suffix: .html
 
 logging:
   level:

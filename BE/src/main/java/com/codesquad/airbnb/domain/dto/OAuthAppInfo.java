@@ -22,6 +22,4 @@ public class OAuthAppInfo {
     private String clientId;
 
     private String clientSecret;
-
-    private String redirectUrl;
 }

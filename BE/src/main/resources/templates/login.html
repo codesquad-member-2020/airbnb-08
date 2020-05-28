@@ -8,7 +8,7 @@
 <body>
 <h3>로그인테스트</h3>
 <script>
-    authUrl = "https://github.com/login/oauth/authorize\?client_id={발급받은 Client ID}\&scope=user%20public_repo";
+    authUrl = "https://github.com/login/oauth/authorize\?client_id={{clientId}}\&scope=user%20public_repo";
 </script>
 <button type="button" onclick="location.href=authUrl">Github으로 로그인하기</button>
 </body>

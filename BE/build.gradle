@@ -39,6 +39,9 @@ dependencies {
     // 암호화
     implementation 'com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.2'
 
+    // handelbars 설정
+    implementation 'pl.allegro.tech.boot:handlebars-spring-boot-starter:0.3.0'
+
     implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     compileOnly 'org.projectlombok:lombok'
