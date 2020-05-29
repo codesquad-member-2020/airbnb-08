@@ -9,9 +9,9 @@ import lombok.*;
 @ToString
 public class User {
 
-    Long id;
+    Long userId;
 
-    String userId;
+    String nickName;
 
     String pictureUrl;
 }

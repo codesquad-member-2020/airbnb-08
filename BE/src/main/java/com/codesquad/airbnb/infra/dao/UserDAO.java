@@ -17,6 +17,6 @@ public class UserDAO {
 
     public void save(User user) {
         String sql = "INSERT INTO users (user_id, nickname, picture_url) VALUES (?, ?, ?)";
-        this.jdbcTemplate.update(sql);
+        this.jdbcTemplate.update(sql, user.getUserId(), user.getNickName(), user.getPictureUrl());
     }
 }

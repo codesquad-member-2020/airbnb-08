@@ -27,7 +27,7 @@ public class LoginService {
 
     private final GitHubOAuth gitHubOAuth;
 
-    public ResponseEntity<String> requestUserInfo(String code) {
+    public Object requestUserInfo(String code) throws JsonProcessingException {
         String accessToken = new RestTemplate()
                 .postForObject(gitHubOAuth.getAccessTokenUrl(), new GitHubTokenRequest(code, gitHubOAuth), GitHubToken.class)
                 .getAccessToken();
@@ -35,6 +35,7 @@ public class LoginService {
         String data = request(accessToken, gitHubOAuth.getUserApiUrl()).getBody();
         User user = parseUserInfo(data);
         userDAO.save(user);
+        return user;
     }
 
     private User parseUserInfo(String data) throws JsonProcessingException {

@@ -1,6 +1,7 @@
 package com.codesquad.airbnb.ui;
 
 import com.codesquad.airbnb.application.LoginService;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,7 +16,7 @@ public class LoginController {
     private final LoginService loginService;
 
     @GetMapping("/login")
-    public Object login(@RequestParam("code") String code) {
+    public Object login(@RequestParam("code") String code) throws JsonProcessingException {
         return loginService.requestUserInfo(code);
     }
 
