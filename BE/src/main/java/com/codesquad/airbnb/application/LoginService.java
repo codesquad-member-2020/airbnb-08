@@ -4,7 +4,6 @@ import com.codesquad.airbnb.domain.dto.GitHubOAuth;
 import com.codesquad.airbnb.domain.dto.GitHubToken;
 import com.codesquad.airbnb.domain.dto.GitHubTokenRequest;
 import com.codesquad.airbnb.domain.entity.User;
-import com.codesquad.airbnb.infra.dao.UserDAO;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -17,7 +16,6 @@ import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Map;
 
 import static com.codesquad.airbnb.infra.utils.GitHubApiUtils.request;
 import static com.codesquad.airbnb.infra.utils.JwtUtils.createToken;
@@ -27,13 +25,13 @@ import static com.codesquad.airbnb.infra.utils.JwtUtils.createToken;
 @RequiredArgsConstructor
 public class LoginService {
 
-    private final ObjectMapper mapper = new ObjectMapper(); // create once, reuse
+    private final ObjectMapper mapper;
 
     private final GitHubOAuth gitHubOAuth;
 
     public ResponseEntity<Void> login(String code, HttpServletResponse response) throws JsonProcessingException {
         User user = requestUserInfo(code);
-        setResponse(user, response);
+        setCookie(user.getNickName(), response);
         return new ResponseEntity<>(HttpStatus.FOUND);
     }
 
@@ -46,10 +44,8 @@ public class LoginService {
         return parseUserInfo(userData);
     }
 
-    private void setResponse(User user, HttpServletResponse response) {
-        Map<String, Object> userMap = mapper.convertValue(user, Map.class);
-
-        Cookie cookie = new Cookie("jwt", createToken(userMap));
+    private void setCookie(String nickname, HttpServletResponse response) {
+        Cookie cookie = new Cookie("jwt", createToken(nickname));
         cookie.setPath("/");
         cookie.setMaxAge(60*60*24);
 
