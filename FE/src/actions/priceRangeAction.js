@@ -4,3 +4,15 @@ export const changePriceRange = (payload) => {
     payload,
   };
 };
+
+export const deletePriceRange = () => {
+  return {
+    type: "deletePriceRange",
+  };
+};
+
+export const savePriceRange = () => {
+  return {
+    type: "savePriceRange",
+  };
+};
