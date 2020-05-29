@@ -16,8 +16,12 @@ public class LoginController {
     private final LoginService loginService;
 
     @GetMapping("/login")
-    public ResponseEntity<String> login(@RequestParam("code") String code) {
-        System.out.println(loginService.getAccessToken(code));
-        return ResponseEntity.ok("logined");
+    public Object login(@RequestParam("code") String code) {
+        return loginService.getUserInfo(code);
+    }
+
+    @GetMapping("/info")
+    public Object showUserInfo() {
+        return null;
     }
 }

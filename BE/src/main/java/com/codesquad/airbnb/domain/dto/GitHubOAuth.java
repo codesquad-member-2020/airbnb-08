@@ -13,6 +13,8 @@ import org.springframework.stereotype.Component;
 @ToString
 public class GitHubOAuth {
 
+    private String userApiUrl;
+
     private String accessTokenUrl;
 
     private String clientId;

@@ -8,6 +8,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import static com.codesquad.airbnb.infra.utils.GitHubApiUtils.request;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -15,21 +17,19 @@ public class LoginService {
 
     private final GitHubOAuth gitHubOAuth;
 
-    public Object login(String code) {
-        String accessToken = getAccessToken(code).getAccessToken();
-        String emailUrl = "https://api.github.com/user";
-        return new RestTemplate().getForObject(emailUrl, );
+    public Object requestUserApi(String code) {
+        String accessToken = new RestTemplate()
+                .postForObject(gitHubOAuth.getAccessTokenUrl(), new GitHubTokenRequest(code, gitHubOAuth), GitHubToken.class)
+                .getAccessToken();
+
+        request(accessToken, gitHubOAuth.getUserApiUrl());
     }
 
-    public GitHubToken getAccessToken(String code) {
-        return new RestTemplate().postForObject(gitHubOAuth.getAccessTokenUrl(), new GitHubTokenRequest(code, gitHubOAuth), GitHubToken.class);
+    public GitHubToken login(String code) {
+        return null;
     }
-    
-    private void getUserEmail() {
-        
-    }
-    
+
     private void makeCookie() {
-        
+
     }
 }
