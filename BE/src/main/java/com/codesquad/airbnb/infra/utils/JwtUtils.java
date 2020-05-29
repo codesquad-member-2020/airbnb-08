@@ -40,16 +40,17 @@ public class JwtUtils {
     }
 
     public static Claims decrypt(String jwtToken) {
-        Jws<Claims> claims = null;
+        Claims claims = null;
         try {
             claims = Jwts.parser()
                     .setSigningKey(jwtKey.getBytes())
-                    .parseClaimsJws(jwtToken);
+                    .parseClaimsJws(jwtToken)
+                    .getBody();
 
         } catch (Exception e) {
             throw new IllegalArgumentException("잘못된 토큰입니다!");
         }
 
-        return claims.getBody();
+        return claims;
     }
 }
