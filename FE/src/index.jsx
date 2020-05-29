@@ -5,10 +5,11 @@ import { createStore, combineReducers } from "redux";
 import { Provider } from "react-redux";
 import { guestCountReducer } from "@/reducers/guestCountReducer";
 import { datePickerReducer } from "@/reducers/datePickerReducer";
+import { priceRangeReducer } from "@/reducers/priceRangeReducer";
 
 const rootElement = document.getElementById("root");
 
-const rootReducer = combineReducers({ guestCountReducer, datePickerReducer });
+const rootReducer = combineReducers({ guestCountReducer, datePickerReducer, priceRangeReducer });
 const store = createStore(
   rootReducer,
   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
