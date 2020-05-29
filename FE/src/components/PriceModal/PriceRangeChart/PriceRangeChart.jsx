@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { changePriceRange } from "@/actions/priceRangeAction";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import Slider from "@material-ui/core/slider";
@@ -93,6 +93,7 @@ const GraphLeft = styled.div`
   height: inherit;
   background: rgba(255, 255, 255, 0.8);
 `;
+
 const GraphRight = styled.div`
   height: inherit;
   background: rgba(255, 255, 255, 0.8);
@@ -131,7 +132,6 @@ const AirbnbSlider = withStyles({
       boxShadow: "#ccc 0 2px 3px 1px",
     },
     "& .bar": {
-      // display: inline-block !important;
       height: 9,
       width: 1,
       backgroundColor: "currentColor",
@@ -163,10 +163,11 @@ function AirbnbThumbComponent(props) {
 const PriceRangeChart = () => {
   const dispatch = useDispatch();
   const classes = useStyles();
-  const [value, setValue] = useState([0, 1000000]);
+  const {
+    priceRangeReducer: { priceRange },
+  } = useSelector((state) => state);
 
   const handleChange = (event, newValue) => {
-    setValue(newValue);
     dispatch(changePriceRange(newValue));
   };
 
@@ -181,8 +182,8 @@ const PriceRangeChart = () => {
       <PriceRangeWrapper>
         <GraphWrapper>
           <GraphRangeWrapper>
-            <GraphLeft style={{ width: `${setWidth(400, "L", value)}px` }} />
-            <GraphRight style={{ width: `${setWidth(400, "R", value)}px` }} />
+            <GraphLeft style={{ width: `${setWidth(400, "L", priceRange)}px` }} />
+            <GraphRight style={{ width: `${setWidth(400, "R", priceRange)}px` }} />
           </GraphRangeWrapper>
           {counts.map((count, index) => (
             <Graph count={count >= 200 ? 200 : count} key={index}></Graph>
@@ -191,7 +192,7 @@ const PriceRangeChart = () => {
         <div className={classes.root}>
           <AirbnbSlider
             ThumbComponent={AirbnbThumbComponent}
-            value={value}
+            value={priceRange}
             onChange={handleChange}
             getAriaLabel={(index) => (index === 0 ? "Minimum price" : "Maximum price")}
             defaultValue={[0, 1000000]}
