@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import { useDispatch } from "react-redux";
+import { changePriceRange } from "@/actions/priceRangeAction";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import Slider from "@material-ui/core/slider";
 
@@ -140,13 +142,14 @@ function AirbnbThumbComponent(props) {
 }
 
 const PriceRangeChart = () => {
+  const dispatch = useDispatch();
   const classes = useStyles();
   const [value, setValue] = useState([0, 1000000]);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
+    dispatch(changePriceRange(newValue));
   };
-  console.log(value);
 
   return (
     <Wrapper>
@@ -166,6 +169,7 @@ const PriceRangeChart = () => {
             defaultValue={[0, 1000000]}
             max={1000000}
             min={0}
+            step={500}
           />
         </div>
       </PriceRangeWrapper>
