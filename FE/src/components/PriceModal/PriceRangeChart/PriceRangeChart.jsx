@@ -79,6 +79,25 @@ const GraphWrapper = styled.div`
   align-items: flex-end;
 `;
 
+const GraphRangeWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: inherit;
+  height: inherit;
+`;
+
+const GraphLeft = styled.div`
+  height: inherit;
+  background: rgba(255, 255, 255, 0.8);
+`;
+const GraphRight = styled.div`
+  height: inherit;
+  background: rgba(255, 255, 255, 0.8);
+`;
+
 const Graph = styled.div`
   width: calc(400px / 50);
   height: calc(150px / 200 * ${(props) => props.count});
@@ -151,11 +170,20 @@ const PriceRangeChart = () => {
     dispatch(changePriceRange(newValue));
   };
 
+  const setWidth = (width, type, value) => {
+    if (type === "L") return (width / 1000000) * value[0];
+    else if (type === "R") return (width / 1000000) * (1000000 - value[1]);
+  };
+
   return (
     <Wrapper>
       <AveragePriceMessage>평균 1박 요금은 ₩175,000입니다.</AveragePriceMessage>
       <PriceRangeWrapper>
         <GraphWrapper>
+          <GraphRangeWrapper>
+            <GraphLeft style={{ width: `${setWidth(400, "L", value)}px` }} />
+            <GraphRight style={{ width: `${setWidth(400, "R", value)}px` }} />
+          </GraphRangeWrapper>
           {counts.map((count, index) => (
             <Graph count={count >= 200 ? 200 : count} key={index}></Graph>
           ))}
