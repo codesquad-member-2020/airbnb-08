@@ -10,6 +10,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -25,15 +27,14 @@ import static com.codesquad.airbnb.infra.utils.JwtUtils.createToken;
 @RequiredArgsConstructor
 public class LoginService {
 
-    private final UserDAO userDAO;
-
     private final ObjectMapper mapper = new ObjectMapper(); // create once, reuse
 
     private final GitHubOAuth gitHubOAuth;
 
-    public Object login(String code, HttpServletResponse response) throws JsonProcessingException {
+    public ResponseEntity<Void> login(String code, HttpServletResponse response) throws JsonProcessingException {
         User user = requestUserInfo(code);
-        return setResponse(user, response);
+        setResponse(user, response);
+        return new ResponseEntity<>(HttpStatus.FOUND);
     }
 
     private User requestUserInfo(String code) throws JsonProcessingException {
@@ -45,15 +46,14 @@ public class LoginService {
         return parseUserInfo(userData);
     }
 
-    private HttpServletResponse setResponse(User user, HttpServletResponse response) {
+    private void setResponse(User user, HttpServletResponse response) {
         Map<String, Object> userMap = mapper.convertValue(user, Map.class);
 
         Cookie cookie = new Cookie("jwt", createToken(userMap));
         cookie.setPath("/");
+        cookie.setMaxAge(60*60*24);
 
         response.addCookie(cookie);
-
-        return response;
     }
 
     private User parseUserInfo(String data) throws JsonProcessingException {

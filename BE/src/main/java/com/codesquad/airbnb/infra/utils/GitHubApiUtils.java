@@ -1,7 +1,5 @@
 package com.codesquad.airbnb.infra.utils;
 
-import com.codesquad.airbnb.domain.dto.GitHubToken;
-import com.codesquad.airbnb.domain.dto.GitHubTokenRequest;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;

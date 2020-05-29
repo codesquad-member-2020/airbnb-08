@@ -5,7 +5,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletResponse;
@@ -19,12 +18,6 @@ public class LoginController {
 
     @GetMapping("/login")
     public Object login(String code, HttpServletResponse response) throws JsonProcessingException {
-        loginService.login(code, response);
-        return null;
-    }
-
-    @GetMapping("/info")
-    public Object showUserInfo() {
-        return null;
+        return loginService.login(code, response);
     }
 }
