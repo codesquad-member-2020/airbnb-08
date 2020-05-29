@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletResponse;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/github")
@@ -16,8 +18,9 @@ public class LoginController {
     private final LoginService loginService;
 
     @GetMapping("/login")
-    public Object login(@RequestParam("code") String code) throws JsonProcessingException {
-        return loginService.requestUserInfo(code);
+    public Object login(String code, HttpServletResponse response) throws JsonProcessingException {
+        loginService.login(code, response);
+        return null;
     }
 
     @GetMapping("/info")

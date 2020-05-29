@@ -8,18 +8,17 @@ import com.codesquad.airbnb.infra.dao.UserDAO;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.HashMap;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
 
 import static com.codesquad.airbnb.infra.utils.GitHubApiUtils.request;
+import static com.codesquad.airbnb.infra.utils.JwtUtils.createToken;
 
 @Slf4j
 @Service
@@ -32,45 +31,38 @@ public class LoginService {
 
     private final GitHubOAuth gitHubOAuth;
 
-    @Value("${jwt.key}")
-    private String jwtKey;
+    public Object login(String code, HttpServletResponse response) throws JsonProcessingException {
+        User user = requestUserInfo(code);
+        return setResponse(user, response);
+    }
 
-    public Object requestUserInfo(String code) throws JsonProcessingException {
+    private User requestUserInfo(String code) throws JsonProcessingException {
         String accessToken = new RestTemplate()
                 .postForObject(gitHubOAuth.getAccessTokenUrl(), new GitHubTokenRequest(code, gitHubOAuth), GitHubToken.class)
                 .getAccessToken();
 
-        String data = request(accessToken, gitHubOAuth.getUserApiUrl()).getBody();
+        String userData = request(accessToken, gitHubOAuth.getUserApiUrl()).getBody();
+        return parseUserInfo(userData);
+    }
 
-        User user = parseUserInfo(data);
-        userDAO.save(user);
-        return user;
+    private HttpServletResponse setResponse(User user, HttpServletResponse response) {
+        Map<String, Object> userMap = mapper.convertValue(user, Map.class);
+
+        Cookie cookie = new Cookie("jwt", createToken(userMap));
+        cookie.setPath("/");
+
+        response.addCookie(cookie);
+
+        return response;
     }
 
     private User parseUserInfo(String data) throws JsonProcessingException {
         JsonNode userData = mapper.readValue(data, JsonNode.class);
+
         Long id = userData.get("id").asLong();
         String userId = userData.get("login").asText();
         String pictureUrl = userData.get("avatar_url").asText();
+
         return new User(id, userId, pictureUrl);
-    }
-
-    public GitHubToken login(String code) {
-        return null;
-    }
-
-    private String createToken() {
-        Map<String, Object> headers = new HashMap<>();
-        headers.put("typ", "JWT");
-        headers.put("alg", "HS256");
-
-        Map<String, Object> payloads = new HashMap<>();
-        payloads.put("data", "hello world!");
-
-        return Jwts.builder()
-                .setHeader(headers)
-                .setClaims(payloads)
-                .signWith(SignatureAlgorithm.HS256, jwtKey.getBytes())
-                .compact();
     }
 }
