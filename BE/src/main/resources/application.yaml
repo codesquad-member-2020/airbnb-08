@@ -22,6 +22,8 @@ github:
   user-api-url: https://api.github.com/user
   access-token-url: https://github.com/login/oauth/access_token
 
+jwt:
+  key: ENC(7t4lhka8WWQ=)
 
 debug: true
 ---
