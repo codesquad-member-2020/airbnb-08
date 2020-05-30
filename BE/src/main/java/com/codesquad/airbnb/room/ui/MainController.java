@@ -2,18 +2,16 @@ package com.codesquad.airbnb.room.ui;
 
 import com.codesquad.airbnb.reservation.domain.Guest;
 import com.codesquad.airbnb.reservation.domain.ReservationDate;
-import com.codesquad.airbnb.reservation.infra.ReservationDAO;
 import com.codesquad.airbnb.room.domain.Budget;
-import com.codesquad.airbnb.room.domain.Confirmation;
 import com.codesquad.airbnb.room.domain.Main;
 import com.codesquad.airbnb.room.domain.Statistics;
-import com.codesquad.airbnb.room.infra.UtilDAO;
+import com.codesquad.airbnb.common.UtilDAO;
 import com.codesquad.airbnb.room.infra.ViewDAO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 
@@ -27,8 +25,6 @@ public class MainController {
 
     private final ViewDAO viewDAO;
 
-    private final ReservationDAO reservationDAO;
-
     @GetMapping("")
     public Main showMain(@Valid ReservationDate reservationDate,
                          @Valid Guest guest,
@@ -41,20 +37,5 @@ public class MainController {
     public Statistics showPriceStatistics(@Valid ReservationDate reservationDate) {
         reservationDate.checkInput();
         return viewDAO.showStatistics(reservationDate);
-    }
-
-    @GetMapping("/reservations")
-    public Confirmation showBillAndReview(@RequestParam Long roomId, @Valid ReservationDate reservationDate, @Valid Guest guest) {
-        reservationDate.checkInput();
-        guest.checkInput();
-        return viewDAO.showBillAndReview(utilDAO, roomId, reservationDate, guest);
-    }
-
-    @PostMapping("/reservations")
-    public ResponseEntity<HttpStatus> reserve(@RequestParam Long roomId, @RequestParam Long userId, @Valid ReservationDate reservationDate, @Valid Guest guest) {
-        reservationDate.checkInput();
-        guest.checkInput();
-        reservationDAO.reserve(utilDAO, roomId, userId, reservationDate, guest);
-        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 }

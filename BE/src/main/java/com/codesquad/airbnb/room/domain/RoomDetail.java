@@ -1,6 +1,5 @@
 package com.codesquad.airbnb.room.domain;
 
-import com.codesquad.airbnb.room.domain.Price;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.ToString;

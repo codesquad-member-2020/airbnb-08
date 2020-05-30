@@ -2,7 +2,7 @@ package com.codesquad.airbnb.reservation.infra;
 
 import com.codesquad.airbnb.reservation.domain.Guest;
 import com.codesquad.airbnb.reservation.domain.ReservationDate;
-import com.codesquad.airbnb.room.infra.UtilDAO;
+import com.codesquad.airbnb.common.UtilDAO;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;

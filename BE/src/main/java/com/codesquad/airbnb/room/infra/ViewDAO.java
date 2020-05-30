@@ -1,5 +1,6 @@
 package com.codesquad.airbnb.room.infra;
 
+import com.codesquad.airbnb.common.UtilDAO;
 import com.codesquad.airbnb.reservation.domain.Guest;
 import com.codesquad.airbnb.reservation.domain.ReservationDate;
 import com.codesquad.airbnb.room.domain.*;

@@ -1,4 +1,4 @@
-package com.codesquad.airbnb.room.infra;
+package com.codesquad.airbnb.common;
 
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
