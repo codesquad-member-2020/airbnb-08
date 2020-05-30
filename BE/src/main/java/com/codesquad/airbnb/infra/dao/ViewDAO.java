@@ -107,7 +107,19 @@ public class ViewDAO {
             averagePrice = calculateAverage(prices);
         }
 
-        return new Statistics(lowestPrice, highestPrice, averagePrice, prices);
+        int endPrice = 1000000;
+        int divide = 20000;
+        int[] counts = new int[endPrice/divide];
+
+        for (int price : prices) {
+            if(price >= endPrice) {
+                counts[(endPrice/divide)-1]++;
+                continue;
+            }
+            counts[price/divide] ++;
+        }
+
+        return new Statistics(lowestPrice, highestPrice, averagePrice, prices, counts);
     }
 
     private Integer calculateAverage(List<Integer> prices) {

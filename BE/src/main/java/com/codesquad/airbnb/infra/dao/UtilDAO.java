@@ -21,7 +21,7 @@ public class UtilDAO {
 
     public Boolean canReserve(Long roomId, LocalDate checkInDate, LocalDate checkOutDate) {
 
-        String sql = "SELECT count(*) AS count FROM rooms r INNER JOIN dates d on r.room_id = d.room_id WHERE ((? BETWEEN d.check_in_date AND d.check_out_date ) OR (? BETWEEN d.check_in_date AND d.check_out_date )) AND r.room_id = ? GROUP BY r.room_id";
+        String sql = "SELECT count(*) AS count FROM rooms r INNER JOIN dates d on r.room_id = d.room_id WHERE ((? BETWEEN d.check_in_date AND d.check_out_date ) OR (? BETWEEN d.check_in_date AND d.check_out_date ) OR (? < d.check_in_date AND ? > d.check_out_date)) AND r.room_id = ? GROUP BY r.room_id";
 
         ResultSetExtractor<Boolean> resultSetExtractor = new ResultSetExtractor<Boolean>() {
             @Override
@@ -30,6 +30,6 @@ public class UtilDAO {
             }
         };
 
-        return this.jdbcTemplate.query(sql, new Object[]{checkInDate, checkOutDate, roomId}, resultSetExtractor);
+        return this.jdbcTemplate.query(sql, new Object[]{checkInDate, checkOutDate, checkInDate, checkOutDate, roomId}, resultSetExtractor);
     }
 }
