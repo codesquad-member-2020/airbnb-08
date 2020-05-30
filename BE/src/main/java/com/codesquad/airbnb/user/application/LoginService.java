@@ -18,6 +18,9 @@ import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.HttpServletResponse;
 
+import java.io.IOException;
+import java.util.Locale;
+
 import static com.codesquad.airbnb.user.application.GitHubApiUtils.request;
 import static com.codesquad.airbnb.user.application.JwtUtils.createToken;
 
@@ -30,7 +33,7 @@ public class LoginService {
 
     private final GitHubOAuthProperty gitHubOAuthProperty;
 
-    public ResponseEntity<Void> login(String code, HttpServletResponse response) throws JsonProcessingException {
+    public ResponseEntity<Void> login(String code, HttpServletResponse response) throws IOException {
         User user = requestUserInfo(code);
         setCookie(user.getNickName(), response);
         return new ResponseEntity<>(HttpStatus.FOUND);
@@ -45,7 +48,7 @@ public class LoginService {
         return parseUserInfo(userData);
     }
 
-    private void setCookie(String nickname, HttpServletResponse response) {
+    private void setCookie(String nickname, HttpServletResponse response) throws IOException {
         ResponseCookie cookie = ResponseCookie.from("jwt", createToken(nickname))
                 .domain("127.0.0.1")
                 .sameSite("Strict")
@@ -56,6 +59,7 @@ public class LoginService {
                 .build();
 
         response.setHeader(HttpHeaders.SET_COOKIE, cookie.toString());
+        response.sendRedirect("http://localhost:8080/main?checkInDate=2020-05-23&checkOutDate=2020-05-24");
     }
 
     private User parseUserInfo(String data) throws JsonProcessingException {

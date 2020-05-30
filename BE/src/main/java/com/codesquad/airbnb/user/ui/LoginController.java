@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 @RestController
 @RequiredArgsConstructor
@@ -17,7 +18,7 @@ public class LoginController {
     private final LoginService loginService;
 
     @GetMapping("/login")
-    public Object login(String code, HttpServletResponse response) throws JsonProcessingException {
+    public Object login(String code, HttpServletResponse response) throws IOException {
         return loginService.login(code, response);
     }
 }
