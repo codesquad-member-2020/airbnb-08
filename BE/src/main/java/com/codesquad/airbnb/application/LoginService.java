@@ -9,7 +9,9 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -45,11 +47,16 @@ public class LoginService {
     }
 
     private void setCookie(String nickname, HttpServletResponse response) {
-        Cookie cookie = new Cookie("jwt", createToken(nickname));
-        cookie.setPath("/");
-        cookie.setMaxAge(60*60*24);
+        ResponseCookie cookie = ResponseCookie.from("jwt", createToken(nickname))
+                .domain("127.0.0.1")
+                .sameSite("Strict")
+                .secure(true)
+                .path("/")
+                .maxAge(60*60*24)
+                .httpOnly(true)
+                .build();
 
-        response.addCookie(cookie);
+        response.setHeader(HttpHeaders.SET_COOKIE, cookie.toString());
     }
 
     private User parseUserInfo(String data) throws JsonProcessingException {
