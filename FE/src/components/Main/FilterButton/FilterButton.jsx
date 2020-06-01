@@ -3,8 +3,9 @@ import styled from "styled-components";
 import GuestCountModal from "@GuestCountModal/GuestCountModal";
 import CalendarModal from "@CalendarModal/CalendarModal";
 import PriceModal from "@PriceModal/PriceModal";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import moment from "moment";
+import { savePriceRange } from "@/actions/priceRangeAction";
 
 const Wrapper = styled.div`
   position: relative;
@@ -31,6 +32,7 @@ const FilterButton = ({
   const {
     guestCountReducer: { totalCount, babyCount },
     datePickerReducer: { startDate, endDate },
+    priceRangeReducer: { priceRange, isSaved, isDeleted },
   } = useSelector((state) => state);
 
   const showResult = () => {
@@ -46,10 +48,18 @@ const FilterButton = ({
           ? `게스트 ${totalCount}명`
           : `게스트 ${totalCount}명, 유아 ${babyCount}명`;
       case "price":
-        return "요금";
+        if (!isSaved || isDeleted) return "요금";
+        const maxPrice = priceRange[1] >= 1000000 ? "1000000+" : priceRange[1];
+        return `₩${priceRange[0]} - ₩${maxPrice}`;
       default:
         break;
     }
+  };
+
+  const dispatch = useDispatch();
+  const saveButtonClickHandler = () => {
+    dispatch(savePriceRange());
+    filterButtonClickHandler(modal);
   };
 
   return (
@@ -70,7 +80,7 @@ const FilterButton = ({
         {guestVisible && (
           <GuestCountModal modal={modal} closeClickHandler={filterButtonClickHandler} />
         )}
-        {priceVisible && <PriceModal modal={modal} />}
+        {priceVisible && <PriceModal modal={modal} closeClickHandler={saveButtonClickHandler} />}
       </Wrapper>
     </>
   );

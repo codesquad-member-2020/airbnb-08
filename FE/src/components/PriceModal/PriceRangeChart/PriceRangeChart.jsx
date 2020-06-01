@@ -1,5 +1,7 @@
 import React from "react";
 import styled from "styled-components";
+import { useDispatch, useSelector } from "react-redux";
+import { changePriceRange } from "@/actions/priceRangeAction";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import Slider from "@material-ui/core/slider";
 
@@ -77,6 +79,26 @@ const GraphWrapper = styled.div`
   align-items: flex-end;
 `;
 
+const GraphRangeWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: inherit;
+  height: inherit;
+`;
+
+const GraphLeft = styled.div`
+  height: inherit;
+  background: rgba(255, 255, 255, 0.8);
+`;
+
+const GraphRight = styled.div`
+  height: inherit;
+  background: rgba(255, 255, 255, 0.8);
+`;
+
 const Graph = styled.div`
   width: calc(400px / 50);
   height: calc(150px / 200 * ${(props) => props.count});
@@ -90,55 +112,68 @@ const useStyles = makeStyles({
   },
 });
 
+const AirbnbSlider = withStyles({
+  root: {
+    color: "#a4a4a4",
+    height: 3,
+    padding: "13px 0",
+    position: "absolute",
+    top: "157px",
+  },
+  thumb: {
+    height: 27,
+    width: 27,
+    backgroundColor: "#fff",
+    border: "1px solid currentColor",
+    marginTop: -12,
+    marginLeft: -13,
+    boxShadow: "#ebebeb 0 2px 2px",
+    "&:focus, &:hover, &$active": {
+      boxShadow: "#ccc 0 2px 3px 1px",
+    },
+    "& .bar": {
+      height: 9,
+      width: 1,
+      backgroundColor: "currentColor",
+      marginLeft: 1,
+      marginRight: 1,
+    },
+  },
+  active: {},
+  track: {
+    height: 3,
+  },
+  rail: {
+    color: "#d8d8d8",
+    opacity: 1,
+    height: 3,
+  },
+})(Slider);
+
+function AirbnbThumbComponent(props) {
+  return (
+    <span {...props}>
+      <span className="bar" />
+      <span className="bar" />
+      <span className="bar" />
+    </span>
+  );
+}
+
 const PriceRangeChart = () => {
+  const dispatch = useDispatch();
   const classes = useStyles();
+  const {
+    priceRangeReducer: { priceRange },
+  } = useSelector((state) => state);
 
-  const AirbnbSlider = withStyles({
-    root: {
-      color: "#A4A4A4",
-      height: 3,
-      padding: "13px 0",
-      position: "absolute",
-      top: "157px",
-    },
-    thumb: {
-      height: 27,
-      width: 27,
-      backgroundColor: "#fff",
-      border: "1px solid currentColor",
-      marginTop: -12,
-      marginLeft: -13,
-      boxShadow: "#ebebeb 0 2px 2px",
-      "&:focus, &:hover, &$active": {
-        boxShadow: "#ccc 0 2px 3px 1px",
-      },
-      "& .bar": {
-        height: 9,
-        width: 1,
-        backgroundColor: "currentColor",
-        marginLeft: 1,
-        marginRight: 1,
-      },
-    },
-    active: {},
-    track: {
-      height: 3,
-    },
-    rail: {
-      color: "#d8d8d8",
-      opacity: 1,
-      height: 3,
-    },
-  })(Slider);
+  const handleChange = (event, newValue) => {
+    dispatch(changePriceRange(newValue));
+  };
 
-  const AirbnbThumbComponent = (props) => {
-    return (
-      <span {...props}>
-        <span className="bar" />
-        <span className="bar" />
-        <span className="bar" />
-      </span>
-    );
+  const setWidth = (width, type, value) => {
+    if (type === "L") return (width / 1000000) * value[0];
+    else if (type === "R") return (width / 1000000) * (1000000 - value[1]);
   };
 
   return (
@@ -146,6 +181,10 @@ const PriceRangeChart = () => {
       <AveragePriceMessage>평균 1박 요금은 ₩175,000입니다.</AveragePriceMessage>
       <PriceRangeWrapper>
         <GraphWrapper>
+          <GraphRangeWrapper>
+            <GraphLeft style={{ width: `${setWidth(400, "L", priceRange)}px` }} />
+            <GraphRight style={{ width: `${setWidth(400, "R", priceRange)}px` }} />
+          </GraphRangeWrapper>
           {counts.map((count, index) => (
             <Graph count={count >= 200 ? 200 : count} key={index}></Graph>
           ))}
@@ -153,8 +192,13 @@ const PriceRangeChart = () => {
         <div className={classes.root}>
           <AirbnbSlider
             ThumbComponent={AirbnbThumbComponent}
+            value={priceRange}
+            onChange={handleChange}
             getAriaLabel={(index) => (index === 0 ? "Minimum price" : "Maximum price")}
-            defaultValue={[0, 100]}
+            defaultValue={[0, 1000000]}
+            max={1000000}
+            min={0}
+            step={500}
           />
         </div>
       </PriceRangeWrapper>

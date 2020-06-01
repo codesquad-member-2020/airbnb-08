@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { useSelector } from "react-redux";
 
 const Wrapper = styled.div`
   width: 400px;
@@ -37,16 +38,20 @@ const PriceWrapper = styled.div`
 `;
 
 const SelectedRange = () => {
+  const {
+    priceRangeReducer: { priceRange },
+  } = useSelector((state) => state);
+
   return (
     <Wrapper>
       <PriceWrapper>
         <p className="title">최저 요금</p>
-        <p className="price">₩ 12000</p>
+        <p className="price">₩ {priceRange[0]}</p>
       </PriceWrapper>
       <span className="dash">ㅡ</span>
       <PriceWrapper>
         <p className="title">최고 요금</p>
-        <p className="price">₩ 1000000+</p>
+        <p className="price">₩ {priceRange[1] >= 1000000 ? "1000000+" : priceRange[1]}</p>
       </PriceWrapper>
     </Wrapper>
   );
