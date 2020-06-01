@@ -100,27 +100,37 @@ const ReservationButton = styled.button`
   border-radius: 5px;
 `;
 
-const Accommodation = () => {
+const Accommodation = ({ roomData }) => {
+  console.log(roomData);
+  const {
+    badge,
+    country,
+    medias,
+    price: { originPrice, salesPrice, totalPrice },
+    reviewScoresRating,
+    roomName,
+    roomId,
+  } = roomData;
   return (
     <>
       <Wrapper>
-        <RoomImage src="https://news.airbnb.com/wp-content/uploads/sites/4/2019/06/PJM020719Q202_Luxe_WanakaNZ_LivingRoom_0264-LightOn_R1.jpg?fit=697%2C465" />
+        <RoomImage src={medias[0]} />
         <RoomInfoWrapper>
           <BadgeCountryWrapper>
-            <Badge>슈퍼호스트</Badge>
-            <Country>프랑스</Country>
+            {badge === "" ? "" : <Badge>{badge}</Badge>}
+            <Country>{country}</Country>
           </BadgeCountryWrapper>
           <Rating>
-            ★ <span>4.89</span>
+            ★ <span>{reviewScoresRating}</span>
           </Rating>
         </RoomInfoWrapper>
-        <Title>CHARMING HOUSE SEASIDE CHARMING HOUSE SEASIDE CHARMING HOUSE SEASIDE</Title>
+        <Title>{roomName}</Title>
         <PriceWrapper>
-          <OriginalPrice>￦271,287</OriginalPrice>
-          <Price>￦239,816</Price>
+          <OriginalPrice>￦{originPrice}</OriginalPrice>
+          <Price>￦{salesPrice}</Price>
         </PriceWrapper>
         <PriceReservationWrapper>
-          <TotalPrice>총 요금 : ￦3,357,426(?)</TotalPrice>
+          <TotalPrice>총 요금 : ￦{totalPrice}(?)</TotalPrice>
           <ReservationButton>예약</ReservationButton>
         </PriceReservationWrapper>
       </Wrapper>
