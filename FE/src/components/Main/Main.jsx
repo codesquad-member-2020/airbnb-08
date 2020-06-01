@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled, { createGlobalStyle, ThemeProvider } from "styled-components";
 import reset from "styled-reset";
 import Header from "@/components/Header/Header";
@@ -6,6 +6,7 @@ import Accommodation from "@/components/Main/Accommodation/Accommodation";
 import FilterButton from "@/components/Main/FilterButton/FilterButton";
 import theme from "@/style/theme";
 import useFetch from "@/common/lib/useFetch";
+// import useIntersect from "@/common/lib/useIntersect";
 import { API_URL } from "@/common/config";
 
 const StyleReset = createGlobalStyle`
@@ -42,10 +43,12 @@ const Main = () => {
   const [guestVisible, setGuestVisible] = useState(false);
   const [priceVisible, setPriceVisible] = useState(false);
 
-  const [loading, response, error] = useFetch(API_URL.main);
+  let [loading, response, error] = useFetch(API_URL.main);
+
   if (loading) {
     return <div>loading...</div>;
   }
+
   if (!response) return null;
 
   if (error) {
@@ -53,7 +56,6 @@ const Main = () => {
   }
 
   const data = response;
-  console.log(data);
 
   const filterButtonClickHandler = (modal) => {
     switch (modal) {
@@ -103,8 +105,8 @@ const Main = () => {
           <ResultTitle>300개 이상의 숙소</ResultTitle>
 
           <AccommodationWrapper>
-            {data.rooms.map((list) => (
-              <Accommodation roomData={list} />
+            {data.rooms.map((list, index) => (
+              <Accommodation roomData={list} key={index} />
             ))}
           </AccommodationWrapper>
         </ThemeProvider>
