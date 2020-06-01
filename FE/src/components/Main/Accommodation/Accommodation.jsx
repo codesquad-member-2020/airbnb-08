@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef, useState, useEffect } from "react";
 import styled from "styled-components";
 
 const Wrapper = styled.div`
@@ -40,7 +40,6 @@ const Country = styled.div`
   color: ${({ theme }) => theme.subColor};
   font-size: ${({ theme }) => theme.medium};
   padding: 3px 0px;
-  /* margin: 0 10px; */
 `;
 
 const Rating = styled.div`
@@ -103,7 +102,30 @@ const ReservationButton = styled.button`
 `;
 
 const Accommodation = ({ roomData }) => {
-  console.log(roomData);
+  const imgRef = useRef(null);
+  const observerRef = useRef();
+  const [isLoad, setIsLoad] = useState(false);
+
+  function onIntersection(entries, io) {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        io.unobserve(entry.target);
+        setIsLoad(true);
+      }
+    });
+  }
+
+  useEffect(() => {
+    if (!observerRef.current) {
+      observerRef.current = new IntersectionObserver(onIntersection, {
+        // 확인을 위해 이미지 절반이 나타날 때 로딩한다.
+        threshold: 0,
+      });
+    }
+
+    imgRef.current && observerRef.current.observe(imgRef.current);
+  }, []);
+
   const {
     badge,
     country,
@@ -115,26 +137,32 @@ const Accommodation = ({ roomData }) => {
   } = roomData;
   return (
     <>
-      <Wrapper>
-        <RoomImage src={medias[0]} />
-        <RoomInfoWrapper>
-          <BadgeCountryWrapper>
-            {badge === "" ? "" : <Badge>{badge}</Badge>}
-            <Country>{country}</Country>
-          </BadgeCountryWrapper>
-          <Rating>
-            ★ <span>{reviewScoresRating}</span>
-          </Rating>
-        </RoomInfoWrapper>
-        <Title>{roomName}</Title>
-        <PriceWrapper>
-          <OriginalPrice>￦{originPrice}</OriginalPrice>
-          <Price>￦{salesPrice}</Price>
-        </PriceWrapper>
-        <PriceReservationWrapper>
-          <TotalPrice>총 요금 : ￦{totalPrice}(?)</TotalPrice>
-          <ReservationButton>예약</ReservationButton>
-        </PriceReservationWrapper>
+      <Wrapper ref={imgRef}>
+        {isLoad ? (
+          <>
+            <RoomImage src={medias[0]} />
+            <RoomInfoWrapper>
+              <BadgeCountryWrapper>
+                {badge === "" ? "" : <Badge>{badge}</Badge>}
+                <Country>{country}</Country>
+              </BadgeCountryWrapper>
+              <Rating>
+                ★ <span>{reviewScoresRating}</span>
+              </Rating>
+            </RoomInfoWrapper>
+            <Title>{roomName}</Title>
+            <PriceWrapper>
+              <OriginalPrice>￦{originPrice}</OriginalPrice>
+              <Price>￦{salesPrice}</Price>
+            </PriceWrapper>
+            <PriceReservationWrapper>
+              <TotalPrice>총 요금 : ￦{totalPrice}(?)</TotalPrice>
+              <ReservationButton>예약</ReservationButton>
+            </PriceReservationWrapper>{" "}
+          </>
+        ) : (
+          <div></div>
+        )}
       </Wrapper>
     </>
   );
