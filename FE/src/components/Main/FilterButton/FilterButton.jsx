@@ -49,7 +49,8 @@ const FilterButton = ({
           : `게스트 ${totalCount}명, 유아 ${babyCount}명`;
       case "price":
         if (!isSaved || isDeleted) return "요금";
-        return `₩${priceRange[0]} - ₩${priceRange[1]}`;
+        const maxPrice = priceRange[1] >= 1000000 ? "1000000+" : priceRange[1];
+        return `₩${priceRange[0]} - ₩${maxPrice}`;
       default:
         break;
     }

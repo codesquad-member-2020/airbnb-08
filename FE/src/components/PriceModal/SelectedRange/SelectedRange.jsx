@@ -51,7 +51,7 @@ const SelectedRange = () => {
       <span className="dash">ㅡ</span>
       <PriceWrapper>
         <p className="title">최고 요금</p>
-        <p className="price">₩ {priceRange[1]}</p>
+        <p className="price">₩ {priceRange[1] >= 1000000 ? "1000000+" : priceRange[1]}</p>
       </PriceWrapper>
     </Wrapper>
   );
