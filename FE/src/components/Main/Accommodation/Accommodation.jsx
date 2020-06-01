@@ -152,7 +152,8 @@ const Accommodation = ({ roomData }) => {
             </RoomInfoWrapper>
             <Title>{roomName}</Title>
             <PriceWrapper>
-              <OriginalPrice>￦{originPrice}</OriginalPrice>
+              {originPrice === salesPrice ? "" : <OriginalPrice>￦{originPrice}</OriginalPrice>}
+
               <Price>￦{salesPrice}</Price>
             </PriceWrapper>
             <PriceReservationWrapper>
