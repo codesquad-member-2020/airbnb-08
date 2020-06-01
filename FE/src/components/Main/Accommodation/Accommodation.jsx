@@ -9,6 +9,7 @@ const Wrapper = styled.div`
 
 const RoomImage = styled.img`
   width: 380px;
+  height: 300px;
   box-sizing: border-box;
 `;
 
@@ -28,6 +29,7 @@ const Badge = styled.div`
   border: solid 1px ${({ theme }) => theme.mainColor};
   border-radius: 3px;
   padding: 3px;
+  margin-right: 10px;
   font-size: ${({ theme }) => theme.small};
   height: ${({ theme }) => theme.medium};
   line-height: ${({ theme }) => theme.medium};
@@ -37,8 +39,8 @@ const Badge = styled.div`
 const Country = styled.div`
   color: ${({ theme }) => theme.subColor};
   font-size: ${({ theme }) => theme.medium};
-  margin: 0 10px;
-  padding: 3px;
+  padding: 3px 0px;
+  /* margin: 0 10px; */
 `;
 
 const Rating = styled.div`
