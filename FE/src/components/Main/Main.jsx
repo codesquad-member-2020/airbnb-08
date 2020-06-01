@@ -5,6 +5,8 @@ import Header from "@/components/Header/Header";
 import Accommodation from "@/components/Main/Accommodation/Accommodation";
 import FilterButton from "@/components/Main/FilterButton/FilterButton";
 import theme from "@/style/theme";
+import useFetch from "@/common/lib/useFetch";
+import { API_URL } from "@/common/config";
 
 const StyleReset = createGlobalStyle`
   ${reset};
@@ -39,6 +41,8 @@ const Main = () => {
   const [dateVisible, setDateVisible] = useState(false);
   const [guestVisible, setGuestVisible] = useState(false);
   const [priceVisible, setPriceVisible] = useState(false);
+
+  useFetch(API_URL.main);
 
   const filterButtonClickHandler = (modal) => {
     switch (modal) {
