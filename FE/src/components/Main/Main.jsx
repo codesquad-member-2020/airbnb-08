@@ -42,7 +42,18 @@ const Main = () => {
   const [guestVisible, setGuestVisible] = useState(false);
   const [priceVisible, setPriceVisible] = useState(false);
 
-  useFetch(API_URL.main);
+  const [loading, response, error] = useFetch(API_URL.main);
+  if (loading) {
+    return <div>loading...</div>;
+  }
+  if (!response) return null;
+
+  if (error) {
+    return <div>error!</div>;
+  }
+
+  const data = response;
+  console.log(data);
 
   const filterButtonClickHandler = (modal) => {
     switch (modal) {
@@ -90,11 +101,11 @@ const Main = () => {
             ></FilterButton>
           </FilterButtonWrapper>
           <ResultTitle>300개 이상의 숙소</ResultTitle>
+
           <AccommodationWrapper>
-            <Accommodation></Accommodation>
-            <Accommodation></Accommodation>
-            <Accommodation></Accommodation>
-            <Accommodation></Accommodation>
+            {data.rooms.map((list) => (
+              <Accommodation roomData={list} />
+            ))}
           </AccommodationWrapper>
         </ThemeProvider>
       </Wrapper>
