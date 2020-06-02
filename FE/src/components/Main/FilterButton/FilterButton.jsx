@@ -90,7 +90,13 @@ const FilterButton = ({
         {guestVisible && (
           <GuestCountModal modal={modal} closeClickHandler={saveButtonClickHandler} />
         )}
-        {priceVisible && <PriceModal modal={modal} closeClickHandler={saveButtonClickHandler} />}
+        {priceVisible && (
+          <PriceModal
+            modal={modal}
+            priceData={response}
+            closeClickHandler={saveButtonClickHandler}
+          />
+        )}
       </Wrapper>
     </>
   );
