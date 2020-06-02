@@ -59,7 +59,7 @@ public class LoginService {
                 .build();
 
         response.setHeader(HttpHeaders.SET_COOKIE, cookie.toString());
-        response.sendRedirect("http://localhost:8080/main");
+        response.sendRedirect("http://15.165.69.44:8080/main");
     }
 
     private User parseUserInfo(String data) throws JsonProcessingException {
