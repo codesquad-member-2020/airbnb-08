@@ -6,6 +6,7 @@ import PriceModal from "@PriceModal/PriceModal";
 import { useSelector, useDispatch } from "react-redux";
 import moment from "moment";
 import { savePriceRange } from "@/actions/priceRangeAction";
+import { search } from "@/actions/searchAction";
 
 const Wrapper = styled.div`
   position: relative;
@@ -76,10 +77,10 @@ const FilterButton = ({
         <CalendarModal
           dateVisible={dateVisible}
           modal={modal}
-          closeClickHandler={filterButtonClickHandler}
+          closeClickHandler={saveButtonClickHandler}
         />
         {guestVisible && (
-          <GuestCountModal modal={modal} closeClickHandler={filterButtonClickHandler} />
+          <GuestCountModal modal={modal} closeClickHandler={saveButtonClickHandler} />
         )}
         {priceVisible && <PriceModal modal={modal} closeClickHandler={saveButtonClickHandler} />}
       </Wrapper>
