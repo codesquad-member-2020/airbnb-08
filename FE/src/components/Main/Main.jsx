@@ -8,10 +8,8 @@ import theme from "@/style/theme";
 import useFetch from "@/common/lib/useFetch";
 import useIntersect from "@/common/lib/useIntersect";
 import { API_URL } from "@/common/config";
-import { useSelector, useDispatch } from "react-redux";
-import axios from "axios";
+import { useSelector } from "react-redux";
 import moment from "moment";
-import { search } from "@/actions/searchAction";
 
 const StyleReset = createGlobalStyle`
   ${reset};
@@ -52,55 +50,23 @@ const Main = () => {
   const {
     guestCountReducer: { adultCount, childrenCount, babyCount },
     datePickerReducer: { startDate, endDate },
-    priceRangeReducer: { priceRange, isSaved, isDeleted },
+    priceRangeReducer: { priceRange },
     searchReducer: { isSearched },
   } = useSelector((state) => state);
 
-  let fetchData;
-  const dispatch = useDispatch();
-  useEffect(() => {
-    if (isSearched === false) return;
-    searchFetch();
-    dispatch(search(false));
-  }, [isSearched]);
-  const searchFetch = () => {
-    axios({
-      method: "get",
-      url: API_URL.main,
-      params: {
+  const searchParams = isSearched
+    ? {
         checkInDate: moment(startDate).format("yyyy-MM-DD"),
         checkOutDate: moment(endDate).format("yyyy-MM-DD"),
-
         numberOfAdults: adultCount,
         numberOfKids: childrenCount,
         numberOfBabies: babyCount,
-
         lowestPrice: priceRange[0],
         highestPrice: priceRange[1],
-      },
-    })
-      .then((response) => {
-        // console.log(response.data);
-        fetchData = response.data;
-        console.log(fetchData);
-      })
-      .catch((e) => setError(e));
-  };
-  const [loading, response, error] = useFetch(API_URL.main, "get", {
-    reservationDate: {
-      checkInDate: moment(startDate).format("yyyy-MM-DD"),
-      checkOutDate: moment(endDate).format("yyyy-MM-DD"),
-    },
-    guest: {
-      numberOfAdults: adultCount,
-      numberOfKids: childrenCount,
-      numberOfBabies: babyCount,
-    },
-    budget: {
-      lowestPrice: priceRange[0],
-      highestPrice: priceRange[1],
-    },
-  });
+      }
+    : null;
+
+  const [loading, response, error] = useFetch(API_URL.main, "get", searchParams);
 
   const fakeFetch = (delay = 1000) => new Promise((res) => setTimeout(res, delay));
 
@@ -124,11 +90,8 @@ const Main = () => {
   }, {});
 
   const { itemCount, isLoading } = state;
-  if (!itemCount) return null;
 
-  if (loading) {
-    return <div>loading...</div>;
-  }
+  if (!itemCount) return null;
 
   if (!response) return null;
 
@@ -183,11 +146,15 @@ const Main = () => {
               modal="price"
             ></FilterButton>
           </FilterButtonWrapper>
-          <ResultTitle>{}개의 숙소</ResultTitle>
+          <ResultTitle>{data.numberOfRooms}개의 숙소</ResultTitle>
           <AccommodationWrapper>
-            {data.rooms.slice(0, itemCount).map((list) => (
-              <Accommodation roomData={list} key={list.roomdId} />
-            ))}
+            {loading ? (
+              <div>loading....</div>
+            ) : (
+              data.rooms
+                .slice(0, itemCount)
+                .map((list) => <Accommodation roomData={list} key={list.roomdId} />)
+            )}
             <div ref={setRef} className="Loading">
               {isLoading && <Wrapper style={{ height: "400px" }}>Loading...</Wrapper>}
             </div>
