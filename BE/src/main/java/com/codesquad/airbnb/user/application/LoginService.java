@@ -9,17 +9,15 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseCookie;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
-import java.util.Locale;
+import java.net.URI;
 
 import static com.codesquad.airbnb.user.application.GitHubApiUtils.request;
 import static com.codesquad.airbnb.user.application.JwtUtils.createToken;
@@ -32,6 +30,19 @@ public class LoginService {
     private final ObjectMapper mapper;
 
     private final GitHubOAuthProperty gitHubOAuthProperty;
+
+    public HttpHeaders oauth() {
+        HttpHeaders headers = new HttpHeaders();
+
+        URI uri = UriComponentsBuilder.fromUriString("https://github.com/login/oauth/authorize")
+                .queryParam("client_id", gitHubOAuthProperty.getClientId())
+                .queryParam("scope", "user")
+                .build()
+                .toUri();
+
+        headers.setLocation(uri);
+        return headers;
+    }
 
     public ResponseEntity<Void> login(String code, HttpServletResponse response) throws IOException {
         User user = requestUserInfo(code);
@@ -59,7 +70,7 @@ public class LoginService {
                 .build();
 
         response.setHeader(HttpHeaders.SET_COOKIE, cookie.toString());
-        response.sendRedirect("http://15.165.69.44:8080/main");
+        response.sendRedirect("http://15.165.69.44/api/main");
     }
 
     private User parseUserInfo(String data) throws JsonProcessingException {

@@ -13,6 +13,10 @@ import org.springframework.stereotype.Component;
 @ToString
 public class GitHubOAuthProperty {
 
+    private String oauthBaseUrl;
+
+    private String oauthParameterUrl;
+
     private String userApiUrl;
 
     private String accessTokenUrl;
