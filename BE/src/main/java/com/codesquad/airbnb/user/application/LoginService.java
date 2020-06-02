@@ -59,7 +59,7 @@ public class LoginService {
                 .build();
 
         response.setHeader(HttpHeaders.SET_COOKIE, cookie.toString());
-        response.sendRedirect("http://localhost:8080/main?checkInDate=2020-05-23&checkOutDate=2020-05-24");
+        response.sendRedirect("http://localhost:8080/main");
     }
 
     private User parseUserInfo(String data) throws JsonProcessingException {

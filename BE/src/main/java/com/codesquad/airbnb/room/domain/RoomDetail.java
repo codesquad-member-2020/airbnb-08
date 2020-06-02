@@ -11,7 +11,7 @@ import java.util.List;
 @ToString
 public class RoomDetail {
 
-    private Long roomdId;
+    private Long roomId;
 
     private String roomName;
 

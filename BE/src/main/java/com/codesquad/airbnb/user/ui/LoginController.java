@@ -1,7 +1,6 @@
 package com.codesquad.airbnb.user.ui;
 
 import com.codesquad.airbnb.user.application.LoginService;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
