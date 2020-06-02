@@ -36,12 +36,13 @@ const FilterButton = ({
     priceRangeReducer: { priceRange, isSaved, isDeleted },
   } = useSelector((state) => state);
 
+  const start = moment(startDate).format("yyyy-MM-DD");
+  const end = moment(endDate).format("yyyy-MM-DD");
   const showResult = () => {
     switch (modal) {
       case "date":
         if (!startDate && !endDate) return "날짜";
-        const start = moment(startDate).format("yyyy-MM-DD");
-        const end = moment(endDate).format("yyyy-MM-DD");
+
         return start && !endDate ? `${start} - 체크아웃` : `${start} - ${end}`;
       case "guest":
         if (!totalCount && !babyCount) return "인원";
