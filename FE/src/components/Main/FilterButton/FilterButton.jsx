@@ -58,8 +58,9 @@ const FilterButton = ({
 
   const dispatch = useDispatch();
   const saveButtonClickHandler = () => {
-    dispatch(savePriceRange());
+    if (modal === "price") dispatch(savePriceRange());
     filterButtonClickHandler(modal);
+    dispatch(search(true));
   };
 
   return (
