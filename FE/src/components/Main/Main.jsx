@@ -6,7 +6,7 @@ import Accommodation from "@/components/Main/Accommodation/Accommodation";
 import FilterButton from "@/components/Main/FilterButton/FilterButton";
 import theme from "@/style/theme";
 import useFetch from "@/common/lib/useFetch";
-// import useIntersect from "@/common/lib/useIntersect";
+import useIntersect from "@/common/lib/useIntersect";
 import { API_URL } from "@/common/config";
 
 const StyleReset = createGlobalStyle`
@@ -43,7 +43,32 @@ const Main = () => {
   const [guestVisible, setGuestVisible] = useState(false);
   const [priceVisible, setPriceVisible] = useState(false);
 
-  let [loading, response, error] = useFetch(API_URL.main);
+  const [state, setState] = useState({ itemCount: 0, isLoading: false });
+  const [loading, response, error] = useFetch(API_URL.main);
+
+  const fakeFetch = (delay = 1000) => new Promise((res) => setTimeout(res, delay));
+
+  const fetchItems = async () => {
+    setState((prev) => ({ ...prev, isLoading: true }));
+    await fakeFetch();
+    setState((prev) => ({
+      itemCount: prev.itemCount + 9,
+      isLoading: false,
+    }));
+  };
+
+  useEffect(() => {
+    fetchItems();
+  }, []);
+
+  const [_, setRef] = useIntersect(async (entry, observer) => {
+    observer.unobserve(entry.target);
+    await fetchItems();
+    observer.observe(entry.target);
+  }, {});
+
+  const { itemCount, isLoading } = state;
+  if (!itemCount) return null;
 
   if (loading) {
     return <div>loading...</div>;
@@ -103,11 +128,13 @@ const Main = () => {
             ></FilterButton>
           </FilterButtonWrapper>
           <ResultTitle>300개 이상의 숙소</ResultTitle>
-
           <AccommodationWrapper>
-            {data.rooms.map((list, index) => (
-              <Accommodation roomData={list} key={index} />
+            {data.rooms.slice(0, itemCount).map((list) => (
+              <Accommodation roomData={list} key={list.roomdId} />
             ))}
+            <div ref={setRef} className="Loading">
+              {isLoading && <Wrapper style={{ height: "400px" }}>Loading...</Wrapper>}
+            </div>
           </AccommodationWrapper>
         </ThemeProvider>
       </Wrapper>
