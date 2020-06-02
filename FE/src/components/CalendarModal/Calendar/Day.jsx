@@ -3,7 +3,7 @@ import { useRef, useContext } from "react";
 import { useDay } from "@datepicker-react/hooks";
 import { jsx } from "@emotion/core";
 import DatepickerContext from "./DatepickerContext";
-import getColor from "@/common/calendarUtil/getColor";
+import getColor from "@CalendarModal/Calendar/getColor";
 
 function Day({ dayLabel, date }) {
   const dayRef = useRef(null);
@@ -47,6 +47,29 @@ function Day({ dayLabel, date }) {
 
   const getColorFn = getColor(isSelected, isSelectedStartOrEnd, isWithinHoverRange, disabledDate);
 
+  const dayStyle = {
+    fontWeight: "bold",
+    fontSize: "12px",
+    padding: "16px",
+    border: 0,
+    borderRadius: "30px",
+    outline: 0,
+    color: getColorFn({
+      selectedFirstOrLastColor: "#FFFFFF",
+      normalColor: "#1C1C1C",
+      selectedColor: "#2E2E2E",
+      rangeHoverColor: "#2E2E2E",
+      disabledColor: "#808285",
+    }),
+    background: getColorFn({
+      selectedFirstOrLastColor: "#2E2E2E",
+      normalColor: "#FFFFFF",
+      selectedColor: "#F2F2F2",
+      rangeHoverColor: "#F2F2F2",
+      disabledColor: "#FFFFFF",
+    }),
+  };
+
   return (
     <button
       onClick={onClick}
@@ -55,28 +78,7 @@ function Day({ dayLabel, date }) {
       tabIndex={tabIndex}
       type="button"
       ref={dayRef}
-      css={{
-        fontWeight: "bold",
-        fontSize: "12px",
-        padding: "16px",
-        border: 0,
-        borderRadius: "30px",
-        outline: 0,
-        color: getColorFn({
-          selectedFirstOrLastColor: "#FFFFFF",
-          normalColor: "#1C1C1C",
-          selectedColor: "#2E2E2E",
-          rangeHoverColor: "#2E2E2E",
-          disabledColor: "#808285",
-        }),
-        background: getColorFn({
-          selectedFirstOrLastColor: "#2E2E2E",
-          normalColor: "#FFFFFF",
-          selectedColor: "#F2F2F2",
-          rangeHoverColor: "#F2F2F2",
-          disabledColor: "#FFFFFF",
-        }),
-      }}
+      css={dayStyle}
     >
       {dayLabel}
     </button>

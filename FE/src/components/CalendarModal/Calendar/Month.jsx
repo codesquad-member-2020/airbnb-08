@@ -10,38 +10,41 @@ function Month({ year, month, firstDayOfWeek }) {
     firstDayOfWeek,
   });
 
+  const wrapperStyle = { textAlign: "center", margin: "0 0 16px" };
+
+  const weekStyle = {
+    display: "grid",
+    gridTemplateColumns: "repeat(7, 1fr)",
+    justifyContent: "center",
+    marginBottom: "10px",
+    fontSize: "10px",
+  };
+
+  const weekdayLabelStyle = { textAlign: "center" };
+
+  const dayStyle = {
+    display: "grid",
+    gridTemplateColumns: "repeat(7, 1fr)",
+    justifyContent: "center",
+  };
+
   return (
     <div>
-      <div css={{ textAlign: "center", margin: "0 0 16px" }}>
+      <div css={wrapperStyle}>
         <strong>{monthLabel}</strong>
       </div>
-      <div
-        css={{
-          display: "grid",
-          gridTemplateColumns: "repeat(7, 1fr)",
-          justifyContent: "center",
-          marginBottom: "10px",
-          fontSize: "10px",
-        }}
-      >
+      <div css={weekStyle}>
         {weekdayLabels.map((dayLabel) => (
-          <div css={{ textAlign: "center" }} key={dayLabel}>
+          <div css={weekdayLabelStyle} key={dayLabel}>
             {dayLabel}
           </div>
         ))}
       </div>
-      <div
-        css={{
-          display: "grid",
-          gridTemplateColumns: "repeat(7, 1fr)",
-          justifyContent: "center",
-        }}
-      >
+      <div css={dayStyle}>
         {days.map((day, index) => {
           if (typeof day === "object") {
             return <Day date={day.date} key={day.date.toString()} dayLabel={day.dayLabel} />;
           }
-
           return <div key={index} />;
         })}
       </div>

@@ -5,9 +5,12 @@ import NavButton from "@CalendarModal/Calendar/NavButton";
 import DatepickerContext from "@CalendarModal/Calendar/DatepickerContext";
 import ModalButtons from "@/components/ModalButtons";
 import { initialState, datePickerReducer } from "@/reducers/datePickerReducer";
+import { focusChange, dateChange, dateDelete } from "@/actions/datePickerAction";
+import { useDispatch } from "react-redux";
 
 const Datepicker = ({ closeClickHandler, modal }) => {
-  const [state, dispatch] = useReducer(datePickerReducer, initialState);
+  const [state, reducerDispatch] = useReducer(datePickerReducer, initialState);
+  const reduxDispatch = useDispatch();
 
   const {
     firstDayOfWeek,
@@ -27,14 +30,17 @@ const Datepicker = ({ closeClickHandler, modal }) => {
     startDate: state.startDate,
     endDate: state.endDate,
     focusedInput: state.focusedInput,
-    // onDatesChange: handleDateChange
-    onDatesChange: (data) => dispatch({ type: "dateChange", payload: data }),
-    onFocusChange: (focusedInput) => dispatch({ type: "focusChange", payload: focusedInput }),
+    onDatesChange: (data) => {
+      reducerDispatch(dateChange(data));
+      reduxDispatch(dateChange(data));
+    },
+    onFocusChange: (focusedInput) => reducerDispatch(focusChange(focusedInput)),
     minBookingDate: new Date(),
   });
 
   const deleteClickHandler = () => {
-    dispatch({ type: "dateDelete" });
+    reducerDispatch(dateDelete());
+    reduxDispatch(dateDelete());
   };
 
   return (
@@ -75,7 +81,6 @@ const Datepicker = ({ closeClickHandler, modal }) => {
           margin: "0 30px 0 30px",
         }}
       >
-        {console.log(state.startDate, state.endDate, state.focusedInput)}
         {activeMonths.map((month) => (
           <Month
             key={`${month.year}-${month.month}`}

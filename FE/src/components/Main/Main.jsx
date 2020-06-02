@@ -16,14 +16,13 @@ const StyleReset = createGlobalStyle`
 const Wrapper = styled.div`
   width: 1200px;
   margin: auto;
-  position: relative;
 `;
 
 const ResultTitle = styled.div`
   margin: 40px 0px 10px 10px;
   font-size: 24px;
   font-weight: bold;
-  color: ${(props) => props.theme.mainColor};
+  color: ${({ theme }) => theme.mainColor};
 `;
 
 const FilterButtonWrapper = styled.div`
@@ -45,12 +44,18 @@ const Main = () => {
     switch (modal) {
       case "date":
         setDateVisible(!dateVisible);
+        setGuestVisible(false);
+        setPriceVisible(false);
         break;
       case "guest":
         setGuestVisible(!guestVisible);
+        setDateVisible(false);
+        setPriceVisible(false);
         break;
       case "price":
         setPriceVisible(!priceVisible);
+        setDateVisible(false);
+        setGuestVisible(false);
         break;
       default:
         break;
