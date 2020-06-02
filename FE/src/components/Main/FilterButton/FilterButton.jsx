@@ -7,6 +7,8 @@ import { useSelector, useDispatch } from "react-redux";
 import moment from "moment";
 import { savePriceRange } from "@/actions/priceRangeAction";
 import { search } from "@/actions/searchAction";
+import { API_URL } from "@/common/config";
+import useFetch from "@/common/lib/useFetch";
 
 const Wrapper = styled.div`
   position: relative;
@@ -57,6 +59,11 @@ const FilterButton = ({
         break;
     }
   };
+
+  const [loading, response, error] = useFetch(API_URL.budget, "get", {
+    checkInDate: start,
+    checkOutDate: end,
+  });
 
   const dispatch = useDispatch();
   const saveButtonClickHandler = () => {
