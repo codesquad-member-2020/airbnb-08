@@ -1,10 +1,20 @@
 import React, { useRef, useState, useEffect } from "react";
-import styled from "styled-components";
+import styled, { keyframes, createGlobalStyle } from "styled-components";
+import placeholder from "@/image/placeholder.png";
 
 const Wrapper = styled.div`
   width: 400px;
+  height: 454px;
   box-sizing: border-box;
   padding: 10px;
+`;
+
+const shine = keyframes`
+  to {
+    background-position:
+      100% 0,
+      200px 0;
+  }
 `;
 
 const RoomImage = styled.img`
@@ -22,6 +32,22 @@ const RoomInfoWrapper = styled.div`
 
 const BadgeCountryWrapper = styled.div`
   display: flex;
+  &:empty {
+    height: 21px;
+    width: 130px;
+    border-radius: 15px;
+    background-repeat: repeat-x;
+    background-image: linear-gradient(
+        100deg,
+        rgba(255, 255, 255, 0),
+        rgba(255, 255, 255, 0.5) 50%,
+        rgba(255, 255, 255, 0) 80%
+      ),
+      linear-gradient(#eeeeee 20px, transparent 0);
+    background-size: 200px 70px, 200px 300px;
+    background-position: 0 0, 200px 0;
+    animation: ${shine} 1s infinite;
+  }
 `;
 
 const Badge = styled.div`
@@ -47,20 +73,62 @@ const Rating = styled.div`
   span {
     color: ${({ theme }) => theme.mainColor};
   }
+  &:empty {
+    width: 55px;
+    height: 21px;
+    border-radius: 15px;
+    background-repeat: repeat-x;
+    background-image: linear-gradient(
+        100deg,
+        rgba(255, 255, 255, 0),
+        rgba(255, 255, 255, 0.5) 50%,
+        rgba(255, 255, 255, 0) 80%
+      ),
+      linear-gradient(#eeeeee 20px, transparent 0);
+    background-size: 200px 70px, 200px 300px;
+    background-position: 0 0, 200px 0;
+    animation: ${shine} 1s infinite;
+  }
 `;
 
 const Title = styled.div`
   width: 100%;
+  height: 20px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
   font-size: ${({ theme }) => theme.large};
   margin-bottom: 10px;
+  &:empty {
+    height: 18px;
+    border-radius: 15px;
+    background-repeat: repeat-x;
+    background-image: linear-gradient(
+        100deg,
+        rgba(255, 255, 255, 0),
+        rgba(255, 255, 255, 0.5) 50%,
+        rgba(255, 255, 255, 0) 80%
+      ),
+      linear-gradient(#eeeeee 20px, transparent 0);
+    background-size: 200px 70px, 200px 300px;
+    background-position: 0 0, 200px 0;
+    animation: ${shine} 1s infinite;
+  }
 `;
 
 const PriceWrapper = styled.div`
   display: flex;
   margin-bottom: 10px;
+  &:empty {
+    height: 18px;
+    width: 190px;
+    border-radius: 15px;
+    background-repeat: repeat-x;
+    background-image: 
+    background-size: 200px 70px, 200px 300px;
+    background-position: 0 0, 200px 0;
+    animation: ${shine} 1s infinite;
+  }
 `;
 
 const OriginalPrice = styled.div`
@@ -87,6 +155,22 @@ const PriceReservationWrapper = styled.div`
 const TotalPrice = styled.div`
   font-size: ${({ theme }) => theme.medium};
   color: ${({ theme }) => theme.subColor};
+  &:empty {
+    height: 17px;
+    width: 150px;
+    border-radius: 15px;
+    background-repeat: repeat-x;
+    background-image: linear-gradient(
+        100deg,
+        rgba(255, 255, 255, 0),
+        rgba(255, 255, 255, 0.5) 50%,
+        rgba(255, 255, 255, 0) 80%
+      ),
+      linear-gradient(#eeeeee 20px, transparent 0);
+    background-size: 200px 70px, 200px 300px;
+    background-position: 0 0, 200px 0;
+    animation: ${shine} 1s infinite;
+  }
 `;
 
 const ReservationButton = styled.button`
@@ -99,6 +183,19 @@ const ReservationButton = styled.button`
   border: 0;
   outline: 0;
   border-radius: 5px;
+  &:empty {
+    height: 32px;
+    background-repeat: repeat-x;
+    background-image: linear-gradient(
+      100deg,
+      rgba(255, 255, 255, 0),
+      rgba(255, 255, 255, 0.5) 50%,
+      rgba(255, 255, 255, 0) 80%
+    );
+    background-size: 200px 70px;
+    background-position: 0 0;
+    animation: ${shine} 1s infinite;
+  }
 `;
 
 const Accommodation = ({ roomData }) => {
@@ -106,20 +203,22 @@ const Accommodation = ({ roomData }) => {
   const observerRef = useRef();
   const [isLoad, setIsLoad] = useState(false);
 
-  function onIntersection(entries, io) {
+  const onIntersection = (entries, io) => {
+    let count = 0;
     entries.forEach((entry) => {
       if (entry.isIntersecting) {
+        console.log(++count);
         io.unobserve(entry.target);
         setIsLoad(true);
       }
     });
-  }
+  };
 
   useEffect(() => {
     if (!observerRef.current) {
       observerRef.current = new IntersectionObserver(onIntersection, {
-        // 확인을 위해 이미지 절반이 나타날 때 로딩한다.
-        threshold: 0,
+        root: null,
+        threshold: 1,
       });
     }
 
@@ -133,8 +232,9 @@ const Accommodation = ({ roomData }) => {
     price: { originPrice, salesPrice, totalPrice },
     reviewScoresRating,
     roomName,
-    roomId,
+    roomdId,
   } = roomData;
+
   return (
     <>
       <Wrapper ref={imgRef}>
@@ -158,10 +258,22 @@ const Accommodation = ({ roomData }) => {
             <PriceReservationWrapper>
               <TotalPrice>총 요금 : ￦{totalPrice}(?)</TotalPrice>
               <ReservationButton>예약</ReservationButton>
-            </PriceReservationWrapper>{" "}
+            </PriceReservationWrapper>
           </>
         ) : (
-          <div></div>
+          <>
+            <RoomImage src={placeholder} />
+            <RoomInfoWrapper>
+              <BadgeCountryWrapper />
+              <Rating />
+            </RoomInfoWrapper>
+            <Title />
+            <PriceWrapper />
+            <PriceReservationWrapper>
+              <TotalPrice />
+              <ReservationButton />
+            </PriceReservationWrapper>
+          </>
         )}
       </Wrapper>
     </>
