@@ -14,7 +14,6 @@ const useFetch = (api) => {
       .get(api)
       .then((response) => {
         setResolved(response.data);
-        // console.log(response.data);
         setLoading(false);
       })
       .catch((e) => setError(e));
