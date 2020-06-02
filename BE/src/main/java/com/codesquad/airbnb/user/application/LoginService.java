@@ -1,7 +1,7 @@
 package com.codesquad.airbnb.user.application;
 
-import com.codesquad.airbnb.user.domain.GitHubOAuthProperty;
 import com.codesquad.airbnb.user.domain.GitHubAccessToken;
+import com.codesquad.airbnb.user.domain.GitHubOAuthProperty;
 import com.codesquad.airbnb.user.domain.GitHubTokenRequest;
 import com.codesquad.airbnb.user.domain.User;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -15,11 +15,9 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.servlet.http.HttpServletResponse;
-
 import java.io.IOException;
 import java.net.URI;
 
-import static com.codesquad.airbnb.user.application.GitHubApiUtils.request;
 import static com.codesquad.airbnb.user.application.JwtUtils.createToken;
 
 @Slf4j
@@ -55,7 +53,12 @@ public class LoginService {
                 .postForObject(gitHubOAuthProperty.getAccessTokenUrl(), new GitHubTokenRequest(code, gitHubOAuthProperty), GitHubAccessToken.class)
                 .getAccessToken();
 
-        String userData = request(accessToken, gitHubOAuthProperty.getUserApiUrl()).getBody();
+        HttpHeaders headers = new HttpHeaders();
+        headers.setBearerAuth(accessToken);
+
+        HttpEntity<String> entity = new HttpEntity<>(headers);
+
+        String userData = new RestTemplate().exchange(accessToken, HttpMethod.GET, entity, String.class).getBody();
         return parseUserInfo(userData);
     }
 
@@ -65,7 +68,7 @@ public class LoginService {
                 .sameSite("Strict")
                 .secure(true)
                 .path("/")
-                .maxAge(60*60*24)
+                .maxAge(60 * 60 * 24)
                 .httpOnly(true)
                 .build();
 
