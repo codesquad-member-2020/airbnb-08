@@ -1,10 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled, { createGlobalStyle, ThemeProvider } from "styled-components";
 import reset from "styled-reset";
 import Header from "@/components/Header/Header";
 import Accommodation from "@/components/Main/Accommodation/Accommodation";
 import FilterButton from "@/components/Main/FilterButton/FilterButton";
 import theme from "@/style/theme";
+import useFetch from "@/common/lib/useFetch";
+import useIntersect from "@/common/lib/useIntersect";
+import { API_URL } from "@/common/config";
 
 const StyleReset = createGlobalStyle`
   ${reset};
@@ -39,6 +42,45 @@ const Main = () => {
   const [dateVisible, setDateVisible] = useState(false);
   const [guestVisible, setGuestVisible] = useState(false);
   const [priceVisible, setPriceVisible] = useState(false);
+
+  const [state, setState] = useState({ itemCount: 0, isLoading: false });
+  const [loading, response, error] = useFetch(API_URL.main);
+
+  const fakeFetch = (delay = 1000) => new Promise((res) => setTimeout(res, delay));
+
+  const fetchItems = async () => {
+    setState((prev) => ({ ...prev, isLoading: true }));
+    await fakeFetch();
+    setState((prev) => ({
+      itemCount: prev.itemCount + 9,
+      isLoading: false,
+    }));
+  };
+
+  useEffect(() => {
+    fetchItems();
+  }, []);
+
+  const [_, setRef] = useIntersect(async (entry, observer) => {
+    observer.unobserve(entry.target);
+    await fetchItems();
+    observer.observe(entry.target);
+  }, {});
+
+  const { itemCount, isLoading } = state;
+  if (!itemCount) return null;
+
+  if (loading) {
+    return <div>loading...</div>;
+  }
+
+  if (!response) return null;
+
+  if (error) {
+    return <div>error!</div>;
+  }
+
+  const data = response;
 
   const filterButtonClickHandler = (modal) => {
     switch (modal) {
@@ -87,10 +129,12 @@ const Main = () => {
           </FilterButtonWrapper>
           <ResultTitle>300개 이상의 숙소</ResultTitle>
           <AccommodationWrapper>
-            <Accommodation></Accommodation>
-            <Accommodation></Accommodation>
-            <Accommodation></Accommodation>
-            <Accommodation></Accommodation>
+            {data.rooms.slice(0, itemCount).map((list) => (
+              <Accommodation roomData={list} key={list.roomdId} />
+            ))}
+            <div ref={setRef} className="Loading">
+              {isLoading && <Wrapper style={{ height: "400px" }}>Loading...</Wrapper>}
+            </div>
           </AccommodationWrapper>
         </ThemeProvider>
       </Wrapper>

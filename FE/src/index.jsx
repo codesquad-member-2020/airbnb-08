@@ -15,7 +15,7 @@ const store = createStore(
   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
 );
 
-import(/*webpackChunkName: 'app' */ "@/App").then(({ default: App }) =>
+import(/*webpackChunkName: 'App' */ "@/App").then(({ default: App }) =>
   ReactDOM.render(
     <Provider store={store}>
       <App />
