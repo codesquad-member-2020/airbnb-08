@@ -1,0 +1,55 @@
+plugins {
+    id 'org.springframework.boot' version '2.3.0.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.9.RELEASE'
+    id 'java'
+    id 'war' //war 설
+}
+
+group = 'com.codesquad'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '1.8'
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+bootWar {
+    archiveFileName = "ROOT.war"	// 해당하는 이름으로 war 생성
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    //Nullable 어노테이션 사용 의존성 추가(안하면 배포시 javax.annotation.meta.When 오류 발생)
+    implementation 'com.google.code.findbugs:jsr305:3.0.2'
+
+    // @Valid 어노테이션
+    implementation 'javax.validation:validation-api:2.0.1.Final'
+
+    // hibernate validation
+    implementation 'org.hibernate:hibernate-validator:7.0.0.Alpha2'
+
+    // 외부 톰캣 설정
+    providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
+
+    // 암호화
+    implementation 'com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.2'
+
+    implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    compileOnly 'org.projectlombok:lombok'
+    runtimeOnly 'mysql:mysql-connector-java'
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+    annotationProcessor 'org.projectlombok:lombok'
+    testImplementation('org.springframework.boot:spring-boot-starter-test') {
+        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+    }
+}
+
+test {
+    useJUnitPlatform()
+}
