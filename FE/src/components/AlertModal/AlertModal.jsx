@@ -1,9 +1,9 @@
 import React from "react";
 import styled from "styled-components";
 
-const Modal = styled.div`
+const Background = styled.div`
   position: fixed;
-  z-index: 1;
+  z-index: 50;
   padding-top: 100px;
   left: 0;
   top: 0;
@@ -14,7 +14,14 @@ const Modal = styled.div`
   background-color: rgba(0, 0, 0, 0.4);
 `;
 
+const Modal = styled.div`
+  display: flex;
+  justify-content: center;
+`;
+
 const AlertWrapper = styled.div`
+  position: fixed;
+  z-index: 100;
   background: white;
   border: solid 1px ${({ theme }) => theme.subColor};
   border-radius: 10px;
@@ -56,15 +63,18 @@ const Button = styled.button`
 
 const AlertModal = ({ message, alertCloseHandler }) => {
   return (
-    <Modal>
-      <AlertWrapper>
-        <Title>경고</Title>
-        <Message>{message}</Message>
-        <ButtonWrapper>
-          <Button onClick={alertCloseHandler}>확인</Button>
-        </ButtonWrapper>
-      </AlertWrapper>
-    </Modal>
+    <>
+      <Background onClick={alertCloseHandler} />
+      <Modal>
+        <AlertWrapper>
+          <Title>경고</Title>
+          <Message>{message}</Message>
+          <ButtonWrapper>
+            <Button onClick={alertCloseHandler}>확인</Button>
+          </ButtonWrapper>
+        </AlertWrapper>
+      </Modal>
+    </>
   );
 };
 
