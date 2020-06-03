@@ -4,3 +4,9 @@ export const search = (payload) => {
     payload,
   };
 };
+
+export const changeFirst = () => {
+  return {
+    type: "changeFirst",
+  };
+};
