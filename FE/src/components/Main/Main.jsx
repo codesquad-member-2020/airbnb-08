@@ -116,6 +116,9 @@ const Main = () => {
     }
   };
 
+  const reservationButtonClickHandler = () => {
+    setReservationButtonClicked(!reservationButtonClicked);
+  };
   return (
     <>
       <Wrapper>
