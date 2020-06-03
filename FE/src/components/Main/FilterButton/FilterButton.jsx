@@ -6,6 +6,9 @@ import PriceModal from "@PriceModal/PriceModal";
 import { useSelector, useDispatch } from "react-redux";
 import moment from "moment";
 import { savePriceRange } from "@/actions/priceRangeAction";
+import { search } from "@/actions/searchAction";
+import { API_URL } from "@/common/config";
+import useFetch from "@/common/lib/useFetch";
 
 const Wrapper = styled.div`
   position: relative;
@@ -35,12 +38,13 @@ const FilterButton = ({
     priceRangeReducer: { priceRange, isSaved, isDeleted },
   } = useSelector((state) => state);
 
+  const start = moment(startDate).format("yyyy-MM-DD");
+  const end = moment(endDate).format("yyyy-MM-DD");
   const showResult = () => {
     switch (modal) {
       case "date":
         if (!startDate && !endDate) return "날짜";
-        const start = moment(startDate).format("yyyy-MM-DD");
-        const end = moment(endDate).format("yyyy-MM-DD");
+
         return start && !endDate ? `${start} - 체크아웃` : `${start} - ${end}`;
       case "guest":
         if (!totalCount && !babyCount) return "인원";
@@ -56,10 +60,16 @@ const FilterButton = ({
     }
   };
 
+  const [loading, response, error] = useFetch(API_URL.budget, "get", {
+    checkInDate: start,
+    checkOutDate: end,
+  });
+
   const dispatch = useDispatch();
   const saveButtonClickHandler = () => {
-    dispatch(savePriceRange());
+    if (modal === "price") dispatch(savePriceRange());
     filterButtonClickHandler(modal);
+    dispatch(search(true));
   };
 
   return (
@@ -75,12 +85,18 @@ const FilterButton = ({
         <CalendarModal
           dateVisible={dateVisible}
           modal={modal}
-          closeClickHandler={filterButtonClickHandler}
+          closeClickHandler={saveButtonClickHandler}
         />
         {guestVisible && (
-          <GuestCountModal modal={modal} closeClickHandler={filterButtonClickHandler} />
+          <GuestCountModal modal={modal} closeClickHandler={saveButtonClickHandler} />
         )}
-        {priceVisible && <PriceModal modal={modal} closeClickHandler={saveButtonClickHandler} />}
+        {priceVisible && (
+          <PriceModal
+            modal={modal}
+            priceData={response}
+            closeClickHandler={saveButtonClickHandler}
+          />
+        )}
       </Wrapper>
     </>
   );

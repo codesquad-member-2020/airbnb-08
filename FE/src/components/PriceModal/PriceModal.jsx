@@ -21,7 +21,7 @@ const Modal = styled.div`
   align-items: center;
 `;
 
-const PriceModal = ({ closeClickHandler }) => {
+const PriceModal = ({ closeClickHandler, priceData }) => {
   const dispatch = useDispatch();
 
   const deleteClickHandler = () => {
@@ -30,8 +30,8 @@ const PriceModal = ({ closeClickHandler }) => {
 
   return (
     <Modal>
-      <PriceRangeChart></PriceRangeChart>
-      <SelectedRange></SelectedRange>
+      <PriceRangeChart priceData={priceData} />
+      <SelectedRange />
       <ModalButtons
         deleteClickHandler={deleteClickHandler}
         closeClickHandler={closeClickHandler}

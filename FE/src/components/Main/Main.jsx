@@ -8,6 +8,8 @@ import theme from "@/style/theme";
 import useFetch from "@/common/lib/useFetch";
 import useIntersect from "@/common/lib/useIntersect";
 import { API_URL } from "@/common/config";
+import { useSelector } from "react-redux";
+import moment from "moment";
 
 const StyleReset = createGlobalStyle`
   ${reset};
@@ -43,18 +45,31 @@ const Main = () => {
   const [guestVisible, setGuestVisible] = useState(false);
   const [priceVisible, setPriceVisible] = useState(false);
 
-  const [state, setState] = useState({ itemCount: 0, isLoading: false });
-  const [loading, response, error] = useFetch(API_URL.main);
+  const [itemCount, setItemCount] = useState(0);
 
-  const fakeFetch = (delay = 1000) => new Promise((res) => setTimeout(res, delay));
+  const {
+    guestCountReducer: { adultCount, childrenCount, babyCount },
+    datePickerReducer: { startDate, endDate },
+    priceRangeReducer: { priceRange },
+    searchReducer: { isSearched },
+  } = useSelector((state) => state);
+
+  const searchParams = isSearched
+    ? {
+        checkInDate: moment(startDate).format("yyyy-MM-DD"),
+        checkOutDate: moment(endDate).format("yyyy-MM-DD"),
+        numberOfAdults: adultCount,
+        numberOfKids: childrenCount,
+        numberOfBabies: babyCount,
+        lowestPrice: priceRange[0],
+        highestPrice: priceRange[1],
+      }
+    : null;
+
+  const [loading, response, error] = useFetch(API_URL.main, "get", searchParams);
 
   const fetchItems = async () => {
-    setState((prev) => ({ ...prev, isLoading: true }));
-    await fakeFetch();
-    setState((prev) => ({
-      itemCount: prev.itemCount + 9,
-      isLoading: false,
-    }));
+    setItemCount((prev) => prev + 9);
   };
 
   useEffect(() => {
@@ -67,12 +82,7 @@ const Main = () => {
     observer.observe(entry.target);
   }, {});
 
-  const { itemCount, isLoading } = state;
   if (!itemCount) return null;
-
-  if (loading) {
-    return <div>loading...</div>;
-  }
 
   if (!response) return null;
 
@@ -127,14 +137,16 @@ const Main = () => {
               modal="price"
             ></FilterButton>
           </FilterButtonWrapper>
-          <ResultTitle>300개 이상의 숙소</ResultTitle>
+          <ResultTitle>{data.numberOfRooms}개의 숙소</ResultTitle>
           <AccommodationWrapper>
-            {data.rooms.slice(0, itemCount).map((list) => (
-              <Accommodation roomData={list} key={list.roomdId} />
-            ))}
-            <div ref={setRef} className="Loading">
-              {isLoading && <Wrapper style={{ height: "400px" }}>Loading...</Wrapper>}
-            </div>
+            {loading ? (
+              <div>loading....</div>
+            ) : (
+              data.rooms
+                .slice(0, itemCount)
+                .map((list) => <Accommodation roomData={list} key={list.roomId} />)
+            )}
+            <div ref={setRef} />
           </AccommodationWrapper>
         </ThemeProvider>
       </Wrapper>

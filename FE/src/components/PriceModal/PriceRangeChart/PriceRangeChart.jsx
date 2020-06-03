@@ -1,62 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { changePriceRange } from "@/actions/priceRangeAction";
+import { changeFirst } from "@/actions/searchAction";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import Slider from "@material-ui/core/slider";
-
-const counts = [
-  0,
-  28,
-  116,
-  146,
-  150,
-  118,
-  71,
-  94,
-  64,
-  50,
-  34,
-  24,
-  30,
-  7,
-  9,
-  6,
-  4,
-  15,
-  1,
-  3,
-  4,
-  5,
-  2,
-  2,
-  3,
-  3,
-  1,
-  1,
-  1,
-  0,
-  1,
-  0,
-  3,
-  0,
-  200,
-  300,
-  0,
-  0,
-  0,
-  0,
-  1,
-  0,
-  0,
-  1,
-  0,
-  0,
-  0,
-  0,
-  0,
-  2,
-];
 
 const Wrapper = styled.div``;
 
@@ -160,11 +108,12 @@ function AirbnbThumbComponent(props) {
   );
 }
 
-const PriceRangeChart = () => {
+const PriceRangeChart = ({ priceData }) => {
   const dispatch = useDispatch();
   const classes = useStyles();
   const {
     priceRangeReducer: { priceRange },
+    searchReducer: { isFirst },
   } = useSelector((state) => state);
 
   const handleChange = (event, newValue) => {
@@ -176,9 +125,17 @@ const PriceRangeChart = () => {
     else if (type === "R") return (width / 1000000) * (1000000 - value[1]);
   };
 
+  const { counts, lowestPrice, highestPrice, averagePrice, pirces } = priceData;
+
+  useEffect(() => {
+    if (isFirst === false) return;
+    dispatch(changePriceRange([lowestPrice, highestPrice]));
+    dispatch(changeFirst());
+  }, []);
+
   return (
     <Wrapper>
-      <AveragePriceMessage>평균 1박 요금은 ₩175,000입니다.</AveragePriceMessage>
+      <AveragePriceMessage>평균 1박 요금은 ₩{averagePrice}입니다.</AveragePriceMessage>
       <PriceRangeWrapper>
         <GraphWrapper>
           <GraphRangeWrapper>
