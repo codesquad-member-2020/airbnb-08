@@ -45,7 +45,7 @@ const Main = () => {
   const [guestVisible, setGuestVisible] = useState(false);
   const [priceVisible, setPriceVisible] = useState(false);
 
-  const [state, setState] = useState({ itemCount: 0, isLoading: false });
+  const [itemCount, setItemCount] = useState(0);
 
   const {
     guestCountReducer: { adultCount, childrenCount, babyCount },
@@ -68,15 +68,8 @@ const Main = () => {
 
   const [loading, response, error] = useFetch(API_URL.main, "get", searchParams);
 
-  const fakeFetch = (delay = 1000) => new Promise((res) => setTimeout(res, delay));
-
   const fetchItems = async () => {
-    setState((prev) => ({ ...prev, isLoading: true }));
-    await fakeFetch();
-    setState((prev) => ({
-      itemCount: prev.itemCount + 9,
-      isLoading: false,
-    }));
+    setItemCount((prev) => prev + 9);
   };
 
   useEffect(() => {
@@ -88,8 +81,6 @@ const Main = () => {
     await fetchItems();
     observer.observe(entry.target);
   }, {});
-
-  const { itemCount, isLoading } = state;
 
   if (!itemCount) return null;
 
@@ -153,11 +144,9 @@ const Main = () => {
             ) : (
               data.rooms
                 .slice(0, itemCount)
-                .map((list) => <Accommodation roomData={list} key={list.roomdId} />)
+                .map((list) => <Accommodation roomData={list} key={list.roomId} />)
             )}
-            <div ref={setRef} className="Loading">
-              {isLoading && <Wrapper style={{ height: "400px" }}>Loading...</Wrapper>}
-            </div>
+            <div ref={setRef} />
           </AccommodationWrapper>
         </ThemeProvider>
       </Wrapper>
