@@ -7,6 +7,7 @@ import useFetch from "@/common/lib/useFetch";
 import GuestCountModal from "@GuestCountModal/GuestCountModal";
 import CalendarModal from "@CalendarModal/CalendarModal";
 import PriceModal from "@PriceModal/PriceModal";
+import AlertModal from "@AlertModal/AlertModal";
 
 import { savePriceRange } from "@/actions/priceRangeAction";
 import { search } from "@/actions/searchAction";
@@ -69,22 +70,30 @@ const FilterButton = ({
   });
 
   const dispatch = useDispatch();
+
   const saveButtonClickHandler = () => {
     if (modal === "price") dispatch(savePriceRange());
+    if (modal === "date") {
+      if (!startDate || !endDate) {
+        setAlertVisible(!alertVisible);
+        return;
+      }
+    }
     filterButtonClickHandler(modal);
     dispatch(search(true));
   };
 
+  const alertCloseHandler = () => {
+    setAlertVisible(!alertVisible);
+  };
+
   return (
     <>
+      {alertVisible && (
+        <AlertModal message="날짜를 모두 선택해 주세요!" alertCloseHandler={alertCloseHandler} />
+      )}
       <Wrapper>
-        <Button
-          onClick={() => {
-            filterButtonClickHandler(modal);
-          }}
-        >
-          {showResult()}
-        </Button>
+        <Button onClick={() => filterButtonClickHandler(modal)}>{showResult()}</Button>
         <CalendarModal
           dateVisible={dateVisible}
           modal={modal}
