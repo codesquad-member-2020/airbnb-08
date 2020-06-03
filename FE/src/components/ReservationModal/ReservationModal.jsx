@@ -1,12 +1,17 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import closeImage from "@/image/closeImage.png";
 import arrowRight from "@/image/arrowRight.png";
 import arrowBottom from "@/image/arrowBottom.png";
 import questionImage from "@/image/questionImage.png";
+import useFetch from "@/common/lib/useFetch";
+import { API_URL } from "@/common/config";
+import { useSelector } from "react-redux";
+import moment from "moment";
+import axios from "axios";
 
 const Wrapper = styled.div`
-  position: absolute;
+  position: fixed;
   width: 100%;
   height: 100%;
   background: rgba(0, 0, 0, 0.5);
@@ -166,75 +171,95 @@ const Message = styled.div`
   margin-top: 17px;
 `;
 
-const ReservationModal = () => {
+const ReservationModal = ({ closeModal }) => {
+  const {
+    guestCountReducer: { adultCount, childrenCount, babyCount },
+    datePickerReducer: { startDate, endDate },
+  } = useSelector((state) => state);
+
+  const params = {
+    roomId: 1,
+    checkInDate: moment(startDate).format("yyyy-MM-DD"),
+    checkOutDate: moment(endDate).format("yyyy-MM-DD"),
+    numberOfAdults: adultCount,
+    numberOfKids: childrenCount,
+    numberOfBabies: babyCount,
+  };
+
+  useEffect(() => {
+    axios({ method: "get", url: API_URL.reservations, params: params })
+      .then((response) => {
+        console.log(response.data);
+      })
+      .catch((e) => console.error(e));
+  }, []);
   return (
-    <Wrapper>
-      <ReservationModalWrapper>
-        <ContentWrapper>
-          <CloseButton>
-            <img style={{ width: "15px" }} src={closeImage} />
-          </CloseButton>
-          <AccommodationPrice>₩99,692</AccommodationPrice>
-          <RatingReviewWrapper>
-            <Rating>
-              ★<span>4.65</span>
-            </Rating>
-            <ReviewCount>(후기 95개)</ReviewCount>
-          </RatingReviewWrapper>
-          <Line />
-          <ReservationContentTitle>날짜</ReservationContentTitle>
-          <ReservationContentWrapper>
-            <ReservationContent>2020.11.23</ReservationContent>
-            <ArrowIcon src={arrowRight} />
-            <ReservationContent>2020.11.24</ReservationContent>
-          </ReservationContentWrapper>
-          <ReservationContentTitle>인원</ReservationContentTitle>
-          <ReservationContentWrapper style={{ justifyContent: "space-between" }}>
-            <ReservationContent>게스트 4명</ReservationContent>
-            <ArrowButton src={arrowBottom} />
-          </ReservationContentWrapper>
-
-          <PriceInfoWrapper>
-            <PriceInfo>
-              ₩99,692 X 14박
-              <QuestionImage src={questionImage} />
-            </PriceInfo>
-            <PriceInfo>₩1,395,682</PriceInfo>
-          </PriceInfoWrapper>
-          <PriceInfoWrapper>
-            <PriceInfo>
-              청소비
-              <QuestionImage src={questionImage} />
-            </PriceInfo>
-            <PriceInfo>₩34,208</PriceInfo>
-          </PriceInfoWrapper>
-          <PriceInfoWrapper>
-            <PriceInfo>
-              서비스 수수료
-              <QuestionImage src={questionImage} />
-            </PriceInfo>
-            <PriceInfo>₩202,511</PriceInfo>
-          </PriceInfoWrapper>
-          <PriceInfoWrapper>
-            <PriceInfo>
-              숙박세와 수수료
-              <QuestionImage src={questionImage} />
-            </PriceInfo>
-            <PriceInfo>₩61,410</PriceInfo>
-          </PriceInfoWrapper>
-          <PriceInfoWrapper style={{ fontWeight: "bold", border: "none" }}>
-            <PriceInfo>합계</PriceInfo>
-            <PriceInfo>₩1,693,811</PriceInfo>
-          </PriceInfoWrapper>
-
-          <ReservationButton>예약하기</ReservationButton>
-          <Message>예약 확정 전에는 요금이 청구되지 않습니다</Message>
-        </ContentWrapper>
-      </ReservationModalWrapper>
-    </Wrapper>
+    <>
+      <Wrapper>
+        <ReservationModalWrapper>
+          <ContentWrapper>
             <CloseButton onClick={closeModal}>
               <img style={{ width: "15px" }} src={closeImage} />
             </CloseButton>
+            <AccommodationPrice>₩99,692</AccommodationPrice>
+            <RatingReviewWrapper>
+              <Rating>
+                ★<span>4.65</span>
+              </Rating>
+              <ReviewCount>(후기 95개)</ReviewCount>
+            </RatingReviewWrapper>
+            <Line />
+            <ReservationContentTitle>날짜</ReservationContentTitle>
+            <ReservationContentWrapper>
+              <ReservationContent>2020.11.23</ReservationContent>
+              <ArrowIcon src={arrowRight} />
+              <ReservationContent>2020.11.24</ReservationContent>
+            </ReservationContentWrapper>
+            <ReservationContentTitle>인원</ReservationContentTitle>
+            <ReservationContentWrapper style={{ justifyContent: "space-between" }}>
+              <ReservationContent>게스트 4명</ReservationContent>
+              <ArrowButton src={arrowBottom} />
+            </ReservationContentWrapper>
+
+            <PriceInfoWrapper>
+              <PriceInfo>
+                ₩99,692 X 14박
+                <QuestionImage src={questionImage} />
+              </PriceInfo>
+              <PriceInfo>₩1,395,682</PriceInfo>
+            </PriceInfoWrapper>
+            <PriceInfoWrapper>
+              <PriceInfo>
+                청소비
+                <QuestionImage src={questionImage} />
+              </PriceInfo>
+              <PriceInfo>₩34,208</PriceInfo>
+            </PriceInfoWrapper>
+            <PriceInfoWrapper>
+              <PriceInfo>
+                서비스 수수료
+                <QuestionImage src={questionImage} />
+              </PriceInfo>
+              <PriceInfo>₩202,511</PriceInfo>
+            </PriceInfoWrapper>
+            <PriceInfoWrapper>
+              <PriceInfo>
+                숙박세와 수수료
+                <QuestionImage src={questionImage} />
+              </PriceInfo>
+              <PriceInfo>₩61,410</PriceInfo>
+            </PriceInfoWrapper>
+            <PriceInfoWrapper style={{ fontWeight: "bold", border: "none" }}>
+              <PriceInfo>합계</PriceInfo>
+              <PriceInfo>₩1,693,811</PriceInfo>
+            </PriceInfoWrapper>
+
+            <ReservationButton>예약하기</ReservationButton>
+            <Message>예약 확정 전에는 요금이 청구되지 않습니다</Message>
+          </ContentWrapper>
+        </ReservationModalWrapper>
+      </Wrapper>
+    </>
   );
 };
 
