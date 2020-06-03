@@ -58,7 +58,7 @@ public class LoginService {
 
         HttpEntity<String> entity = new HttpEntity<>(headers);
 
-        String userData = new RestTemplate().exchange(accessToken, HttpMethod.GET, entity, String.class).getBody();
+        String userData = new RestTemplate().exchange(gitHubOAuthProperty.getUserApiUrl(), HttpMethod.GET, entity, String.class).getBody();
         return parseUserInfo(userData);
     }
 
@@ -73,7 +73,7 @@ public class LoginService {
                 .build();
 
         response.setHeader(HttpHeaders.SET_COOKIE, cookie.toString());
-        response.sendRedirect("http://15.165.69.44/api/main");
+        response.sendRedirect("http://localhost/api/main");
     }
 
     private User parseUserInfo(String data) throws JsonProcessingException {
