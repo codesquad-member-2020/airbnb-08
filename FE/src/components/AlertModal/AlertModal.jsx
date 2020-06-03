@@ -54,14 +54,14 @@ const Button = styled.button`
   }
 `;
 
-const AlertModal = ({ message }) => {
+const AlertModal = ({ message, alertCloseHandler }) => {
   return (
     <Modal>
       <AlertWrapper>
         <Title>경고</Title>
         <Message>{message}</Message>
         <ButtonWrapper>
-          <Button>확인</Button>
+          <Button onClick={alertCloseHandler}>확인</Button>
         </ButtonWrapper>
       </AlertWrapper>
     </Modal>

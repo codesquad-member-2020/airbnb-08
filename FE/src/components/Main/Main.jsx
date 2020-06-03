@@ -122,13 +122,22 @@ const Main = () => {
     }
   };
 
+  const alertCloseHandler = () => {
+    setAlertVisible(!alertVisible);
+  };
+
   return (
     <>
       <Wrapper>
         <ThemeProvider theme={theme}>
           <StyleReset />
           <Header />
-          {alertVisible && <AlertModal message="날짜를 먼저 선택해 주세요!" />}
+          {alertVisible && (
+            <AlertModal
+              message="날짜를 먼저 선택해 주세요!"
+              alertCloseHandler={alertCloseHandler}
+            />
+          )}
           <FilterButtonWrapper>
             <FilterButton
               filterButtonClickHandler={filterButtonClickHandler}
