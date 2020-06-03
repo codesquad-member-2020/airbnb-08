@@ -15,7 +15,7 @@ const Background = styled.div`
 `;
 
 const Modal = styled.div`
-  width: 100%;
+  width: 1200px;
   position: fixed;
   z-index: 100;
 `;
