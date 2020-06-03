@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
 import moment from "moment";
@@ -34,6 +34,8 @@ const FilterButton = ({
   priceVisible,
   modal,
 }) => {
+  const [alertVisible, setAlertVisible] = useState(false);
+
   const {
     guestCountReducer: { totalCount, babyCount },
     datePickerReducer: { startDate, endDate },
