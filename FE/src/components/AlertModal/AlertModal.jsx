@@ -15,13 +15,18 @@ const Background = styled.div`
 `;
 
 const Modal = styled.div`
+  width: 100%;
+  position: fixed;
+  z-index: 100;
+`;
+
+const AlertWrapper = styled.div`
   display: flex;
   justify-content: center;
 `;
 
-const AlertWrapper = styled.div`
+const AlertContents = styled.div`
   position: fixed;
-  z-index: 100;
   background: white;
   border: solid 1px ${({ theme }) => theme.subColor};
   border-radius: 10px;
@@ -67,11 +72,13 @@ const AlertModal = ({ message, alertCloseHandler }) => {
       <Background onClick={alertCloseHandler} />
       <Modal>
         <AlertWrapper>
-          <Title>경고</Title>
-          <Message>{message}</Message>
-          <ButtonWrapper>
-            <Button onClick={alertCloseHandler}>확인</Button>
-          </ButtonWrapper>
+          <AlertContents>
+            <Title>경고</Title>
+            <Message>{message}</Message>
+            <ButtonWrapper>
+              <Button onClick={alertCloseHandler}>확인</Button>
+            </ButtonWrapper>
+          </AlertContents>
         </AlertWrapper>
       </Modal>
     </>
