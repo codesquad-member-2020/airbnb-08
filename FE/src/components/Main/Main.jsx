@@ -149,7 +149,12 @@ const Main = () => {
             ) : (
               data.rooms
                 .slice(0, itemCount)
-                .map((list) => <Accommodation roomData={list} key={list.roomId} />)
+                .map((list) => (
+                  <Accommodation
+                    roomData={list}
+                    reservationButtonClickHandler={reservationButtonClickHandler}
+                  />
+                ))
             )}
             <div ref={setRef} />
           </AccommodationWrapper>

@@ -232,6 +232,9 @@ const ReservationModal = () => {
         </ContentWrapper>
       </ReservationModalWrapper>
     </Wrapper>
+            <CloseButton onClick={closeModal}>
+              <img style={{ width: "15px" }} src={closeImage} />
+            </CloseButton>
   );
 };
 
