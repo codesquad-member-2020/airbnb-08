@@ -158,7 +158,11 @@ const Main = () => {
             )}
             <div ref={setRef} />
           </AccommodationWrapper>
-          <ReservationModal />
+          {!reservationButtonClicked ? (
+            ""
+          ) : (
+            <ReservationModal closeModal={reservationButtonClickHandler} />
+          )}
         </ThemeProvider>
       </Wrapper>
     </>
