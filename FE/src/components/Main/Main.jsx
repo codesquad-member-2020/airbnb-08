@@ -47,6 +47,7 @@ const Main = () => {
   const [dateVisible, setDateVisible] = useState(false);
   const [guestVisible, setGuestVisible] = useState(false);
   const [priceVisible, setPriceVisible] = useState(false);
+  const [alertVisible, setAlertVisible] = useState(false);
 
   const [itemCount, setItemCount] = useState(0);
 
@@ -108,6 +109,10 @@ const Main = () => {
         setPriceVisible(false);
         break;
       case "price":
+        if (!startDate || !endDate) {
+          setAlertVisible(!alertVisible);
+          break;
+        }
         setPriceVisible(!priceVisible);
         setDateVisible(false);
         setGuestVisible(false);
@@ -123,6 +128,7 @@ const Main = () => {
         <ThemeProvider theme={theme}>
           <StyleReset />
           <Header />
+          {alertVisible && <AlertModal message="날짜를 먼저 선택해 주세요!" />}
           <FilterButtonWrapper>
             <FilterButton
               filterButtonClickHandler={filterButtonClickHandler}
