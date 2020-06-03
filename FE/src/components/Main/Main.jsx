@@ -1,15 +1,18 @@
 import React, { useState, useEffect } from "react";
 import styled, { createGlobalStyle, ThemeProvider } from "styled-components";
 import reset from "styled-reset";
+import { useSelector } from "react-redux";
+import moment from "moment";
+
 import Header from "@/components/Header/Header";
 import Accommodation from "@/components/Main/Accommodation/Accommodation";
 import FilterButton from "@/components/Main/FilterButton/FilterButton";
+import AlertModal from "@AlertModal/AlertModal";
+
 import theme from "@/style/theme";
 import useFetch from "@/common/lib/useFetch";
 import useIntersect from "@/common/lib/useIntersect";
 import { API_URL } from "@/common/config";
-import { useSelector } from "react-redux";
-import moment from "moment";
 
 const StyleReset = createGlobalStyle`
   ${reset};

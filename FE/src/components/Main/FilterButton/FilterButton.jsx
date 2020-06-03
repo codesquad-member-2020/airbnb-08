@@ -1,14 +1,16 @@
 import React from "react";
 import styled from "styled-components";
+import { useSelector, useDispatch } from "react-redux";
+import moment from "moment";
+
+import useFetch from "@/common/lib/useFetch";
 import GuestCountModal from "@GuestCountModal/GuestCountModal";
 import CalendarModal from "@CalendarModal/CalendarModal";
 import PriceModal from "@PriceModal/PriceModal";
-import { useSelector, useDispatch } from "react-redux";
-import moment from "moment";
+
 import { savePriceRange } from "@/actions/priceRangeAction";
 import { search } from "@/actions/searchAction";
 import { API_URL } from "@/common/config";
-import useFetch from "@/common/lib/useFetch";
 
 const Wrapper = styled.div`
   position: relative;
@@ -44,7 +46,6 @@ const FilterButton = ({
     switch (modal) {
       case "date":
         if (!startDate && !endDate) return "날짜";
-
         return start && !endDate ? `${start} - 체크아웃` : `${start} - ${end}`;
       case "guest":
         if (!totalCount && !babyCount) return "인원";
