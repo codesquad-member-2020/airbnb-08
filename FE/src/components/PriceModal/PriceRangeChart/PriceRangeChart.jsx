@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { changePriceRange } from "@/actions/priceRangeAction";
+import { changeFirst } from "@/actions/searchAction";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import Slider from "@material-ui/core/slider";
 
@@ -112,6 +113,7 @@ const PriceRangeChart = ({ priceData }) => {
   const classes = useStyles();
   const {
     priceRangeReducer: { priceRange },
+    searchReducer: { isFirst },
   } = useSelector((state) => state);
 
   const handleChange = (event, newValue) => {
@@ -124,8 +126,11 @@ const PriceRangeChart = ({ priceData }) => {
   };
 
   const { counts, lowestPrice, highestPrice, averagePrice, pirces } = priceData;
+
   useEffect(() => {
+    if (isFirst === false) return;
     dispatch(changePriceRange([lowestPrice, highestPrice]));
+    dispatch(changeFirst());
   }, []);
 
   return (
