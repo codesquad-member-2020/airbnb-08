@@ -47,6 +47,7 @@ const Main = () => {
   const [priceVisible, setPriceVisible] = useState(false);
 
   const [itemCount, setItemCount] = useState(0);
+  const [reservationButtonClicked, setReservationButtonClicked] = useState(false);
 
   const {
     guestCountReducer: { adultCount, childrenCount, babyCount },
