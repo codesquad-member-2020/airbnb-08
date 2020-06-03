@@ -64,7 +64,7 @@ public class LoginService {
 
     private void setCookie(String nickname, HttpServletResponse response) throws IOException {
         ResponseCookie cookie = ResponseCookie.from("jwt", createToken(nickname))
-                .domain("127.0.0.1")
+                .domain("3.34.110.161")
                 .sameSite("Strict")
                 .secure(true)
                 .path("/")
@@ -73,7 +73,7 @@ public class LoginService {
                 .build();
 
         response.setHeader(HttpHeaders.SET_COOKIE, cookie.toString());
-        response.sendRedirect("http://localhost/api/main");
+        response.sendRedirect("http://3.34.110.161/api/main");
     }
 
     private User parseUserInfo(String data) throws JsonProcessingException {
