@@ -4,6 +4,7 @@ import reset from "styled-reset";
 import Header from "@/components/Header/Header";
 import Accommodation from "@/components/Main/Accommodation/Accommodation";
 import FilterButton from "@/components/Main/FilterButton/FilterButton";
+import ReservationModal from "@/components/ReservationModal/ReservationModal";
 import theme from "@/style/theme";
 import useFetch from "@/common/lib/useFetch";
 import useIntersect from "@/common/lib/useIntersect";
@@ -148,6 +149,7 @@ const Main = () => {
             )}
             <div ref={setRef} />
           </AccommodationWrapper>
+          <ReservationModal />
         </ThemeProvider>
       </Wrapper>
     </>
