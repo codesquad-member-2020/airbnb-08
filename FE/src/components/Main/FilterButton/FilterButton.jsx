@@ -12,6 +12,7 @@ import AlertModal from "@AlertModal/AlertModal";
 import { savePriceRange } from "@/actions/priceRangeAction";
 import { search } from "@/actions/searchAction";
 import { API_URL } from "@/common/config";
+import { DATE_NOT_NULL } from "@/common/constants/alertMessage";
 
 const Wrapper = styled.div`
   position: relative;
@@ -89,9 +90,7 @@ const FilterButton = ({
 
   return (
     <>
-      {alertVisible && (
-        <AlertModal message="날짜를 모두 선택해 주세요!" alertCloseHandler={alertCloseHandler} />
-      )}
+      {alertVisible && <AlertModal message={DATE_NOT_NULL} alertCloseHandler={alertCloseHandler} />}
       <Wrapper>
         <Button onClick={() => filterButtonClickHandler(modal)}>{showResult()}</Button>
         <CalendarModal

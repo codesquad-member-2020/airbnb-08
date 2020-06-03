@@ -13,6 +13,7 @@ import theme from "@/style/theme";
 import useFetch from "@/common/lib/useFetch";
 import useIntersect from "@/common/lib/useIntersect";
 import { API_URL } from "@/common/config";
+import { DATE_FIRST } from "@/common/constants/alertMessage";
 
 const StyleReset = createGlobalStyle`
   ${reset};
@@ -133,10 +134,7 @@ const Main = () => {
           <StyleReset />
           <Header />
           {alertVisible && (
-            <AlertModal
-              message="날짜를 먼저 선택해 주세요!"
-              alertCloseHandler={alertCloseHandler}
-            />
+            <AlertModal message={DATE_FIRST} alertCloseHandler={alertCloseHandler} />
           )}
           <FilterButtonWrapper>
             <FilterButton
