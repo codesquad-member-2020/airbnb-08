@@ -21,6 +21,10 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
                              HttpServletResponse response,
                              Object handler) {
 
+        if(request.getMethod().equals("GET")) {
+            return true;
+        }
+
         log.info("토큰 검증 시작!");
         Cookie[] cookies = request.getCookies();
         if (cookies == null) {
