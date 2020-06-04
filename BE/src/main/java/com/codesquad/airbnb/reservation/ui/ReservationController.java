@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 @RestController
@@ -30,8 +31,13 @@ public class ReservationController {
     }
 
     @PostMapping("/reservations")
-    public ResponseEntity<HttpStatus> reserve(@RequestParam Long roomId, @RequestParam Long userId, @Valid ReservationDate reservationDate, @Valid Guest guest) {
-        reservationDAO.reserve(utilDAO, roomId, userId, reservationDate, guest);
+    public ResponseEntity<HttpStatus> reserve(@RequestParam Long roomId,
+                                              @Valid ReservationDate reservationDate,
+                                              @Valid Guest guest,
+                                              HttpServletRequest request) {
+
+        Long id = (Long) request.getAttribute("id");
+        reservationDAO.reserve(utilDAO, roomId, id, reservationDate, guest);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 }

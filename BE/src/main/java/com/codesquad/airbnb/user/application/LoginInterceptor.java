@@ -36,7 +36,9 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
                 .orElseThrow(() -> new IllegalArgumentException("JWT 토큰이 존재하지 않습니다!"));
 
         String jwtToken = cookie.getValue();
-        decrypt(jwtToken);
+        Long id = (Long) decrypt(jwtToken).get("id");
+        request.setAttribute("id", id);
+
         return true;
     }
 
