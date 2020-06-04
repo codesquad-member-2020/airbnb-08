@@ -46,6 +46,16 @@ const MenuContent = styled.div`
   }
 `;
 
+const UserMenuWrapper = styled.div`
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 70px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+  top: 65px;
+`;
+
 const UserWrapper = styled.div`
   display: flex;
   align-items: center;
@@ -58,6 +68,17 @@ const UserWrapper = styled.div`
   font-weight: bold;
   box-sizing: border-box;
   box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.18);
+  &:hover ${UserMenuWrapper} {
+    display: block;
+  }
+`;
+
+const UserMenu = styled.div`
+  display: block;
+  padding: 15px 20px;
+  &:hover {
+    background: ${({ theme }) => theme.subColor};
+  }
 `;
 
 const UserId = styled.span`
