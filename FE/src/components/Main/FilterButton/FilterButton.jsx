@@ -82,7 +82,13 @@ const FilterButton = ({
     if (modal === "price") dispatch(savePriceRange());
     if (modal === "date") {
       if (!startDate || !endDate) {
-        setAlertVisible(!alertVisible);
+        makeAlertModal(DATE_NOT_NULL);
+        return;
+      }
+    }
+    if (modal === "guest") {
+      if (!startDate || !endDate) {
+        makeAlertModal(DATE_FIRST);
         return;
       }
     }
