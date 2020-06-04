@@ -204,7 +204,7 @@ const ReservationButton = styled.button`
   }
 `;
 
-const Accommodation = ({ roomData }) => {
+const Accommodation = ({ roomData, reservationButtonClickHandler }) => {
   const imgRef = useRef(null);
   const observerRef = useRef();
   const [isLoad, setIsLoad] = useState(false);
@@ -264,7 +264,7 @@ const Accommodation = ({ roomData }) => {
             </PriceWrapper>
             <PriceReservationWrapper>
               <TotalPrice>총 요금 : ￦{totalPrice}(?)</TotalPrice>
-              <ReservationButton>예약</ReservationButton>
+              <ReservationButton onClick={reservationButtonClickHandler}>예약</ReservationButton>
             </PriceReservationWrapper>
           </>
         ) : (

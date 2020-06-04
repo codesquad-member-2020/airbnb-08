@@ -7,6 +7,7 @@ import moment from "moment";
 import Header from "@/components/Header/Header";
 import Accommodation from "@/components/Main/Accommodation/Accommodation";
 import FilterButton from "@/components/Main/FilterButton/FilterButton";
+import ReservationModal from "@/components/ReservationModal/ReservationModal";
 import AlertModal from "@AlertModal/AlertModal";
 
 import theme from "@/style/theme";
@@ -51,6 +52,7 @@ const Main = () => {
   const [alertVisible, setAlertVisible] = useState(false);
 
   const [itemCount, setItemCount] = useState(0);
+  const [reservationButtonClicked, setReservationButtonClicked] = useState(false);
 
   const {
     guestCountReducer: { adultCount, childrenCount, babyCount },
@@ -123,6 +125,10 @@ const Main = () => {
     }
   };
 
+  const reservationButtonClickHandler = () => {
+    setReservationButtonClicked(!reservationButtonClicked);
+  };
+
   const alertCloseHandler = () => {
     setAlertVisible(!alertVisible);
   };
@@ -160,10 +166,21 @@ const Main = () => {
             ) : (
               data.rooms
                 .slice(0, itemCount)
-                .map((list) => <Accommodation roomData={list} key={list.roomId} />)
+                .map((list) => (
+                  <Accommodation
+                    roomData={list}
+                    key={list.roomId}
+                    reservationButtonClickHandler={reservationButtonClickHandler}
+                  />
+                ))
             )}
             <div ref={setRef} />
           </AccommodationWrapper>
+          {!reservationButtonClicked ? (
+            ""
+          ) : (
+            <ReservationModal closeModal={reservationButtonClickHandler} />
+          )}
         </ThemeProvider>
       </Wrapper>
     </>
