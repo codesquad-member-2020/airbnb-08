@@ -118,10 +118,16 @@ const Header = () => {
           <MenuContent>도움말</MenuContent>
 
           {isLogin ? (
-            <UserWrapper onClick={logoutClickandler}>
-              <UserId>라라ㅏ랄</UserId>
-              <UserImage src="https://a0.muscache.com/im/pictures/5282025/91fcaf72_original.jpg?aki_policy=large" />
-            </UserWrapper>
+            <>
+              <UserWrapper>
+                <UserId>조이후</UserId>
+                <UserImage src="https://a0.muscache.com/im/pictures/5282025/91fcaf72_original.jpg?aki_policy=large" />
+                <UserMenuWrapper>
+                  <UserMenu>예약 목록</UserMenu>
+                  <UserMenu onClick={logoutClickandler}>로그아웃</UserMenu>
+                </UserMenuWrapper>
+              </UserWrapper>
+            </>
           ) : (
             <>
               <MenuContent onClick={loginClickHandler}>로그인</MenuContent>
