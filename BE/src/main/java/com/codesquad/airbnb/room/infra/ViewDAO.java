@@ -49,9 +49,8 @@ public class ViewDAO {
                 "LEFT OUTER JOIN reservations r3 on r.room_id = r3.room_id " +
                 "LEFT OUTER JOIN dates d on r3.room_id = d.room_id " +
                 "WHERE (p.price BETWEEN ? AND ?) " +
-                "GROUP BY r.room_id " +
-                "LIMIT 5";
-
+                "GROUP BY r.room_id";
+        
         RowMapper<RoomDetail> roomRowMapper = new RowMapper<RoomDetail>() {
             @Override
             public RoomDetail mapRow(ResultSet rs, int rowNum) throws SQLException {
