@@ -17,6 +17,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.net.URI;
+import java.util.Map;
 
 import static com.codesquad.airbnb.user.application.JwtUtils.createToken;
 
@@ -44,7 +45,7 @@ public class LoginService {
 
     public ResponseEntity<Void> login(String code, HttpServletResponse response) throws IOException {
         User user = requestUserInfo(code);
-        setCookie(user.getNickName(), response);
+        setCookie(user, response);
         return new ResponseEntity<>(HttpStatus.FOUND);
     }
 
@@ -62,8 +63,17 @@ public class LoginService {
         return parseUserInfo(userData);
     }
 
-    private void setCookie(String nickname, HttpServletResponse response) throws IOException {
-        ResponseCookie cookie = ResponseCookie.from("jwt", createToken(nickname))
+    private void setCookie(User user, HttpServletResponse response) throws IOException {
+        Map<String, Object> userMap = mapper.convertValue(user, Map.class);
+
+        ResponseCookie jwtCookie = bakeCookie("jwt", createToken(userMap));
+
+        response.setHeader(HttpHeaders.SET_COOKIE, jwtCookie.toString());
+        response.sendRedirect("http://3.34.110.161/");
+    }
+
+    private ResponseCookie bakeCookie(String key, String value) {
+        return ResponseCookie.from(key, value)
                 .domain("3.34.110.161")
                 .sameSite("Strict")
                 .secure(true)
@@ -71,9 +81,6 @@ public class LoginService {
                 .maxAge(60 * 60 * 24)
                 .httpOnly(true)
                 .build();
-
-        response.setHeader(HttpHeaders.SET_COOKIE, cookie.toString());
-        response.sendRedirect("http://3.34.110.161");
     }
 
     private User parseUserInfo(String data) throws JsonProcessingException {

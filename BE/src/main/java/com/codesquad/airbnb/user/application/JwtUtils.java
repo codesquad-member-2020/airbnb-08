@@ -1,5 +1,6 @@
 package com.codesquad.airbnb.user.application;
 
+import com.codesquad.airbnb.user.domain.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -20,15 +21,12 @@ public class JwtUtils {
 
     public static String jwtKey;
 
-    public static String createToken(String nickname) {
+    public static String createToken(Map<String, Object> payloads) {
         Date expirationDate = new Date(System.currentTimeMillis() + 1000 * 60 * 5);
 
         Map<String, Object> headers = new HashMap<>();
         headers.put("typ", "JWT");
         headers.put("alg", "HS256");
-
-        Map<String, Object> payloads = new HashMap<>();
-        payloads.put("nickname", nickname);
 
         return Jwts.builder()
                 .setExpiration(expirationDate)
