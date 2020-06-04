@@ -1,16 +1,20 @@
 import React, { useState, useEffect } from "react";
 import styled, { createGlobalStyle, ThemeProvider } from "styled-components";
 import reset from "styled-reset";
+import { useSelector } from "react-redux";
+import moment from "moment";
+
 import Header from "@/components/Header/Header";
 import Accommodation from "@/components/Main/Accommodation/Accommodation";
 import FilterButton from "@/components/Main/FilterButton/FilterButton";
 import ReservationModal from "@/components/ReservationModal/ReservationModal";
+import AlertModal from "@AlertModal/AlertModal";
+
 import theme from "@/style/theme";
 import useFetch from "@/common/lib/useFetch";
 import useIntersect from "@/common/lib/useIntersect";
 import { API_URL } from "@/common/config";
-import { useSelector } from "react-redux";
-import moment from "moment";
+import { DATE_FIRST } from "@/common/constants/alertMessage";
 
 const StyleReset = createGlobalStyle`
   ${reset};
@@ -45,6 +49,7 @@ const Main = () => {
   const [dateVisible, setDateVisible] = useState(false);
   const [guestVisible, setGuestVisible] = useState(false);
   const [priceVisible, setPriceVisible] = useState(false);
+  const [alertVisible, setAlertVisible] = useState(false);
 
   const [itemCount, setItemCount] = useState(0);
   const [reservationButtonClicked, setReservationButtonClicked] = useState(false);
@@ -107,6 +112,10 @@ const Main = () => {
         setPriceVisible(false);
         break;
       case "price":
+        if (!startDate || !endDate) {
+          setAlertVisible(!alertVisible);
+          break;
+        }
         setPriceVisible(!priceVisible);
         setDateVisible(false);
         setGuestVisible(false);
@@ -119,12 +128,20 @@ const Main = () => {
   const reservationButtonClickHandler = () => {
     setReservationButtonClicked(!reservationButtonClicked);
   };
+
+  const alertCloseHandler = () => {
+    setAlertVisible(!alertVisible);
+  };
+
   return (
     <>
       <Wrapper>
         <ThemeProvider theme={theme}>
           <StyleReset />
           <Header />
+          {alertVisible && (
+            <AlertModal message={DATE_FIRST} alertCloseHandler={alertCloseHandler} />
+          )}
           <FilterButtonWrapper>
             <FilterButton
               filterButtonClickHandler={filterButtonClickHandler}
