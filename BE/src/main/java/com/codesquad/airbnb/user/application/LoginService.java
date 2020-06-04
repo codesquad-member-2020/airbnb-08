@@ -17,6 +17,9 @@ import org.springframework.web.util.UriComponentsBuilder;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.net.URI;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static com.codesquad.airbnb.user.application.JwtUtils.createToken;
@@ -64,11 +67,15 @@ public class LoginService {
     }
 
     private void setCookie(User user, HttpServletResponse response) throws IOException {
-        Map<String, Object> userMap = mapper.convertValue(user, Map.class);
+        Map<String, Object> userMap = new HashMap<>();
+        userMap.put("id", user.getUserId());
 
-        ResponseCookie jwtCookie = bakeCookie("jwt", createToken(userMap));
+        List<ResponseCookie> cookies = new ArrayList<>();
+        cookies.add(bakeCookie("jwt", createToken(userMap)));
+        cookies.add(bakeCookie("userId", user.getNickName()));
+        cookies.add(bakeCookie("userImage", user.getPictureUrl()));
 
-        response.setHeader(HttpHeaders.SET_COOKIE, jwtCookie.toString());
+        cookies.forEach(cookie -> response.setHeader(HttpHeaders.SET_COOKIE, cookie.toString()));
         response.sendRedirect("http://3.34.110.161/");
     }
 
