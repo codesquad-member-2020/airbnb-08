@@ -133,6 +133,7 @@ const Main = () => {
   };
   const reservationButtonClickHandler = () => {
     if (!startDate || !endDate) return makeAlertModal(DATE_FIRST);
+    if (!adultCount && (childrenCount > 0 || babyCount > 0)) return makeAlertModal(ADULT_REQUIRE);
     if (!totalCount) return makeAlertModal(GUEST_FIRST);
     setReservationButtonClicked(!reservationButtonClicked);
   };
