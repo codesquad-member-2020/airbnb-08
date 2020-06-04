@@ -3,7 +3,6 @@ import styled from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
 import moment from "moment";
 
-import useFetch from "@/common/lib/useFetch";
 import GuestCountModal from "@GuestCountModal/GuestCountModal";
 import CalendarModal from "@CalendarModal/CalendarModal";
 import PriceModal from "@PriceModal/PriceModal";
@@ -11,7 +10,6 @@ import AlertModal from "@AlertModal/AlertModal";
 
 import { savePriceRange } from "@/actions/priceRangeAction";
 import { search } from "@/actions/searchAction";
-import { API_URL } from "@/common/config";
 import { DATE_NOT_NULL } from "@/common/constants/alertMessage";
 
 const Wrapper = styled.div`
@@ -46,6 +44,7 @@ const FilterButton = ({
 
   const start = moment(startDate).format("yyyy-MM-DD");
   const end = moment(endDate).format("yyyy-MM-DD");
+
   const showResult = () => {
     switch (modal) {
       case "date":
@@ -64,11 +63,6 @@ const FilterButton = ({
         break;
     }
   };
-
-  const [loading, response, error] = useFetch(API_URL.budget, "get", {
-    checkInDate: start,
-    checkOutDate: end,
-  });
 
   const dispatch = useDispatch();
 
@@ -101,13 +95,7 @@ const FilterButton = ({
         {guestVisible && (
           <GuestCountModal modal={modal} closeClickHandler={saveButtonClickHandler} />
         )}
-        {priceVisible && (
-          <PriceModal
-            modal={modal}
-            priceData={response}
-            closeClickHandler={saveButtonClickHandler}
-          />
-        )}
+        {priceVisible && <PriceModal modal={modal} closeClickHandler={saveButtonClickHandler} />}
       </Wrapper>
     </>
   );
