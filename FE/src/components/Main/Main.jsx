@@ -51,6 +51,7 @@ const Main = () => {
   const [alertVisible, setAlertVisible] = useState(false);
 
   const [itemCount, setItemCount] = useState(0);
+  const [reservation, setReservation] = useState({ isClicked: false, roomId: null });
 
   const {
     guestCountReducer: { adultCount, childrenCount, babyCount },
@@ -123,6 +124,10 @@ const Main = () => {
     }
   };
 
+  const reservationButtonClickHandler = ({ target }) => {
+    setReservation({ isClicked: !reservation.isClicked, roomId: target.value });
+  };
+
   const alertCloseHandler = () => {
     setAlertVisible(!alertVisible);
   };
@@ -164,6 +169,12 @@ const Main = () => {
             )}
             <div ref={setRef} />
           </AccommodationWrapper>
+          {reservation.isClicked && (
+            <ReservationModal
+              roomId={reservation.roomId}
+              closeModal={reservationButtonClickHandler}
+            />
+          )}
         </ThemeProvider>
       </Wrapper>
     </>
