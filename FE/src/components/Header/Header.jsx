@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { API_URL } from "@/common/config";
 import logo from "@/image/airbnbLogo.png";
 import menuLogo from "@/image/menuLogo.png";
 
@@ -46,6 +47,10 @@ const MenuContent = styled.div`
 `;
 
 const Header = () => {
+  const loginClickHandler = () => {
+    window.location.href = API_URL.oauth;
+  };
+
   return (
     <>
       <Wrapper>
@@ -60,7 +65,7 @@ const Header = () => {
           <MenuContent>숙소 호스트 되기</MenuContent>
           <MenuContent>체험 호스팅하기</MenuContent>
           <MenuContent>도움말</MenuContent>
-          <MenuContent>로그인</MenuContent>
+          <MenuContent onClick={loginClickHandler}>로그인</MenuContent>
           <MenuContent>회원가입</MenuContent>
         </MenuWrapper>
       </Wrapper>
