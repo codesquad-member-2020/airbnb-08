@@ -204,7 +204,7 @@ const ReservationButton = styled.button`
   }
 `;
 
-const Accommodation = ({ roomData }) => {
+const Accommodation = ({ roomData, reservationButtonClickHandler }) => {
   const imgRef = useRef(null);
   const observerRef = useRef();
   const [isLoad, setIsLoad] = useState(false);

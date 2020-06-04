@@ -7,6 +7,7 @@ import moment from "moment";
 import Header from "@/components/Header/Header";
 import Accommodation from "@/components/Main/Accommodation/Accommodation";
 import FilterButton from "@/components/Main/FilterButton/FilterButton";
+import ReservationModal from "@/components/ReservationModal/ReservationModal";
 import AlertModal from "@AlertModal/AlertModal";
 
 import theme from "@/style/theme";
@@ -165,7 +166,13 @@ const Main = () => {
             ) : (
               data.rooms
                 .slice(0, itemCount)
-                .map((list) => <Accommodation roomData={list} key={list.roomId} />)
+                .map((list) => (
+                  <Accommodation
+                    roomData={list}
+                    key={list.roomId}
+                    reservationButtonClickHandler={reservationButtonClickHandler}
+                  />
+                ))
             )}
             <div ref={setRef} />
           </AccommodationWrapper>
