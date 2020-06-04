@@ -125,6 +125,10 @@ const Main = () => {
     }
   };
 
+  const makeAlertModal = (message) => {
+    setAlertMessage(message);
+    setAlertVisible(true);
+  };
   const reservationButtonClickHandler = () => {
     setReservationButtonClicked(!reservationButtonClicked);
   };
