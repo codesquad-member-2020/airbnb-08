@@ -131,6 +131,7 @@ const Main = () => {
     setAlertVisible(true);
   };
   const reservationButtonClickHandler = () => {
+    if (!startDate || !endDate) return makeAlertModal(DATE_FIRST);
     setReservationButtonClicked(!reservationButtonClicked);
   };
 
