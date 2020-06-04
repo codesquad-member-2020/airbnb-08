@@ -73,7 +73,7 @@ const AlertModal = ({ message, alertCloseHandler }) => {
       <Modal>
         <AlertWrapper>
           <AlertContents>
-            <Title>경고</Title>
+            <Title>알람</Title>
             <Message>{message}</Message>
             <ButtonWrapper>
               <Button onClick={alertCloseHandler}>확인</Button>
