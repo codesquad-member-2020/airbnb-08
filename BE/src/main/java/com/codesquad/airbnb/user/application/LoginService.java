@@ -73,7 +73,7 @@ public class LoginService {
                 .build();
 
         response.setHeader(HttpHeaders.SET_COOKIE, cookie.toString());
-        response.sendRedirect("http://3.34.110.161/api/main");
+        response.sendRedirect("http://3.34.110.161");
     }
 
     private User parseUserInfo(String data) throws JsonProcessingException {
