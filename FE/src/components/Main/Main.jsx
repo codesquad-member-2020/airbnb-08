@@ -169,6 +169,7 @@ const Main = () => {
                 .map((list) => (
                   <Accommodation
                     roomData={list}
+                    key={list.roomId}
                     reservationButtonClickHandler={reservationButtonClickHandler}
                   />
                 ))
