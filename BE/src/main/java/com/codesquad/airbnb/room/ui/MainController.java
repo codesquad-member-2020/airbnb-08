@@ -30,6 +30,7 @@ public class MainController {
                          Guest guest,
                          Budget budget) {
 
+        reservationDate.validateReservationDate();
         return viewDAO.main(utilDAO, reservationDate, guest, budget);
     }
 
