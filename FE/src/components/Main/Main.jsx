@@ -14,7 +14,7 @@ import theme from "@/style/theme";
 import useFetch from "@/common/lib/useFetch";
 import useIntersect from "@/common/lib/useIntersect";
 import { API_URL } from "@/common/config";
-import { DATE_FIRST } from "@/common/constants/alertMessage";
+import { DATE_FIRST, GUEST_FIRST } from "@/common/constants/alertMessage";
 
 const StyleReset = createGlobalStyle`
   ${reset};
@@ -115,6 +115,7 @@ const Main = () => {
       case "price":
         if (!startDate || !endDate) {
           setAlertVisible(!alertVisible);
+          setAlertMessage(DATE_FIRST);
           break;
         }
         setPriceVisible(!priceVisible);
