@@ -50,6 +50,7 @@ const Main = () => {
   const [guestVisible, setGuestVisible] = useState(false);
   const [priceVisible, setPriceVisible] = useState(false);
   const [alertVisible, setAlertVisible] = useState(false);
+  const [alertMessage, setAlertMessage] = useState();
 
   const [itemCount, setItemCount] = useState(0);
   const [reservationButtonClicked, setReservationButtonClicked] = useState(false);
@@ -144,7 +145,7 @@ const Main = () => {
           <StyleReset />
           <Header />
           {alertVisible && (
-            <AlertModal message={DATE_FIRST} alertCloseHandler={alertCloseHandler} />
+            <AlertModal message={alertMessage} alertCloseHandler={alertCloseHandler} />
           )}
           <FilterButtonWrapper>
             <FilterButton
