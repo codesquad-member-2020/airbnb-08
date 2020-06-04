@@ -15,7 +15,12 @@ public class GlobalRestExceptionHandler {
     }
 
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
-    protected ResponseEntity<String> HttpRequestMethodNotSupportedException(HttpRequestMethodNotSupportedException e) {
+    protected ResponseEntity<String> handleHttpRequestMethodNotSupportedException(HttpRequestMethodNotSupportedException e) {
         return new ResponseEntity<>("지원하지 않는 메소드입니다", HttpStatus.METHOD_NOT_ALLOWED);
+    }
+
+    @ExceptionHandler(InputMistakeException.class)
+    protected ResponseEntity<String> handleInputMistakeException(InputMistakeException e) {
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
     }
 }
