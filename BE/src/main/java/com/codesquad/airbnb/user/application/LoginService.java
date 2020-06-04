@@ -70,12 +70,13 @@ public class LoginService {
         Map<String, Object> userMap = new HashMap<>();
         userMap.put("id", user.getUserId());
 
-        Map<String, ResponseCookie> cookieMap = new HashMap<>();
-        cookieMap.put("jwt", bakeCookie("jwt", createToken(userMap)));
-        cookieMap.put("userId", bakeCookie("userId", user.getNickName()));
-        cookieMap.put("userImage", bakeCookie("userImage", user.getPictureUrl()));
-        cookieMap.values().forEach(value -> response.setHeader(HttpHeaders.SET_COOKIE, value.toString()));
-        
+        List<ResponseCookie> cookies = new ArrayList<>();
+        cookies.add(bakeCookie("jwt", createToken(userMap)));
+        cookies.add(bakeCookie("userId", user.getNickName()));
+        cookies.add(bakeCookie("userImage", user.getPictureUrl()));
+
+        cookies.forEach(value -> response.setHeader(HttpHeaders.SET_COOKIE, value.toString()));
+
         response.sendRedirect("http://3.34.110.161/");
     }
 

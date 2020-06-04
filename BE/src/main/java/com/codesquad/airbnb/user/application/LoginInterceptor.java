@@ -28,15 +28,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
         log.info("토큰 검증 시작!");
 
         Cookie[] cookies = request.getCookies();
-        if (cookies == null) {
-            throw new IllegalArgumentException("쿠키가 없습니다!");
-        }
-
-        if(isDuplicatedCookie(cookies, "jwt")
-                || isDuplicatedCookie(cookies, "userId")
-                || isDuplicatedCookie(cookies, "userImage")) {
-            throw new IllegalArgumentException("중복된 쿠키가 존재합니다");
-        }
+        validateCookies(cookies);
 
         Cookie cookie = Arrays.stream(request.getCookies())
                 .filter(c -> c.getName().equals("jwt"))
@@ -48,7 +40,16 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
         return true;
     }
 
-    private boolean validateCookie(Cookie[] cookies, String key) {
+    private void validateCookies(Cookie[] cookies) {
+        String[] cookieKeys = {"jwt", "userId", "userImage"};
+
+        if(Arrays.stream(cookieKeys)
+                .anyMatch(key -> isIllegalCookie(cookies, key))) {
+            throw new IllegalArgumentException("쿠키를 다시 한 번 확인해주세요");
+        }
+    }
+
+    private boolean isIllegalCookie(Cookie[] cookies, String key) {
         return Arrays.stream(cookies)
                 .filter(c -> c.getName().equals(key))
                 .count() != 1;
