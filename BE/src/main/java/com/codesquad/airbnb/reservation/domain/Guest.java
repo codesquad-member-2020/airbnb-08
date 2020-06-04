@@ -1,25 +1,20 @@
 package com.codesquad.airbnb.reservation.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+
+import javax.validation.constraints.Min;
 
 @Getter
 @NoArgsConstructor
 @Setter
 @AllArgsConstructor
+@ToString
 public class Guest {
 
+    @Min(1)
     private int numberOfAdults;
 
     private int numberOfKids;
 
     private int numberOfBabies;
-
-    public void checkInput() {
-        if(numberOfAdults == 0 && numberOfKids == 0 && numberOfBabies == 0) {
-            throw new IllegalArgumentException("Please Input Guests!");
-        }
-    }
 }

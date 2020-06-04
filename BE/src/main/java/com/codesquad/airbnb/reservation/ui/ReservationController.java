@@ -26,15 +26,11 @@ public class ReservationController {
 
     @GetMapping("/reservations")
     public Confirmation showBillAndReview(@RequestParam Long roomId, @Valid ReservationDate reservationDate, @Valid Guest guest) {
-        reservationDate.checkInput();
-        guest.checkInput();
         return viewDAO.showBillAndReview(utilDAO, roomId, reservationDate, guest);
     }
 
     @PostMapping("/reservations")
     public ResponseEntity<HttpStatus> reserve(@RequestParam Long roomId, @RequestParam Long userId, @Valid ReservationDate reservationDate, @Valid Guest guest) {
-        reservationDate.checkInput();
-        guest.checkInput();
         reservationDAO.reserve(utilDAO, roomId, userId, reservationDate, guest);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }

@@ -2,6 +2,7 @@ package com.codesquad.airbnb.reservation.domain;
 
 import lombok.*;
 
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 @Getter
@@ -11,24 +12,9 @@ import java.time.LocalDate;
 @ToString
 public class ReservationDate {
 
+    @NotNull
     private LocalDate checkInDate = LocalDate.MIN;
 
+    @NotNull
     private LocalDate checkOutDate = LocalDate.MAX;
-
-    public void checkInput() {
-        validCheckInDate();
-        validCheckOutDate();
-    }
-
-    private void validCheckInDate() {
-        if (checkInDate.equals(LocalDate.MIN)) {
-            throw new IllegalArgumentException("Please Input Check-In-Date!");
-        }
-    }
-
-    private void validCheckOutDate() {
-        if (checkOutDate.equals(LocalDate.MAX)) {
-            throw new IllegalArgumentException("Please Input Check-Out-Date!");
-        }
-    }
 }

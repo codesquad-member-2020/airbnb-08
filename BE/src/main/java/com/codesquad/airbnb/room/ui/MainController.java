@@ -26,16 +26,15 @@ public class MainController {
     private final ViewDAO viewDAO;
 
     @GetMapping("")
-    public Main showMain(@Valid ReservationDate reservationDate,
-                         @Valid Guest guest,
-                         @Valid Budget budget) {
+    public Main showMain(ReservationDate reservationDate,
+                         Guest guest,
+                         Budget budget) {
 
         return viewDAO.main(utilDAO, reservationDate, guest, budget);
     }
 
     @GetMapping("/budget")
     public Statistics showPriceStatistics(@Valid ReservationDate reservationDate) {
-        reservationDate.checkInput();
         return viewDAO.showStatistics(reservationDate);
     }
 }
