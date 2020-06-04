@@ -14,7 +14,7 @@ import theme from "@/style/theme";
 import useFetch from "@/common/lib/useFetch";
 import useIntersect from "@/common/lib/useIntersect";
 import { API_URL } from "@/common/config";
-import { DATE_FIRST, GUEST_FIRST } from "@/common/constants/alertMessage";
+import { DATE_FIRST, GUEST_FIRST, ADULT_REQUIRE } from "@/common/constants/alertMessage";
 
 const StyleReset = createGlobalStyle`
   ${reset};
@@ -56,7 +56,7 @@ const Main = () => {
   const [reservationButtonClicked, setReservationButtonClicked] = useState(false);
 
   const {
-    guestCountReducer: { adultCount, childrenCount, babyCount },
+    guestCountReducer: { adultCount, childrenCount, babyCount, totalCount },
     datePickerReducer: { startDate, endDate },
     priceRangeReducer: { priceRange },
     searchReducer: { isSearched },
@@ -133,6 +133,7 @@ const Main = () => {
   };
   const reservationButtonClickHandler = () => {
     if (!startDate || !endDate) return makeAlertModal(DATE_FIRST);
+    if (!totalCount) return makeAlertModal(GUEST_FIRST);
     setReservationButtonClicked(!reservationButtonClicked);
   };
 
