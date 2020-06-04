@@ -12,7 +12,7 @@ import AlertModal from "@AlertModal/AlertModal";
 import { savePriceRange } from "@/actions/priceRangeAction";
 import { search } from "@/actions/searchAction";
 import { API_URL } from "@/common/config";
-import { DATE_NOT_NULL } from "@/common/constants/alertMessage";
+import { DATE_FIRST, DATE_NOT_NULL } from "@/common/constants/alertMessage";
 
 const Wrapper = styled.div`
   position: relative;
@@ -37,6 +37,7 @@ const FilterButton = ({
   modal,
 }) => {
   const [alertVisible, setAlertVisible] = useState(false);
+  const [alertMessage, setAlertMessage] = useState();
 
   const {
     guestCountReducer: { totalCount, babyCount },
@@ -72,6 +73,11 @@ const FilterButton = ({
 
   const dispatch = useDispatch();
 
+  const makeAlertModal = (message) => {
+    setAlertMessage(message);
+    setAlertVisible(true);
+  };
+
   const saveButtonClickHandler = () => {
     if (modal === "price") dispatch(savePriceRange());
     if (modal === "date") {
@@ -90,7 +96,7 @@ const FilterButton = ({
 
   return (
     <>
-      {alertVisible && <AlertModal message={DATE_NOT_NULL} alertCloseHandler={alertCloseHandler} />}
+      {alertVisible && <AlertModal message={alertMessage} alertCloseHandler={alertCloseHandler} />}
       <Wrapper>
         <Button onClick={() => filterButtonClickHandler(modal)}>{showResult()}</Button>
         <CalendarModal
