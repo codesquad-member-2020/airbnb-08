@@ -1,7 +1,11 @@
 package com.codesquad.airbnb.reservation.domain;
 
+import com.codesquad.airbnb.common.exception.IllegalReservationDateException;
 import lombok.*;
 
+import javax.validation.constraints.AssertTrue;
+import javax.validation.constraints.FutureOrPresent;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 @Getter
@@ -11,24 +15,31 @@ import java.time.LocalDate;
 @ToString
 public class ReservationDate {
 
-    private LocalDate checkInDate = LocalDate.MIN;
+    @NotNull(message = "Please provide a date")
+    @FutureOrPresent
+    private LocalDate checkInDate = LocalDate.now();
 
-    private LocalDate checkOutDate = LocalDate.MAX;
+    @NotNull(message = "Please provide a date")
+    @FutureOrPresent
+    private LocalDate checkOutDate = LocalDate.now();
 
-    public void checkInput() {
-        validCheckInDate();
-        validCheckOutDate();
-    }
-
-    private void validCheckInDate() {
-        if (checkInDate.equals(LocalDate.MIN)) {
-            throw new IllegalArgumentException("Please Input Check-In-Date!");
+    @AssertTrue
+    private boolean isAfterThanCheckInDate() {
+        if(checkOutDate.isBefore(checkInDate)) {
+            throw new IllegalReservationDateException("체크아웃 날짜를 확인해주세요");
         }
+
+        return true;
     }
 
-    private void validCheckOutDate() {
-        if (checkOutDate.equals(LocalDate.MAX)) {
-            throw new IllegalArgumentException("Please Input Check-Out-Date!");
+    public void validateReservationDate() {
+        validateCheckInDate();
+        isAfterThanCheckInDate();
+    }
+
+    private void validateCheckInDate() {
+        if(checkInDate.isBefore(LocalDate.now())) {
+            throw new IllegalReservationDateException("체크인 날짜를 확인해주세요");
         }
     }
 }

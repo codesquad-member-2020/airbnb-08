@@ -48,6 +48,9 @@ dependencies {
     //jackson
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.11.0'
 
+    //ToString 출력
+    implementation 'org.apache.commons:commons-lang3:3.10'
+
     implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     compileOnly 'org.projectlombok:lombok'

@@ -10,14 +10,6 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     platform: mysql
 
-# handlebars 설정
-handlebars:
-  suffix: .html
-
-logging:
-  level:
-    sql: debug
-
 github:
   client-id: ENC(pZX3ky4LlJA0EaNyjfryTJrrg+wMqS17)
   client-secret: ENC(9B04CF83IGcKbUt225dta7TlLtBclJnvIURo15mlXo2nbqK+0OWhcY1cT67HqutU)
@@ -28,6 +20,7 @@ jwt:
   key: ENC(7t4lhka8WWQ=)
 
 debug: true
+
 ---
 spring:
   profiles: local
@@ -36,6 +29,10 @@ spring:
     url: ENC(yAAKfSsndK8iJjvfYMsK/+Lrb9vQfJ//0JQ4sz1ZF5H2ebBOzWYY2glEFb/fjAqg+gVzvRQTd8cfOL3a/rDKl7LLY0rRQ3B+L6cQDN/p6QY=)
     username: ENC(MXeQAanxppo=)
     password: ENC(QQErW0P9WFtyBoyisL9XAw==)
+
+logging:
+  level:
+    sql: debug
 
 ---
 spring:

@@ -8,19 +8,20 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.net.URI;
+import java.util.HashMap;
+import java.util.Map;
 
-import static com.codesquad.airbnb.user.application.JwtUtils.createToken;
+import static com.codesquad.airbnb.common.utils.JwtUtils.createToken;
 
-@Slf4j
 @Service
 @RequiredArgsConstructor
 public class LoginService {
@@ -44,7 +45,7 @@ public class LoginService {
 
     public ResponseEntity<Void> login(String code, HttpServletResponse response) throws IOException {
         User user = requestUserInfo(code);
-        setCookie(user.getNickName(), response);
+        setCookie(user, response);
         return new ResponseEntity<>(HttpStatus.FOUND);
     }
 
@@ -62,18 +63,14 @@ public class LoginService {
         return parseUserInfo(userData);
     }
 
-    private void setCookie(String nickname, HttpServletResponse response) throws IOException {
-        ResponseCookie cookie = ResponseCookie.from("jwt", createToken(nickname))
-                .domain("3.34.110.161")
-                .sameSite("Strict")
-                .secure(true)
-                .path("/")
-                .maxAge(60 * 60 * 24)
-                .httpOnly(true)
-                .build();
+    private void setCookie(User user, HttpServletResponse response) throws IOException {
+        Map<String, Object> userMap = new HashMap<>();
+        userMap.put("id", user.getUserId());
 
-        response.setHeader(HttpHeaders.SET_COOKIE, cookie.toString());
-        response.sendRedirect("http://3.34.110.161/api/main");
+        response.addCookie(new Cookie("jwt", createToken(userMap)));
+        response.addCookie(new Cookie("userId", user.getNickName()));
+        response.addCookie(new Cookie("userImage", user.getPictureUrl()));
+        response.sendRedirect("http://3.34.110.161/");
     }
 
     private User parseUserInfo(String data) throws JsonProcessingException {

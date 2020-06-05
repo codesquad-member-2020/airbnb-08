@@ -1,17 +1,24 @@
 package com.codesquad.airbnb.room.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+
+import javax.validation.constraints.*;
 
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 public class Budget {
 
+    @PositiveOrZero
+    @Digits(integer = 10, fraction = 0)
     private int lowestPrice;
 
+    @Positive
+    @Digits(integer = 10, fraction = 0)
     private int highestPrice = Integer.MAX_VALUE;
+
+    @AssertTrue
+    private boolean isBiggerThanLowestPrice() {
+        return this.highestPrice > this.lowestPrice;
+    }
 }

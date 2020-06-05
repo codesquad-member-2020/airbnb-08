@@ -1,8 +1,6 @@
-package com.codesquad.airbnb.user.application;
+package com.codesquad.airbnb.common.utils;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -20,15 +18,12 @@ public class JwtUtils {
 
     public static String jwtKey;
 
-    public static String createToken(String nickname) {
+    public static String createToken(Map<String, Object> payloads) {
         Date expirationDate = new Date(System.currentTimeMillis() + 1000 * 60 * 5);
 
         Map<String, Object> headers = new HashMap<>();
         headers.put("typ", "JWT");
         headers.put("alg", "HS256");
-
-        Map<String, Object> payloads = new HashMap<>();
-        payloads.put("nickname", nickname);
 
         return Jwts.builder()
                 .setExpiration(expirationDate)
@@ -47,7 +42,7 @@ public class JwtUtils {
                     .getBody();
 
         } catch (Exception e) {
-            throw new IllegalArgumentException("잘못된 토큰입니다!");
+            throw new JwtException("잘못된 JWT 토큰입니다", e.getCause());
         }
 
         return claims;

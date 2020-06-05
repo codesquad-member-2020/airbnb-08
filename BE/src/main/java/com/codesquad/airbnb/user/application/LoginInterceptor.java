@@ -10,8 +10,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import java.util.Arrays;
 
-import static com.codesquad.airbnb.user.application.JwtUtils.decrypt;
-
 @Slf4j
 @Component
 public class LoginInterceptor extends HandlerInterceptorAdapter {
@@ -21,19 +19,25 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
                              HttpServletResponse response,
                              Object handler) {
 
-        log.info("토큰 검증 시작!");
-        Cookie[] cookies = request.getCookies();
-        if (cookies == null) {
-            throw new IllegalArgumentException("쿠키가 없습니다!");
+        if(request.getMethod().equals("GET")) {
+            return true;
         }
 
-        Cookie cookie = Arrays.stream(request.getCookies())
-                .filter(c -> c.getName().equals("jwt"))
-                .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("JWT 토큰이 존재하지 않습니다!"));
+        Cookie[] cookies = request.getCookies();
 
-        String jwtToken = cookie.getValue();
-        decrypt(jwtToken);
-        return true;
+        log.info("cookies : {}", cookies);
+        log.info("headerNames : {}",request.getHeaderNames());
+
+        if(cookies == null) {
+            return false;
+        }
+
+        return validateCookies(cookies, "jwt");
+    }
+
+    private boolean validateCookies(Cookie[] cookies, String key) {
+        return Arrays.stream(cookies)
+                .filter(c -> c.getName().equals(key))
+                .count() == 1;
     }
 }

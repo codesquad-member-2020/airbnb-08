@@ -1,25 +1,25 @@
 package com.codesquad.airbnb.reservation.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.Positive;
+import javax.validation.constraints.PositiveOrZero;
 
 @Getter
-@NoArgsConstructor
 @Setter
-@AllArgsConstructor
+@NoArgsConstructor
 public class Guest {
 
-    private int numberOfAdults;
+    @Positive
+    @Digits(integer = 2, fraction = 0)
+    private int numberOfAdults = 1;
 
+    @PositiveOrZero
+    @Digits(integer = 2, fraction = 0)
     private int numberOfKids;
 
+    @PositiveOrZero
+    @Digits(integer = 2, fraction = 0)
     private int numberOfBabies;
-
-    public void checkInput() {
-        if(numberOfAdults == 0 && numberOfKids == 0 && numberOfBabies == 0) {
-            throw new IllegalArgumentException("Please Input Guests!");
-        }
-    }
 }
