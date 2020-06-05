@@ -10,8 +10,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import java.util.Arrays;
 
-import static com.codesquad.airbnb.common.utils.JwtUtils.decrypt;
-
 @Component
 public class LoginInterceptor extends HandlerInterceptorAdapter {
 
@@ -25,6 +23,11 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
         }
 
         Cookie[] cookies = request.getCookies();
+
+        if(cookies == null) {
+            return false;
+        }
+
         validateCookies(cookies);
         return true;
     }

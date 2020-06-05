@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.net.URI;
@@ -70,26 +71,11 @@ public class LoginService {
         Map<String, Object> userMap = new HashMap<>();
         userMap.put("id", user.getUserId());
 
-        ResponseCookie jwtCookie = bakeCookie("jwt", createToken(userMap));
-        response.setHeader(HttpHeaders.SET_COOKIE, jwtCookie.toString());
-
-        List<ResponseCookie> cookies = new ArrayList<>();
-        cookies.add(bakeCookie("userId", user.getNickName()));
-        cookies.add(bakeCookie("userImage", user.getPictureUrl()));
-        cookies.forEach(value -> response.addHeader(HttpHeaders.SET_COOKIE, value.toString()));
-
+        response.reset();
+        response.addCookie(new Cookie("jwt", createToken(userMap)));
+        response.addCookie(new Cookie("userId", user.getNickName()));
+        response.addCookie(new Cookie("userImage", user.getPictureUrl()));
         response.sendRedirect("http://3.34.110.161/");
-    }
-
-    private ResponseCookie bakeCookie(String key, String value) {
-        return ResponseCookie.from(key, value)
-                .domain("3.34.110.161")
-                .sameSite("Strict")
-                .secure(true)
-                .path("/")
-                .maxAge(60 * 60 * 24)
-                .httpOnly(false)
-                .build();
     }
 
     private User parseUserInfo(String data) throws JsonProcessingException {
