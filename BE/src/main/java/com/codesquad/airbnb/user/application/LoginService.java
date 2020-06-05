@@ -88,7 +88,7 @@ public class LoginService {
                 .secure(true)
                 .path("/")
                 .maxAge(60 * 60 * 24)
-                .httpOnly(true)
+                .httpOnly(false)
                 .build();
     }
 
