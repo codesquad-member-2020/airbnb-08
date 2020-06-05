@@ -26,7 +26,9 @@ public class ManagerDAO {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
-    public Boolean canReserve(Long roomId, LocalDate checkInDate, LocalDate checkOutDate) {
+    public Boolean canReserve(Long roomId, ReservationDate reservationDate) {
+        LocalDate checkInDate = reservationDate.getCheckInDate();
+        LocalDate checkOutDate = reservationDate.getCheckOutDate();
 
         String sql = "SELECT count(*) AS count FROM rooms r INNER JOIN dates d on r.room_id = d.room_id WHERE ((? BETWEEN d.check_in_date AND d.check_out_date ) OR (? BETWEEN d.check_in_date AND d.check_out_date ) OR (? < d.check_in_date AND ? > d.check_out_date)) AND r.room_id = ? GROUP BY r.room_id";
 
@@ -42,7 +44,7 @@ public class ManagerDAO {
 
     public Confirmation showBillAndReview(Long roomId, ReservationDate reservationDate) {
 
-        if(!canReserve(roomId, reservationDate.getCheckInDate(), reservationDate.getCheckOutDate())) {
+        if(!canReserve(roomId, reservationDate)) {
             throw new IllegalArgumentException("Already reserved room, Please reserve another room!");
         }
 

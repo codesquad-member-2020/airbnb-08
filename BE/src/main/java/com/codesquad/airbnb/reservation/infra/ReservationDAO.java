@@ -22,8 +22,8 @@ public class ReservationDAO {
     }
 
     @Transactional
-    public void reserve(ManagerDAO managerDAO, Long roomId, Long userId, ReservationDate reservationDate, Guest guest) {
-        if(!managerDAO.canReserve(roomId, reservationDate.getCheckInDate(), reservationDate.getCheckOutDate())) {
+    public void reserve(boolean canReserve, Long roomId, Long userId, ReservationDate reservationDate, Guest guest) {
+        if(!canReserve) {
             throw new IllegalArgumentException("Already reserved room, Please reserve another room!");
         }
 

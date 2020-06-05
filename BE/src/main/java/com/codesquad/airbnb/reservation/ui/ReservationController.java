@@ -35,7 +35,8 @@ public class ReservationController {
                                               HttpServletRequest request) {
 
         Long id = (Long) request.getAttribute("id");
-        reservationDAO.reserve(managerDAO, roomId, id, reservationDate, guest);
+        boolean canReserve = managerDAO.canReserve(roomId, reservationDate);
+        reservationDAO.reserve(canReserve, roomId, id, reservationDate, guest);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 }
