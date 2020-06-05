@@ -2,7 +2,9 @@ package com.codesquad.airbnb.reservation.domain;
 
 import lombok.*;
 
-import javax.validation.constraints.Min;
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.Positive;
+import javax.validation.constraints.PositiveOrZero;
 
 @Getter
 @NoArgsConstructor
@@ -11,10 +13,15 @@ import javax.validation.constraints.Min;
 @ToString
 public class Guest {
 
-    @Min(1)
+    @Positive
+    @Digits(integer = 2, fraction = 0)
     private int numberOfAdults;
 
+    @PositiveOrZero
+    @Digits(integer = 2, fraction = 0)
     private int numberOfKids;
 
+    @PositiveOrZero
+    @Digits(integer = 2, fraction = 0)
     private int numberOfBabies;
 }
