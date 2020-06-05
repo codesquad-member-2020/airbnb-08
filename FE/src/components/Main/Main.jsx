@@ -66,7 +66,7 @@ const Main = () => {
     ? {
         checkInDate: moment(startDate).format("yyyy-MM-DD"),
         checkOutDate: moment(endDate).format("yyyy-MM-DD"),
-        numberOfAdults: adultCount,
+        numberOfAdults: adultCount === 0 ? 1 : adultCount,
         numberOfKids: childrenCount,
         numberOfBabies: babyCount,
         lowestPrice: priceRange[0],
