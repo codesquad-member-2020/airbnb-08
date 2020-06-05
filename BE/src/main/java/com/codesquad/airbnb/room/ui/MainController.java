@@ -27,8 +27,8 @@ public class MainController {
 
     @GetMapping("")
     public Main showMain(ReservationDate reservationDate,
-                         Guest guest,
-                         Budget budget) {
+                         @Valid Guest guest,
+                         @Valid Budget budget) {
 
         reservationDate.validateReservationDate();
         return viewDAO.main(utilDAO, reservationDate, guest, budget);
