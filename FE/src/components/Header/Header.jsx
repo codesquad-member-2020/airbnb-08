@@ -92,14 +92,19 @@ const UserImage = styled.img`
 `;
 
 const Header = () => {
-  const [isLogin, setLogin] = useState(false);
+  const [isLogout, setIsLogout] = useState(false);
 
   const loginHandler = () => {
     window.location.href = API_URL.oauth;
   };
 
-  const logoutClickandler = () => {
-    setLogin(false);
+  const logoutHandler = () => {
+    setIsLogout(true);
+
+    const date = new Date();
+    date.setDate(date.getDate() - 1);
+    document.cookie += ";Expires=" + date.toUTCString();
+  };
   };
 
   return (
