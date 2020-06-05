@@ -27,20 +27,11 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
             return false;
         }
 
-        validateCookies(cookies);
+        validateCookies(cookies, "jwt");
         return true;
     }
 
-    private void validateCookies(Cookie[] cookies) {
-        String[] cookieKeys = {"jwt", "userId", "userImage"};
-
-        if(Arrays.stream(cookieKeys)
-                .anyMatch(key -> isIllegalCookie(cookies, key))) {
-            throw new IllegalArgumentException("쿠키가 없거나 같은 키의 쿠키가 여러개 존재합니다");
-        }
-    }
-
-    private boolean isIllegalCookie(Cookie[] cookies, String key) {
+    private boolean validateCookies(Cookie[] cookies, String key) {
         return Arrays.stream(cookies)
                 .filter(c -> c.getName().equals(key))
                 .count() != 1;
