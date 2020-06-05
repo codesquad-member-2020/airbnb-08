@@ -21,13 +21,11 @@ public class ReservationController {
 
     private final ManagerDAO managerDAO;
 
-    private final RoomDAO roomDAO;
-
     private final ReservationDAO reservationDAO;
 
     @GetMapping("/reservations")
-    public Confirmation showBillAndReview(@RequestParam Long roomId, @Valid ReservationDate reservationDate, @Valid Guest guest) {
-        return roomDAO.showBillAndReview(managerDAO, roomId, reservationDate, guest);
+    public Confirmation showBillAndReview(@RequestParam Long roomId, @Valid ReservationDate reservationDate) {
+        return managerDAO.showBillAndReview(roomId, reservationDate);
     }
 
     @PostMapping("/reservations")
