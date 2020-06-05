@@ -32,7 +32,7 @@ public class ReservationController {
     public ResponseEntity<HttpStatus> reserve(@RequestParam Long roomId,
                                               @Valid ReservationDate reservationDate,
                                               @Valid Guest guest,
-                                              HttpServletRequest request) {
+                                              @CookieValue(value = "jwt")) {
 
         Long id = (Long) request.getAttribute("id");
         boolean canReserve = managerDAO.canReserve(roomId, reservationDate);

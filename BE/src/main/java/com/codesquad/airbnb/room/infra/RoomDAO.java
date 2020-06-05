@@ -73,7 +73,7 @@ public class RoomDAO {
                         price,
                         medias,
                         rs.getString("host"),
-                        managerDAO.canReserve(rs.getLong("id"), checkInDate, checkOutDate)
+                        managerDAO.canReserve(rs.getLong("id"), reservationDate)
                 );
             }
         };

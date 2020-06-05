@@ -16,10 +16,17 @@ import java.nio.file.AccessDeniedException;
 @RestControllerAdvice
 public class GlobalRestExceptionHandler {
 
-    @ExceptionHandler(IllegalReservationDateException.class)
-    protected ResponseEntity<ErrorResponse> IllegalReservationDateException(IllegalReservationDateException e) {
-        final ErrorResponse response = ErrorResponse.of(e.getMessage(), HttpStatus.BAD_REQUEST.value());
+    @ExceptionHandler(IllegalStateException.class)
+    protected ResponseEntity<ErrorResponse> handleIllegalStateException(IllegalStateException e) {
+        log.error("handleIllegalStateException", e);
+        final ErrorResponse response = ErrorResponse.of(e.getMessage(), HttpStatus.FORBIDDEN.value());
+        return new ResponseEntity<>(response, HttpStatus.FORBIDDEN);
+    }
 
+    @ExceptionHandler(IllegalReservationDateException.class)
+    protected ResponseEntity<ErrorResponse> handleIllegalReservationDateException(IllegalReservationDateException e) {
+        log.error("handleIllegalReservationDateException", e);
+        final ErrorResponse response = ErrorResponse.of(e.getMessage(), HttpStatus.BAD_REQUEST.value());
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
