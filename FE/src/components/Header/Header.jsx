@@ -26,6 +26,7 @@ const MenuImg = styled.img`
   width: 20px;
   height: 20px;
 `;
+
 const MenuIconBtn = styled.div`
   font-size: 13px;
   font-weight: bold;
@@ -41,6 +42,7 @@ const MenuContent = styled.div`
   font-size: 13px;
   font-weight: bold;
   box-sizing: border-box;
+  cursor: pointer;
   &:hover {
     background: #f2f2f2;
   }
@@ -53,7 +55,7 @@ const UserMenuWrapper = styled.div`
   min-width: 70px;
   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
   z-index: 1;
-  top: 65px;
+  top: 64px;
 `;
 
 const UserWrapper = styled.div`
