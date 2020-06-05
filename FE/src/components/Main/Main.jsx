@@ -23,6 +23,14 @@ const StyleReset = createGlobalStyle`
   }
 `;
 
+const LoadingIndicatorWrapper = styled.div`
+  display: flex;
+  width: 100%;
+  height: 550px;
+  justify-content: center;
+  align-items: center;
+`;
+
 const Wrapper = styled.div`
   width: 1200px;
   margin: auto;
@@ -170,7 +178,9 @@ const Main = () => {
           <ResultTitle>{data.numberOfRooms}개의 숙소</ResultTitle>
           <AccommodationWrapper>
             {loading ? (
-              <div>loading....</div>
+              <LoadingIndicatorWrapper>
+                <img src="https://user-images.githubusercontent.com/30427711/83848034-395b7380-a748-11ea-9109-7959820d95bd.gif" />
+              </LoadingIndicatorWrapper>
             ) : (
               data.rooms
                 .slice(0, itemCount)
