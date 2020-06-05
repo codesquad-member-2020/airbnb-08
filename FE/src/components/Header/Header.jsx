@@ -151,21 +151,21 @@ const Header = () => {
           <MenuContent>숙소 호스트 되기</MenuContent>
           <MenuContent>체험 호스팅하기</MenuContent>
           <MenuContent>도움말</MenuContent>
-
-          {isLogin ? (
+          {document.cookie && !isLogout && (
             <>
               <UserWrapper>
-                <UserId>조이후</UserId>
-                <UserImage src="https://a0.muscache.com/im/pictures/5282025/91fcaf72_original.jpg?aki_policy=large" />
+                <UserId>{getCookieValue("userId")}</UserId>
+                <UserImage src={decodeURIComponent(getCookieValue("userImage"))} />
                 <UserMenuWrapper>
                   <UserMenu>예약 목록</UserMenu>
-                  <UserMenu onClick={logoutClickandler}>로그아웃</UserMenu>
+                  <UserMenu onClick={logoutHandler}>로그아웃</UserMenu>
                 </UserMenuWrapper>
               </UserWrapper>
             </>
-          ) : (
+          )}
+          {(!document.cookie || isLogout) && (
             <>
-              <MenuContent onClick={loginClickHandler}>로그인</MenuContent>
+              <MenuContent onClick={loginHandler}>로그인</MenuContent>
               <MenuContent>회원가입</MenuContent>
             </>
           )}
