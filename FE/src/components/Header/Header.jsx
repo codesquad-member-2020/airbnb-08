@@ -94,8 +94,8 @@ const UserImage = styled.img`
 const Header = () => {
   const [isLogin, setLogin] = useState(false);
 
-  const loginClickHandler = () => {
-    setLogin(true);
+  const loginHandler = () => {
+    window.location.href = API_URL.oauth;
   };
 
   const logoutClickandler = () => {
