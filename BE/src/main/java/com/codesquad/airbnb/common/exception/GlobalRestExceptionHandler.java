@@ -19,6 +19,7 @@ public class GlobalRestExceptionHandler {
     @ExceptionHandler(IllegalReservationDateException.class)
     protected ResponseEntity<ErrorResponse> IllegalReservationDateException(IllegalReservationDateException e) {
         final ErrorResponse response = ErrorResponse.of(e.getMessage(), HttpStatus.BAD_REQUEST.value());
+
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
