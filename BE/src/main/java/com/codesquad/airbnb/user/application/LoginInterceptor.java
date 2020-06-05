@@ -27,8 +27,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
             return false;
         }
 
-        validateCookies(cookies, "jwt");
-        return true;
+        return validateCookies(cookies, "jwt");
     }
 
     private boolean validateCookies(Cookie[] cookies, String key) {
