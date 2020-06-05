@@ -53,7 +53,7 @@ const Main = () => {
   const [alertMessage, setAlertMessage] = useState();
 
   const [itemCount, setItemCount] = useState(0);
-  const [reservationButtonClicked, setReservationButtonClicked] = useState(false);
+  const [reservation, setReservation] = useState({ isClicked: false, roomId: null });
 
   const {
     guestCountReducer: { adultCount, childrenCount, babyCount, totalCount },
@@ -131,13 +131,12 @@ const Main = () => {
     setAlertMessage(message);
     setAlertVisible(true);
   };
-  const reservationButtonClickHandler = () => {
+  const reservationButtonClickHandler = ({ target }) => {
     if (!startDate || !endDate) return makeAlertModal(DATE_FIRST);
     if (!adultCount && (childrenCount > 0 || babyCount > 0)) return makeAlertModal(ADULT_REQUIRE);
     if (!totalCount) return makeAlertModal(GUEST_FIRST);
-    setReservationButtonClicked(!reservationButtonClicked);
+    setReservation({ isClicked: !reservation.isClicked, roomId: target.value });
   };
-
   const alertCloseHandler = () => {
     setAlertVisible(!alertVisible);
   };
@@ -185,10 +184,11 @@ const Main = () => {
             )}
             <div ref={setRef} />
           </AccommodationWrapper>
-          {!reservationButtonClicked ? (
-            ""
-          ) : (
-            <ReservationModal closeModal={reservationButtonClickHandler} />
+          {reservation.isClicked && (
+            <ReservationModal
+              roomId={reservation.roomId}
+              closeModal={reservationButtonClickHandler}
+            />
           )}
         </ThemeProvider>
       </Wrapper>
