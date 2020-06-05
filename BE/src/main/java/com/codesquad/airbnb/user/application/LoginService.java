@@ -18,14 +18,11 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.net.URI;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import static com.codesquad.airbnb.common.utils.JwtUtils.createToken;
 
-@Slf4j
 @Service
 @RequiredArgsConstructor
 public class LoginService {

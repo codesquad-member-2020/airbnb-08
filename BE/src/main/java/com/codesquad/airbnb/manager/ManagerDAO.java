@@ -1,6 +1,5 @@
 package com.codesquad.airbnb.manager;
 
-import com.codesquad.airbnb.reservation.domain.Guest;
 import com.codesquad.airbnb.reservation.domain.ReservationDate;
 import com.codesquad.airbnb.room.domain.Bill;
 import com.codesquad.airbnb.room.domain.Confirmation;
