@@ -1,5 +1,6 @@
 package com.codesquad.airbnb.reservation.ui;
 
+import com.codesquad.airbnb.reservation.application.ReservationService;
 import com.codesquad.airbnb.reservation.domain.Guest;
 import com.codesquad.airbnb.reservation.domain.ReservationDate;
 import com.codesquad.airbnb.reservation.infra.ReservationDAO;
@@ -14,6 +15,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
+import static com.codesquad.airbnb.common.utils.JwtUtils.decrypt;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/main")
@@ -21,7 +24,7 @@ public class ReservationController {
 
     private final ManagerDAO managerDAO;
 
-    private final ReservationDAO reservationDAO;
+    private final ReservationService reservationService;
 
     @GetMapping("/reservations")
     public Confirmation showBillAndReview(@RequestParam Long roomId, @Valid ReservationDate reservationDate) {
@@ -32,11 +35,10 @@ public class ReservationController {
     public ResponseEntity<HttpStatus> reserve(@RequestParam Long roomId,
                                               @Valid ReservationDate reservationDate,
                                               @Valid Guest guest,
-                                              @CookieValue(value = "jwt")) {
+                                              @CookieValue(value = "jwt") String jwtToken) {
 
-        Long id = (Long) request.getAttribute("id");
-        boolean canReserve = managerDAO.canReserve(roomId, reservationDate);
-        reservationDAO.reserve(canReserve, roomId, id, reservationDate, guest);
+        Long id = (Long) decrypt(jwtToken).get("id");
+        reservationService.reserve(roomId, reservationDate, guest);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 }
