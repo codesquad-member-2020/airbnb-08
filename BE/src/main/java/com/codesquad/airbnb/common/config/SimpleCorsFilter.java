@@ -1,4 +1,4 @@
-package com.codesquad.airbnb.config;
+package com.codesquad.airbnb.common.config;
 
 import lombok.NoArgsConstructor;
 

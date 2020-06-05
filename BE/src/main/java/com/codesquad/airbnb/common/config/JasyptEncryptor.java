@@ -1,4 +1,4 @@
-package com.codesquad.airbnb.config;
+package com.codesquad.airbnb.common.config;
 
 import org.jasypt.encryption.pbe.PooledPBEStringEncryptor;
 import org.jasypt.encryption.pbe.config.SimpleStringPBEConfig;
