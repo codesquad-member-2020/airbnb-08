@@ -7,8 +7,6 @@ import javax.validation.constraints.*;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
-@ToString
 public class Budget {
 
     @PositiveOrZero

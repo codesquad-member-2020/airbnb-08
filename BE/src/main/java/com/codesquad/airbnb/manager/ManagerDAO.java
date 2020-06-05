@@ -67,7 +67,7 @@ public class ManagerDAO {
                         priceWithFee
                 );
                 Review review = new Review(rs.getInt("number_of_reviews"), rs.getDouble("rating"));
-                return new Confirmation(bill, review);
+                return  new Confirmation(bill, review);
             }
         };
 

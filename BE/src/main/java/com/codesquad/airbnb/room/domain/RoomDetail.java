@@ -2,13 +2,11 @@ package com.codesquad.airbnb.room.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.ToString;
 
 import java.util.List;
 
 @Getter
 @AllArgsConstructor
-@ToString
 public class RoomDetail {
 
     private Long roomId;

@@ -7,10 +7,8 @@ import javax.validation.constraints.Positive;
 import javax.validation.constraints.PositiveOrZero;
 
 @Getter
-@NoArgsConstructor
 @Setter
-@AllArgsConstructor
-@ToString
+@NoArgsConstructor
 public class Guest {
 
     @Positive

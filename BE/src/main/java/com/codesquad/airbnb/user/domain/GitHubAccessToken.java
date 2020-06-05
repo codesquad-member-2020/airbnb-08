@@ -20,8 +20,4 @@ public class GitHubAccessToken {
 
     @JsonProperty("scope")
     private String scope;
-
-    public String getAuthorizationValue() {
-        return this.tokenType + " " + this.accessToken;
-    }
 }
