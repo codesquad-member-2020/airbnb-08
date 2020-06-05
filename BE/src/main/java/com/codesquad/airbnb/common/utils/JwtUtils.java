@@ -1,8 +1,6 @@
 package com.codesquad.airbnb.common.utils;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -44,7 +42,7 @@ public class JwtUtils {
                     .getBody();
 
         } catch (Exception e) {
-            throw new IllegalArgumentException("잘못된 토큰입니다!");
+            throw new JwtException("잘못된 JWT 토큰입니다", e.getCause());
         }
 
         return claims;
