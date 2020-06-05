@@ -1,5 +1,6 @@
 package com.codesquad.airbnb.user.application;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
@@ -9,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import java.util.Arrays;
 
+@Slf4j
 @Component
 public class LoginInterceptor extends HandlerInterceptorAdapter {
 
@@ -23,6 +25,9 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 
         Cookie[] cookies = request.getCookies();
 
+        log.info("cookies : {}", cookies);
+        log.info("headerNames : {}",request.getHeaderNames());
+
         if(cookies == null) {
             return false;
         }
@@ -33,6 +38,6 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
     private boolean validateCookies(Cookie[] cookies, String key) {
         return Arrays.stream(cookies)
                 .filter(c -> c.getName().equals(key))
-                .count() != 1;
+                .count() == 1;
     }
 }
