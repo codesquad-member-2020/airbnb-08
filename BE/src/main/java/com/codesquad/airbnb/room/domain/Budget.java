@@ -2,8 +2,7 @@ package com.codesquad.airbnb.room.domain;
 
 import lombok.*;
 
-import javax.validation.constraints.AssertTrue;
-import javax.validation.constraints.Min;
+import javax.validation.constraints.*;
 
 @Getter
 @Setter
@@ -12,13 +11,16 @@ import javax.validation.constraints.Min;
 @ToString
 public class Budget {
 
-    @Min(0)
+    @PositiveOrZero
+    @Digits(integer = 10, fraction = 0)
     private int lowestPrice;
 
+    @Positive
+    @Digits(integer = 10, fraction = 0)
     private int highestPrice = Integer.MAX_VALUE;
 
     @AssertTrue
-    private boolean validateBudget() {
-        return highestPrice > lowestPrice;
+    private boolean isBiggerThanLowestPrice() {
+        return this.highestPrice > this.lowestPrice;
     }
 }

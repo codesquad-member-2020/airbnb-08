@@ -15,7 +15,7 @@ public class Guest {
 
     @Positive
     @Digits(integer = 2, fraction = 0)
-    private int numberOfAdults;
+    private int numberOfAdults = 1;
 
     @PositiveOrZero
     @Digits(integer = 2, fraction = 0)
