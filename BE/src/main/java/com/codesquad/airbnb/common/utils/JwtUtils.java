@@ -1,6 +1,5 @@
-package com.codesquad.airbnb.user.application;
+package com.codesquad.airbnb.common.utils;
 
-import com.codesquad.airbnb.user.domain.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;

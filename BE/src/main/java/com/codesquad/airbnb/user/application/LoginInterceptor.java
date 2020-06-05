@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import java.util.Arrays;
 
-import static com.codesquad.airbnb.user.application.JwtUtils.decrypt;
+import static com.codesquad.airbnb.common.utils.JwtUtils.decrypt;
 
 @Slf4j
 @Component

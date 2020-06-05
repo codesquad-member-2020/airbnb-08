@@ -22,7 +22,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.codesquad.airbnb.user.application.JwtUtils.createToken;
+import static com.codesquad.airbnb.common.utils.JwtUtils.createToken;
 
 @Slf4j
 @Service
