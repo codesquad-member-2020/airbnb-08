@@ -26,13 +26,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 
         Cookie[] cookies = request.getCookies();
         validateCookies(cookies);
-
-        Cookie cookie = Arrays.stream(request.getCookies())
-                .filter(c -> c.getName().equals("jwt"))
-                .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("JWT 쿠키가 없습니다!"));
-
-        return decrypt(cookie.getValue()) != null;
+        return true;
     }
 
     private void validateCookies(Cookie[] cookies) {
