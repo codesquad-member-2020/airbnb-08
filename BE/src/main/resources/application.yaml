@@ -19,6 +19,8 @@ github:
 jwt:
   key: ENC(7t4lhka8WWQ=)
 
+debug: true
+
 ---
 spring:
   profiles: local
@@ -27,8 +29,6 @@ spring:
     url: ENC(yAAKfSsndK8iJjvfYMsK/+Lrb9vQfJ//0JQ4sz1ZF5H2ebBOzWYY2glEFb/fjAqg+gVzvRQTd8cfOL3a/rDKl7LLY0rRQ3B+L6cQDN/p6QY=)
     username: ENC(MXeQAanxppo=)
     password: ENC(QQErW0P9WFtyBoyisL9XAw==)
-
-debug: true
 
 logging:
   level:
