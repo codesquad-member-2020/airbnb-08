@@ -105,6 +105,18 @@ const Header = () => {
     date.setDate(date.getDate() - 1);
     document.cookie += ";Expires=" + date.toUTCString();
   };
+
+  const setCookie = (key, value) => {
+    document.cookie = `${key}=${value};`;
+  };
+
+  setCookie(
+    "jwt",
+    "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MzA0Mjc3MTF9.FWFdt65Y7UosXEczKuw6RClNJ8guLvczJkqYv6Msl2g"
+  );
+  setCookie("userId", "choisohyun");
+  setCookie("userImage", "https://avatars2.githubusercontent.com/u/30427711?v=4");
+
   };
 
   return (
