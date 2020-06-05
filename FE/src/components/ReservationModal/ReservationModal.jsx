@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { useSelector } from "react-redux";
 import moment from "moment";
+import axios from "axios";
 
 import Reservation from "@ReservationModal/Reservation/Reservation";
 import useApiFetch from "@/common/lib/useApiFetch";
@@ -87,6 +88,12 @@ const ReservationModal = ({ closeModal, roomId }) => {
     numberOfBabies: babyCount,
   };
 
+  const reservationConfirmClickHandler = () => {
+    axios({ method: "post", url: API_URL.reservations, params: params }).then((response) => {
+      console.log(response);
+    });
+  };
+
   const [loading, response, _] = useApiFetch(API_URL.reservations, "get", params);
 
   if (loading) return <div>로딩중입니다...</div>;
@@ -103,7 +110,7 @@ const ReservationModal = ({ closeModal, roomId }) => {
               <img style={{ width: "15px" }} src={closeImage} />
             </CloseButton>
             <Reservation roomData={response} />
-            <ReservationButton>예약하기</ReservationButton>
+            <ReservationButton onClick={reservationConfirmClickHandler}>예약하기</ReservationButton>
             <Message>예약 확정 전에는 요금이 청구되지 않습니다</Message>
           </ContentWrapper>
         </ReservationModalWrapper>
