@@ -68,7 +68,6 @@ public class LoginService {
         Map<String, Object> userMap = new HashMap<>();
         userMap.put("id", user.getUserId());
 
-        response.reset();
         response.addCookie(new Cookie("jwt", createToken(userMap)));
         response.addCookie(new Cookie("userId", user.getNickName()));
         response.addCookie(new Cookie("userImage", user.getPictureUrl()));
