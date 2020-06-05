@@ -7,13 +7,14 @@ import moment from "moment";
 import Header from "@/components/Header/Header";
 import Accommodation from "@/components/Main/Accommodation/Accommodation";
 import FilterButton from "@/components/Main/FilterButton/FilterButton";
+import ReservationModal from "@/components/ReservationModal/ReservationModal";
 import AlertModal from "@AlertModal/AlertModal";
 
 import theme from "@/style/theme";
 import useFetch from "@/common/lib/useFetch";
 import useIntersect from "@/common/lib/useIntersect";
 import { API_URL } from "@/common/config";
-import { DATE_FIRST } from "@/common/constants/alertMessage";
+import { DATE_FIRST, GUEST_FIRST, ADULT_REQUIRE } from "@/common/constants/alertMessage";
 
 const StyleReset = createGlobalStyle`
   ${reset};
@@ -49,11 +50,13 @@ const Main = () => {
   const [guestVisible, setGuestVisible] = useState(false);
   const [priceVisible, setPriceVisible] = useState(false);
   const [alertVisible, setAlertVisible] = useState(false);
+  const [alertMessage, setAlertMessage] = useState();
 
   const [itemCount, setItemCount] = useState(0);
+  const [reservation, setReservation] = useState({ isClicked: false, roomId: null });
 
   const {
-    guestCountReducer: { adultCount, childrenCount, babyCount },
+    guestCountReducer: { adultCount, childrenCount, babyCount, totalCount },
     datePickerReducer: { startDate, endDate },
     priceRangeReducer: { priceRange },
     searchReducer: { isSearched },
@@ -112,6 +115,7 @@ const Main = () => {
       case "price":
         if (!startDate || !endDate) {
           setAlertVisible(!alertVisible);
+          setAlertMessage(DATE_FIRST);
           break;
         }
         setPriceVisible(!priceVisible);
@@ -123,6 +127,16 @@ const Main = () => {
     }
   };
 
+  const makeAlertModal = (message) => {
+    setAlertMessage(message);
+    setAlertVisible(true);
+  };
+  const reservationButtonClickHandler = ({ target }) => {
+    if (!startDate || !endDate) return makeAlertModal(DATE_FIRST);
+    if (!adultCount && (childrenCount > 0 || babyCount > 0)) return makeAlertModal(ADULT_REQUIRE);
+    if (!totalCount) return makeAlertModal(GUEST_FIRST);
+    setReservation({ isClicked: !reservation.isClicked, roomId: target.value });
+  };
   const alertCloseHandler = () => {
     setAlertVisible(!alertVisible);
   };
@@ -134,7 +148,7 @@ const Main = () => {
           <StyleReset />
           <Header />
           {alertVisible && (
-            <AlertModal message={DATE_FIRST} alertCloseHandler={alertCloseHandler} />
+            <AlertModal message={alertMessage} alertCloseHandler={alertCloseHandler} />
           )}
           <FilterButtonWrapper>
             <FilterButton
@@ -160,10 +174,22 @@ const Main = () => {
             ) : (
               data.rooms
                 .slice(0, itemCount)
-                .map((list) => <Accommodation roomData={list} key={list.roomId} />)
+                .map((list) => (
+                  <Accommodation
+                    roomData={list}
+                    key={list.roomId}
+                    reservationButtonClickHandler={reservationButtonClickHandler}
+                  />
+                ))
             )}
             <div ref={setRef} />
           </AccommodationWrapper>
+          {reservation.isClicked && (
+            <ReservationModal
+              roomId={reservation.roomId}
+              closeModal={reservationButtonClickHandler}
+            />
+          )}
         </ThemeProvider>
       </Wrapper>
     </>

@@ -204,7 +204,7 @@ const ReservationButton = styled.button`
   }
 `;
 
-const Accommodation = ({ roomData }) => {
+const Accommodation = ({ roomData, reservationButtonClickHandler }) => {
   const imgRef = useRef(null);
   const observerRef = useRef();
   const [isLoad, setIsLoad] = useState(false);
@@ -238,7 +238,7 @@ const Accommodation = ({ roomData }) => {
     price: { originPrice, salesPrice, totalPrice },
     reviewScoresRating,
     roomName,
-    roomdId,
+    roomId,
   } = roomData;
 
   return (
@@ -259,12 +259,13 @@ const Accommodation = ({ roomData }) => {
             <Title>{roomName}</Title>
             <PriceWrapper>
               {originPrice === salesPrice ? "" : <OriginalPrice>￦{originPrice}</OriginalPrice>}
-
               <Price>￦{salesPrice}</Price>
             </PriceWrapper>
             <PriceReservationWrapper>
               <TotalPrice>총 요금 : ￦{totalPrice}(?)</TotalPrice>
-              <ReservationButton>예약</ReservationButton>
+              <ReservationButton value={roomId} onClick={reservationButtonClickHandler}>
+                예약
+              </ReservationButton>
             </PriceReservationWrapper>
           </>
         ) : (
