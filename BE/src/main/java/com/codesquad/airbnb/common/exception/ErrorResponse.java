@@ -30,6 +30,16 @@ public class ErrorResponse {
         this.errors = new ArrayList<>();
     }
 
+    private ErrorResponse(final String message, int status) {
+        this.message = message;
+        this.status = status;
+        this.errors = new ArrayList<>();
+    }
+
+    public static ErrorResponse of(final String message, final int status) {
+        return new ErrorResponse(message, status);
+    }
+
     public static ErrorResponse of(final ErrorCode code, final BindingResult bindingResult) {
         return new ErrorResponse(code, FieldError.of(bindingResult));
     }

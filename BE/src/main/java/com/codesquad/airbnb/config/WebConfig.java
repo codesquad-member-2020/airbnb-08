@@ -1,4 +1,4 @@
-package com.codesquad.airbnb.springconfig;
+package com.codesquad.airbnb.config;
 
 import com.codesquad.airbnb.user.application.LoginInterceptor;
 import lombok.RequiredArgsConstructor;

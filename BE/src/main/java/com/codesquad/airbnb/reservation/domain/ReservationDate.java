@@ -1,6 +1,6 @@
 package com.codesquad.airbnb.reservation.domain;
 
-import com.codesquad.airbnb.common.exception.InputMistakeException;
+import com.codesquad.airbnb.common.exception.IllegalReservationDateException;
 import lombok.*;
 
 import javax.validation.constraints.AssertTrue;
@@ -26,7 +26,7 @@ public class ReservationDate {
     @AssertTrue
     private boolean isAfterThanCheckInDate() {
         if(checkOutDate.isBefore(checkInDate)) {
-            throw new InputMistakeException("체크아웃 날짜를 확인해주세요");
+            throw new IllegalReservationDateException("체크아웃 날짜를 확인해주세요");
         }
 
         return true;
@@ -39,7 +39,7 @@ public class ReservationDate {
 
     private void validateCheckInDate() {
         if(checkInDate.isBefore(LocalDate.now())) {
-            throw new InputMistakeException("체크인 날짜를 확인해주세요");
+            throw new IllegalReservationDateException("체크인 날짜를 확인해주세요");
         }
     }
 }

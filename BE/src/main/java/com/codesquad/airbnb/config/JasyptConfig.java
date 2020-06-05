@@ -1,4 +1,4 @@
-package com.codesquad.airbnb.springconfig;
+package com.codesquad.airbnb.config;
 
 import org.jasypt.encryption.StringEncryptor;
 import org.jasypt.encryption.pbe.PooledPBEStringEncryptor;

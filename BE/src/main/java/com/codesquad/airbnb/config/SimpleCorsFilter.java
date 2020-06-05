@@ -1,4 +1,4 @@
-package com.codesquad.airbnb.springconfig;
+package com.codesquad.airbnb.config;
 
 import lombok.NoArgsConstructor;
 

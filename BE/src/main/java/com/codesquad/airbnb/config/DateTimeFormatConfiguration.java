@@ -1,4 +1,4 @@
-package com.codesquad.airbnb.springconfig;
+package com.codesquad.airbnb.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.format.FormatterRegistry;

@@ -1,4 +1,4 @@
-package com.codesquad.airbnb.springconfig;
+package com.codesquad.airbnb.config;
 
 import com.codesquad.airbnb.AirbnbApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
