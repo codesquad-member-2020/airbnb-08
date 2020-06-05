@@ -2,7 +2,7 @@ package com.codesquad.airbnb.reservation.infra;
 
 import com.codesquad.airbnb.reservation.domain.Guest;
 import com.codesquad.airbnb.reservation.domain.ReservationDate;
-import com.codesquad.airbnb.common.UtilDAO;
+import com.codesquad.airbnb.manager.ManagerDAO;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -22,8 +22,8 @@ public class ReservationDAO {
     }
 
     @Transactional
-    public void reserve(UtilDAO utilDAO, Long roomId, Long userId, ReservationDate reservationDate, Guest guest) {
-        if(!utilDAO.canReserve(roomId, reservationDate.getCheckInDate(), reservationDate.getCheckOutDate())) {
+    public void reserve(ManagerDAO managerDAO, Long roomId, Long userId, ReservationDate reservationDate, Guest guest) {
+        if(!managerDAO.canReserve(roomId, reservationDate.getCheckInDate(), reservationDate.getCheckOutDate())) {
             throw new IllegalArgumentException("Already reserved room, Please reserve another room!");
         }
 

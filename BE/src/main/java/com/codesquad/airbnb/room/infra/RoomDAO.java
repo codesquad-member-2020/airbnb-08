@@ -1,6 +1,6 @@
 package com.codesquad.airbnb.room.infra;
 
-import com.codesquad.airbnb.common.UtilDAO;
+import com.codesquad.airbnb.manager.ManagerDAO;
 import com.codesquad.airbnb.reservation.domain.Guest;
 import com.codesquad.airbnb.reservation.domain.ReservationDate;
 import com.codesquad.airbnb.room.domain.*;
@@ -20,15 +20,15 @@ import java.util.OptionalDouble;
 
 @Repository
 @Slf4j
-public class ViewDAO {
+public class RoomDAO {
 
     private final JdbcTemplate jdbcTemplate;
 
-    public ViewDAO(DataSource dataSource) {
+    public RoomDAO(DataSource dataSource) {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
-    public Main main(UtilDAO utilDAO, ReservationDate reservationDate, Guest guest, Budget budget) {
+    public Main main(ManagerDAO managerDAO, ReservationDate reservationDate, Guest guest, Budget budget) {
         LocalDate checkInDate = reservationDate.getCheckInDate();
         LocalDate checkOutDate = reservationDate.getCheckOutDate();
 
@@ -55,7 +55,6 @@ public class ViewDAO {
             @Override
             public RoomDetail mapRow(ResultSet rs, int rowNum) throws SQLException {
                 int originPrice = rs.getInt("price");
-
                 int salesPrice = rs.getString("host").equals("슈퍼호스트") ? (int) (originPrice * 0.9) : originPrice;
 
                 int length = (int) (ChronoUnit.DAYS.between(checkInDate, checkOutDate));
@@ -74,7 +73,7 @@ public class ViewDAO {
                         price,
                         medias,
                         rs.getString("host"),
-                        utilDAO.canReserve(rs.getLong("id"), checkInDate, checkOutDate)
+                        managerDAO.canReserve(rs.getLong("id"), checkInDate, checkOutDate)
                 );
             }
         };
@@ -128,9 +127,9 @@ public class ViewDAO {
         return average.isPresent() ? (int) average.getAsDouble() : 0;
     }
 
-    public Confirmation showBillAndReview(UtilDAO utilDAO, Long roomId, ReservationDate reservationDate, Guest guest) {
+    public Confirmation showBillAndReview(ManagerDAO managerDAO, Long roomId, ReservationDate reservationDate, Guest guest) {
 
-        if(!utilDAO.canReserve(roomId, reservationDate.getCheckInDate(), reservationDate.getCheckOutDate())) {
+        if(!managerDAO.canReserve(roomId, reservationDate.getCheckInDate(), reservationDate.getCheckOutDate())) {
             throw new IllegalArgumentException("Already reserved room, Please reserve another room!");
         }
 

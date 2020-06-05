@@ -1,4 +1,4 @@
-package com.codesquad.airbnb.common;
+package com.codesquad.airbnb.manager;
 
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -11,11 +11,11 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 
 @Repository
-public class UtilDAO {
+public class ManagerDAO {
 
     private final JdbcTemplate jdbcTemplate;
 
-    public UtilDAO(DataSource dataSource) {
+    public ManagerDAO(DataSource dataSource) {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
