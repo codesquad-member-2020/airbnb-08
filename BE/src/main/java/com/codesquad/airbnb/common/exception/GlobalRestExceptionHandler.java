@@ -1,5 +1,6 @@
 package com.codesquad.airbnb.common.exception;
 
+import io.jsonwebtoken.JwtException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +16,13 @@ import java.nio.file.AccessDeniedException;
 @Slf4j
 @RestControllerAdvice
 public class GlobalRestExceptionHandler {
+
+    @ExceptionHandler(JwtException.class)
+    protected ResponseEntity<ErrorResponse> handleJwtException(JwtException e) {
+        log.error("handleJwtException", e);
+        final ErrorResponse response = ErrorResponse.of(ErrorCode.INVALID_JWT_TOKEN);
+        return new ResponseEntity<>(response, HttpStatus.FORBIDDEN);
+    }
 
     @ExceptionHandler(IllegalStateException.class)
     protected ResponseEntity<ErrorResponse> handleIllegalStateException(IllegalStateException e) {
