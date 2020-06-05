@@ -3,6 +3,7 @@ package com.codesquad.airbnb.common.exception;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -16,9 +17,18 @@ import java.nio.file.AccessDeniedException;
 public class GlobalRestExceptionHandler {
 
     @ExceptionHandler(IllegalReservationDateException.class)
-    protected ResponseEntity<ErrorResponse> handleInputMistakeException(IllegalReservationDateException e) {
-        log.error("handleInputMistakeException", e);
-        final ErrorResponse response = ErrorResponse.of(ErrorCode.INVALID_INPUT_VALUE);
+    protected ResponseEntity<ErrorResponse> IllegalReservationDateException(IllegalReservationDateException e) {
+        final ErrorResponse response = ErrorResponse.of(e.getMessage(), HttpStatus.BAD_REQUEST.value());
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
+
+    /**
+     * @RequestParam 쿼리의 날짜 형식이 LocalDate와 맞지 않을 경우 발생
+     */
+    @ExceptionHandler(BindException.class)
+    protected ResponseEntity<ErrorResponse> handleBindException(BindException e) {
+        log.error("handleBindException", e);
+        final ErrorResponse response = ErrorResponse.of(ErrorCode.INVALID_INPUT_VALUE, e.getBindingResult());
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
