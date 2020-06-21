@@ -1,11 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
+import { useSelector, useDispatch } from "react-redux";
+import moment from "moment";
+
 import GuestCountModal from "@GuestCountModal/GuestCountModal";
 import CalendarModal from "@CalendarModal/CalendarModal";
 import PriceModal from "@PriceModal/PriceModal";
-import { useSelector, useDispatch } from "react-redux";
-import moment from "moment";
+import AlertModal from "@AlertModal/AlertModal";
+
 import { savePriceRange } from "@/actions/priceRangeAction";
+import { search } from "@/actions/searchAction";
+import { API_URL } from "@/common/config";
+import { DATE_FIRST, DATE_NOT_NULL } from "@/common/constants/alertMessage";
 
 const Wrapper = styled.div`
   position: relative;
@@ -29,18 +35,22 @@ const FilterButton = ({
   priceVisible,
   modal,
 }) => {
+  const [alertVisible, setAlertVisible] = useState(false);
+  const [alertMessage, setAlertMessage] = useState();
+
   const {
     guestCountReducer: { totalCount, babyCount },
     datePickerReducer: { startDate, endDate },
     priceRangeReducer: { priceRange, isSaved, isDeleted },
   } = useSelector((state) => state);
 
+  const start = moment(startDate).format("yyyy-MM-DD");
+  const end = moment(endDate).format("yyyy-MM-DD");
+
   const showResult = () => {
     switch (modal) {
       case "date":
         if (!startDate && !endDate) return "날짜";
-        const start = moment(startDate).format("yyyy-MM-DD");
-        const end = moment(endDate).format("yyyy-MM-DD");
         return start && !endDate ? `${start} - 체크아웃` : `${start} - ${end}`;
       case "guest":
         if (!totalCount && !babyCount) return "인원";
@@ -57,28 +67,46 @@ const FilterButton = ({
   };
 
   const dispatch = useDispatch();
+
+  const makeAlertModal = (message) => {
+    setAlertMessage(message);
+    setAlertVisible(true);
+  };
+
   const saveButtonClickHandler = () => {
-    dispatch(savePriceRange());
+    if (modal === "price") dispatch(savePriceRange());
+    if (modal === "date") {
+      if (!startDate || !endDate) {
+        makeAlertModal(DATE_NOT_NULL);
+        return;
+      }
+    }
+    if (modal === "guest") {
+      if (!startDate || !endDate) {
+        makeAlertModal(DATE_FIRST);
+        return;
+      }
+    }
     filterButtonClickHandler(modal);
+    dispatch(search(true));
+  };
+
+  const alertCloseHandler = () => {
+    setAlertVisible(!alertVisible);
   };
 
   return (
     <>
+      {alertVisible && <AlertModal message={alertMessage} alertCloseHandler={alertCloseHandler} />}
       <Wrapper>
-        <Button
-          onClick={() => {
-            filterButtonClickHandler(modal);
-          }}
-        >
-          {showResult()}
-        </Button>
+        <Button onClick={() => filterButtonClickHandler(modal)}>{showResult()}</Button>
         <CalendarModal
           dateVisible={dateVisible}
           modal={modal}
-          closeClickHandler={filterButtonClickHandler}
+          closeClickHandler={saveButtonClickHandler}
         />
         {guestVisible && (
-          <GuestCountModal modal={modal} closeClickHandler={filterButtonClickHandler} />
+          <GuestCountModal modal={modal} closeClickHandler={saveButtonClickHandler} />
         )}
         {priceVisible && <PriceModal modal={modal} closeClickHandler={saveButtonClickHandler} />}
       </Wrapper>

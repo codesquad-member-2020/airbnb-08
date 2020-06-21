@@ -1,0 +1,44 @@
+jasypt:
+  encryptor:
+    bean: jasyptStringEncryptor
+
+spring:
+  profiles:
+    active: local
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    platform: mysql
+
+github:
+  client-id: ENC(pZX3ky4LlJA0EaNyjfryTJrrg+wMqS17)
+  client-secret: ENC(9B04CF83IGcKbUt225dta7TlLtBclJnvIURo15mlXo2nbqK+0OWhcY1cT67HqutU)
+  user-api-url: https://api.github.com/user
+  access-token-url: https://github.com/login/oauth/access_token
+
+jwt:
+  key: ENC(7t4lhka8WWQ=)
+
+debug: true
+
+---
+spring:
+  profiles: local
+
+  datasource:
+    url: ENC(yAAKfSsndK8iJjvfYMsK/+Lrb9vQfJ//0JQ4sz1ZF5H2ebBOzWYY2glEFb/fjAqg+gVzvRQTd8cfOL3a/rDKl7LLY0rRQ3B+L6cQDN/p6QY=)
+    username: ENC(MXeQAanxppo=)
+    password: ENC(QQErW0P9WFtyBoyisL9XAw==)
+
+logging:
+  level:
+    sql: debug
+
+---
+spring:
+  profiles: real_server
+
+  datasource:
+    url: ENC(yAAKfSsndK8oZXkvg22SmnqwvkyH4M5qVcPpyP328F1ZX13Ze/opkVtJTyy/tXPb9tqYpCgJRa2rBBnSQcQ7qskrRZC0nAErnxu4pKXU5n/QbcNIKy23chEUJHeKlXffSBu5swPmackIR7/lcYYvgZFNMsIc+tiRWgPLKMrRwYE=)
+    username: ENC(MXeQAanxppo=)
+    password: ENC(QQErW0P9WFtyBoyisL9XAw==)

@@ -3,7 +3,9 @@ const webpack = require("webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = {
-  entry: "./src/index.jsx",
+  entry: {
+    app: ["babel-polyfill", "./src/index.jsx"],
+  },
 
   module: {
     rules: [
@@ -38,6 +40,7 @@ module.exports = {
       "@PriceModal": path.resolve(__dirname, "src/components/PriceModal/"),
       "@GuestCountModal": path.resolve(__dirname, "src/components/GuestCountModal/"),
       "@ReservationModal": path.resolve(__dirname, "src/components/ReservationModal/"),
+      "@AlertModal": path.resolve(__dirname, "src/components/AlertModal/"),
     },
   },
 
