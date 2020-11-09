@@ -4,6 +4,8 @@ import { API_URL } from "@/common/config";
 import logo from "@/image/airbnbLogo.png";
 import menuLogo from "@/image/menuLogo.png";
 
+import { setCookie, getCookie, deleteCookie } from "@/common/lib/cookies";
+
 const Wrapper = styled.div`
   display: flex;
   justify-content: space-between;
@@ -154,8 +156,8 @@ const Header = () => {
           {document.cookie && !isLogout && (
             <>
               <UserWrapper>
-                <UserId>{getCookieValue("userId")}</UserId>
-                <UserImage src={decodeURIComponent(getCookieValue("userImage"))} />
+                <UserId>{getCookie("userId")}</UserId>
+                <UserImage src={decodeURIComponent(getCookie("userImage"))} />
                 <UserMenuWrapper>
                   <UserMenu>예약 목록</UserMenu>
                   <UserMenu onClick={logoutHandler}>로그아웃</UserMenu>
